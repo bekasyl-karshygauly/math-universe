@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useId, useState } from 'react';
+import { motion } from 'motion/react';
 import { Language } from '../lib/storage';
 import { I18N } from '../data/i18n';
 import { fmt } from '../data/i18n-lab';
@@ -68,7 +69,16 @@ export function LabExperiment({ lang }: { lang: Language }) {
         </g>
         {/* Reference curve y = x² */}
         <path d={parabolaPath(1, oy)} fill="none" strokeWidth="1.5" strokeDasharray="5 5" style={{ stroke: 'var(--plot-axis)' }} opacity={a === 1 ? 0 : 0.9} />
-        <path d={parabolaPath(a, oy)} fill="none" strokeWidth="3" strokeLinejoin="round" style={{ stroke: 'var(--chart-1)' }} />
+        {/* Same 201-point structure for every a, so Motion can morph one curve into the next */}
+        <motion.path
+          initial={false}
+          animate={{ d: parabolaPath(a, oy) }}
+          transition={{ duration: 0.28, ease: [0.2, 0, 0, 1] }}
+          fill="none"
+          strokeWidth="3"
+          strokeLinejoin="round"
+          style={{ stroke: 'var(--chart-1)' }}
+        />
         <g fontSize="12" style={{ fill: 'var(--plot-label)' }} fontFamily="var(--font-ui)">
           <text x={OX + 8} y={a < 0 ? oy - 8 : oy + 18}>0</text>
           <text x={W - 16} y={a < 0 ? oy - 8 : oy + 18}>x</text>

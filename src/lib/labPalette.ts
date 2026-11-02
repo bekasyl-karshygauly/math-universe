@@ -69,6 +69,9 @@ export function withAlpha(hex: string, alpha: number): string {
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
 
+/** Honours the in-app Animations setting (data-motion on <html>), falling back to the OS preference. */
 export function prefersReducedMotion(): boolean {
-  return typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (typeof window === 'undefined') return false;
+  const attr = document.documentElement.getAttribute('data-motion');
+  return attr ? attr === 'reduce' : window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }

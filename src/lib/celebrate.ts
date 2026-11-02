@@ -1,15 +1,15 @@
 import confetti from 'canvas-confetti';
-import { getLabPalette } from './labPalette';
+import { getLabPalette, prefersReducedMotion } from './labPalette';
 
-/** Short, restrained celebration in laboratory colors; skipped when the user prefers reduced motion. */
+/** Short, restrained celebration in laboratory colors; skipped when animations are reduced. */
 export function labConfetti(particleCount = 70) {
+  if (prefersReducedMotion()) return;
   try {
     confetti({
       particleCount,
       spread: 60,
       origin: { y: 0.65 },
       colors: getLabPalette().series.slice(0, 4),
-      disableForReducedMotion: true,
       ticks: 120,
     });
   } catch (e) {}

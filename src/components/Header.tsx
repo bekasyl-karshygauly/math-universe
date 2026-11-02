@@ -6,6 +6,7 @@ import { Language, Theme } from '../lib/storage';
 import { I18N } from '../data/i18n';
 import { isSoundEnabled, setSoundEnabled, playClickSound } from '../lib/sound';
 import { UserHUD } from './UserHUD';
+import { MotionPref, getMotionPref, setMotionPref } from '../lib/motionPref';
 
 interface HeaderProps {
   lang: Language;
@@ -66,6 +67,16 @@ export function Header({ lang, theme, onSetLang, onToggleTheme, onReset, onOpenA
   const menuRef = useRef<HTMLDivElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const themeLabel = theme === 'dark' ? t('a_theme_light') : t('a_theme_dark');
+  const [motionPref, setMotionPrefState] = useState<MotionPref>('system');
+  const [osReduces, setOsReduces] = useState(false);
+  useEffect(() => {
+    setMotionPrefState(getMotionPref());
+    setOsReduces(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  }, []);
+  const changeMotion = (p: MotionPref) => {
+    setMotionPrefState(p);
+    setMotionPref(p);
+  };
 
   // Close the settings popover on outside click or Escape
   useEffect(() => {
@@ -158,6 +169,19 @@ export function Header({ lang, theme, onSetLang, onToggleTheme, onReset, onOpenA
                     {sound.enabled ? <Volume2 size={16} aria-hidden="true" /> : <VolumeX size={16} aria-hidden="true" />}
                     {sound.enabled ? t('on') : t('off')}
                   </button>
+                </div>
+                <div className="settings__row settings__row--stack">
+                  <span className="settings__label" id={`${menuId}-motion`}>
+                    {t('motion_label')}
+                  </span>
+                  <div role="group" aria-labelledby={`${menuId}-motion`} className="lang-switch">
+                    {(['system', 'on', 'off'] as MotionPref[]).map((p) => (
+                      <button key={p} type="button" className="lang-switch__btn" aria-pressed={motionPref === p} onClick={() => changeMotion(p)}>
+                        {t(`motion_${p}`)}
+                      </button>
+                    ))}
+                  </div>
+                  {motionPref === 'system' && osReduces && <p className="field-help">{t('motion_os_hint')}</p>}
                 </div>
                 <div className="settings__danger">
                   <button

@@ -1,6 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { animate } from 'motion/react';
+import { useReduceMotion } from '../lib/motionPref';
 import { Check, X, ArrowLeft, ArrowRight, RotateCcw, ListChecks } from 'lucide-react';
 import { Language } from '../lib/storage';
 import { I18N } from '../data/i18n';
@@ -20,6 +22,21 @@ interface QuizViewProps {
 }
 
 type Mode = 'quiz' | 'sprint' | 'cards';
+
+/** Counts from 0 to the final score; shows it at once when animations are reduced. */
+function CountUp({ value }: { value: number }) {
+  const reduce = useReduceMotion();
+  const [shown, setShown] = useState(reduce ? value : 0);
+  useEffect(() => {
+    if (reduce) {
+      setShown(value);
+      return;
+    }
+    const controls = animate(0, value, { duration: 0.9, ease: [0.2, 0, 0, 1], onUpdate: (v) => setShown(Math.round(v)) });
+    return () => controls.stop();
+  }, [value, reduce]);
+  return <span aria-hidden="true">{shown}</span>;
+}
 
 export function QuizView({ lang, onUpdateBestScore }: QuizViewProps) {
   const { recordQuiz } = useAuth();
@@ -197,7 +214,10 @@ export function QuizView({ lang, onUpdateBestScore }: QuizViewProps) {
         <p className="eyebrow eyebrow--muted" id="quiz-result-title">
           {t('quiz_done')}
         </p>
-        <p className="quiz-result__score display">{pct}%</p>
+        <p className="sr-only">{pct}%</p>
+        <p className="quiz-result__score display">
+          <CountUp value={pct} />%
+        </p>
         <p className="quiz-result__count">
           {t('quiz_correct')}: <b className="mono">{ok} / {total}</b>
         </p>

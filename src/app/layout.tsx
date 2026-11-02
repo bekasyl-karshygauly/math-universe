@@ -15,8 +15,8 @@ export const metadata: Metadata = {
   keywords: ["математика", "интерактивное обучение", "3D геометрия", "матанализ", "линейная алгебра", "формулы", "JSXGraph", "Three.js"],
 };
 
-// Applies the saved theme and language from mathuni_state before the first paint (no flash).
-const prefsScript = `(function(){try{var s=JSON.parse(localStorage.getItem("mathuni_state")||"{}");var d=document.documentElement;if(s.theme==="dark"||s.theme==="light")d.setAttribute("data-theme",s.theme);if(s.lang)d.lang=s.lang==="kz"?"kk":s.lang}catch(e){}})()`;
+// Applies the saved theme, language (mathuni_state) and animation setting (mu_motion) before the first paint.
+const prefsScript = `(function(){var d=document.documentElement;try{var s=JSON.parse(localStorage.getItem("mathuni_state")||"{}");if(s.theme==="dark"||s.theme==="light")d.setAttribute("data-theme",s.theme);if(s.lang)d.lang=s.lang==="kz"?"kk":s.lang}catch(e){}try{var m=localStorage.getItem("mu_motion");var r=m==="off"||(m!=="on"&&matchMedia("(prefers-reduced-motion: reduce)").matches);d.setAttribute("data-motion",r?"reduce":"full")}catch(e){}})()`;
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (

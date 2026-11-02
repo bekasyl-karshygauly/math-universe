@@ -982,6 +982,14 @@ textarea.field-input {
   gap: 12px;
 }
 
+.settings__row--stack {
+  flex-wrap: wrap;
+}
+
+.settings__row--stack .field-help {
+  flex-basis: 100%;
+}
+
 .settings__label {
   font-size: 13px;
   font-weight: 700;
@@ -1113,8 +1121,7 @@ textarea.field-input {
   font-weight: 700;
 }
 
-.app-nav__link[aria-current="page"]::after {
-  content: "";
+.app-nav__indicator {
   position: absolute;
   left: 0;
   right: 0;
@@ -1683,12 +1690,25 @@ textarea.field-input {
   color: var(--text-primary);
 }
 
+.lesson-outline__item {
+  position: relative;
+  transition: color var(--transition-fast), padding var(--transition-normal);
+}
+
 .lesson-outline__item[aria-current="true"] {
   color: var(--text-primary);
   font-weight: 700;
-  box-shadow: inset 2px 0 0 var(--primary);
   padding-left: 10px;
   grid-template-columns: 24px minmax(0, 1fr);
+}
+
+.lesson-outline__indicator {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--primary);
 }
 
 .lesson-outline__num {
@@ -2912,12 +2932,79 @@ textarea.field-input {
    ========================================================================== */
 
 @keyframes labReveal {
-  from { opacity: 0; transform: translateY(6px); }
+  from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: none; }
 }
 
+@keyframes labGrowX {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
 .reveal {
-  animation: labReveal var(--transition-reveal) both;
+  animation: labReveal 360ms var(--ease) both;
+}
+
+/* Progress bars draw in from the left when they appear */
+.progress-fill {
+  transform-origin: left center;
+  animation: labGrowX 700ms var(--ease) both;
+}
+
+/* Tactile press feedback on every button-like control */
+.btn:active:not(:disabled),
+.seg-tab:active,
+.choice:active,
+.chip:active,
+.icon-btn:active,
+.header-action:active {
+  transform: scale(0.97);
+}
+
+.btn,
+.seg-tab,
+.choice,
+.chip,
+.icon-btn,
+.header-action {
+  transition-property: background-color, border-color, color, transform, box-shadow;
+  transition-duration: 160ms;
+  transition-timing-function: var(--ease);
+}
+
+/* Cards and rows respond to the pointer with a short, precise lift */
+.tool-card:hover {
+  transform: translateY(-3px);
+}
+
+.tool-card {
+  transition: border-color 180ms var(--ease), box-shadow 180ms var(--ease), transform 180ms var(--ease);
+}
+
+.course-row__main {
+  transition: transform 220ms var(--ease);
+}
+
+.course-row:hover .course-row__main {
+  transform: translateX(6px);
+}
+
+.panel--instrument {
+  transition: box-shadow 260ms var(--ease), transform 260ms var(--ease);
+}
+
+.lab-experiment:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 12px 12px 0 var(--surface-soft);
+}
+
+.reference-item__title,
+.depth-level__num {
+  transition: color 180ms var(--ease);
+}
+
+.reference-item:hover .reference-item__title {
+  color: var(--primary);
 }
 
 /* ==========================================================================
@@ -2974,11 +3061,16 @@ textarea.field-input {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *, ::before, ::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
+/* data-motion is set from the in-app Animations setting (default: follow the OS) */
+html[data-motion="reduce"] *,
+html[data-motion="reduce"] ::before,
+html[data-motion="reduce"] ::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+html[data-motion="reduce"] {
+  scroll-behavior: auto;
 }

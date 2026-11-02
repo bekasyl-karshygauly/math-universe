@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useEffect, useId, useRef } from 'react';
-import { motion, useReducedMotion } from 'motion/react';
+import { motion } from 'motion/react';
+import { useReduceMotion } from '../../lib/motionPref';
 import { X } from 'lucide-react';
 
 interface DialogProps {
@@ -42,7 +43,7 @@ export function Dialog({
   const panelRef = useRef<HTMLDivElement>(null);
   const onCloseRef = useRef(onClose);
   onCloseRef.current = onClose;
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useReduceMotion();
 
   useEffect(() => {
     const opener = document.activeElement as HTMLElement | null;
@@ -92,7 +93,8 @@ export function Dialog({
       data-lenis-prevent
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: reduceMotion ? 0 : 0.18 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: reduceMotion ? 0 : 0.22 }}
       onMouseDown={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
@@ -105,9 +107,10 @@ export function Dialog({
         tabIndex={-1}
         className="dialog"
         style={{ maxWidth, height }}
-        initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: reduceMotion ? 0 : 0.24, ease: [0.2, 0, 0, 1] }}
+        initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 18, scale: 0.985 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 10, scale: 0.99 }}
+        transition={{ duration: reduceMotion ? 0 : 0.3, ease: [0.2, 0, 0, 1] }}
       >
         <div className="dialog__header">
           <div style={{ minWidth: 0 }}>

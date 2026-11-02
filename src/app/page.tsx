@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import dynamic from 'next/dynamic';
-import { motion, AnimatePresence, MotionConfig, useReducedMotion } from 'motion/react';
+import { motion, AnimatePresence, MotionConfig } from 'motion/react';
+import { applyMotionPref, useReduceMotion } from '../lib/motionPref';
 import { Check, Search, ArrowUpRight } from 'lucide-react';
 import { AppState, Language, Theme, loadStoredState, saveStoredState } from '../lib/storage';
 import { I18N } from '../data/i18n';
@@ -46,7 +47,7 @@ const AchievementToast = dynamic(() => import('../components/AchievementToast').
 
 export default function HomePage() {
   const { user, completeLesson, mergeLessonProgress, achievementQueue, dismissAchievement } = useAuth();
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useReduceMotion();
   const [state, setState] = useState<AppState>({
     lang: 'ru',
     theme: 'light',
@@ -74,6 +75,7 @@ export default function HomePage() {
     setState(loaded);
     document.documentElement.setAttribute('data-theme', loaded.theme);
     document.documentElement.lang = htmlLang(loaded.lang);
+    applyMotionPref();
     setIsLoaded(true);
   }, []);
 
@@ -210,15 +212,15 @@ export default function HomePage() {
   }
 
   const viewMotion = {
-    initial: { opacity: 0, y: reduceMotion ? 0 : 8 },
+    initial: { opacity: 0, y: reduceMotion ? 0 : 12 },
     animate: { opacity: 1, y: 0 },
-    exit: { opacity: 0 },
-    transition: { duration: reduceMotion ? 0 : 0.22, ease: [0.2, 0, 0, 1] as const },
+    exit: { opacity: 0, y: reduceMotion ? 0 : -6 },
+    transition: { duration: reduceMotion ? 0 : 0.3, ease: [0.2, 0, 0, 1] as const },
   };
 
   return (
-    // reducedMotion="user": every Motion animation in the app honours the OS "reduce motion" setting
-    <MotionConfig reducedMotion="user">
+    // Every Motion animation follows the in-app "Animations" setting (system / on / off)
+    <MotionConfig reducedMotion={reduceMotion ? 'always' : 'never'}>
     <LenisProvider>
       <a href="#main" className="skip-link">
         {t('skip_to_content')}
@@ -408,13 +410,13 @@ export default function HomePage() {
 
         <WhyItWorksModal topicId={whyItWorksId} lang={state.lang} onClose={() => setWhyItWorksId(null)} />
 
-        {showAuth && <AuthModal onClose={() => setShowAuth(false)} lang={state.lang} />}
-
-        {showDashboard && <DashboardModal onClose={() => setShowDashboard(false)} lang={state.lang} progress={state.progress} />}
-
-        {showAIChat && <AIMathChat onClose={() => setShowAIChat(false)} lang={state.lang} />}
-
-        {showSolver && <StepSolver onClose={() => setShowSolver(false)} lang={state.lang} />}
+        {/* AnimatePresence lets dialogs play their exit transition before unmounting */}
+        <AnimatePresence>
+          {showAuth && <AuthModal key="auth" onClose={() => setShowAuth(false)} lang={state.lang} />}
+          {showDashboard && <DashboardModal key="dashboard" onClose={() => setShowDashboard(false)} lang={state.lang} progress={state.progress} />}
+          {showAIChat && <AIMathChat key="chat" onClose={() => setShowAIChat(false)} lang={state.lang} />}
+          {showSolver && <StepSolver key="solver" onClose={() => setShowSolver(false)} lang={state.lang} />}
+        </AnimatePresence>
 
         <AnimatePresence>
           {achievementQueue.length > 0 && (

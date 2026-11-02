@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { AnimatePresence } from 'motion/react';
 import { WHY_IT_WORKS_DATA, WhyItWorksTopic } from '../data/whyItWorks';
 import { Language } from '../lib/storage';
 import { I18N } from '../data/i18n';
@@ -21,9 +22,9 @@ interface WhyItWorksModalProps {
 type Tab = 'derivation' | 'visual' | 'history' | 'apps';
 
 export function WhyItWorksModal({ topicId, lang, onClose }: WhyItWorksModalProps) {
-  if (!topicId || !WHY_IT_WORKS_DATA[topicId]) return null;
-  // Keyed by topic so tab and step state start fresh for every topic
-  return <WhyItWorksDialog key={topicId} topic={WHY_IT_WORKS_DATA[topicId]} lang={lang} onClose={onClose} />;
+  const topic = topicId ? WHY_IT_WORKS_DATA[topicId] : undefined;
+  // Keyed by topic so tab and step state start fresh for every topic; AnimatePresence plays the exit
+  return <AnimatePresence>{topic && <WhyItWorksDialog key={topicId} topic={topic} lang={lang} onClose={onClose} />}</AnimatePresence>;
 }
 
 function WhyItWorksDialog({ topic, lang, onClose }: { topic: WhyItWorksTopic; lang: Language; onClose: () => void }) {

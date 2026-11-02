@@ -1,7 +1,8 @@
 'use client';
 
 import React from 'react';
-import { motion, useReducedMotion } from 'motion/react';
+import { motion } from 'motion/react';
+import { useReduceMotion } from '../lib/motionPref';
 import { ArrowUpRight } from 'lucide-react';
 import { HACKS } from '../data/hacks';
 import { BONUS } from '../data/bonus';
@@ -9,6 +10,7 @@ import { COURSES } from '../data/courses';
 import { KaTeXMath } from './KaTeXMath';
 import { LabExperiment } from './LabExperiment';
 import { PageHeader } from './ui/PageHeader';
+import { Reveal } from './ui/Reveal';
 import { Language } from '../lib/storage';
 import { I18N } from '../data/i18n';
 import { fmt } from '../data/i18n-lab';
@@ -17,15 +19,24 @@ import { playSmoothSound, playDynamicSound } from '../lib/sound';
 
 interface SharedProps { lang: Language; }
 
+const EASE = [0.2, 0, 0, 1] as const;
+
 function useViewMotion() {
-  const reduce = useReducedMotion();
+  const reduce = useReduceMotion();
   return {
-    initial: { opacity: 0, y: reduce ? 0 : 8 },
+    initial: { opacity: 0, y: reduce ? 0 : 12 },
     animate: { opacity: 1, y: 0 },
-    exit: { opacity: 0 },
-    transition: { duration: reduce ? 0 : 0.22, ease: [0.2, 0, 0, 1] as const },
+    exit: { opacity: 0, y: reduce ? 0 : -6 },
+    transition: { duration: reduce ? 0 : 0.3, ease: EASE },
   };
 }
+
+// Hero entrance: each element rises in turn (cause → effect reading order)
+const heroItem = (i: number) => ({
+  initial: { opacity: 0, y: 18 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.55, ease: EASE, delay: 0.08 + i * 0.09 },
+});
 
 // HOME VIEW
 interface HomeViewProps extends SharedProps {
@@ -60,20 +71,27 @@ export function HomeView({ lang, progress, quizBest, onOpenCourse, onNav }: Home
       {/* Hero: typography on the left, a working experiment on the right */}
       <section className="lab-hero" aria-labelledby="lab-hero-title">
         <div className="lab-hero__intro">
-          <p className="eyebrow">{t('lab_eyebrow')}</p>
+          <motion.p className="eyebrow" {...heroItem(0)}>
+            {t('lab_eyebrow')}
+          </motion.p>
           <h1 id="lab-hero-title" className="display lab-hero__title">
-            {t('lab_h1_1')}
-            <br />
-            {t('lab_h1_2')}
-            <br />
-            <em>{t('lab_h1_3')}</em>
+            <motion.span style={{ display: 'block' }} {...heroItem(1)}>
+              {t('lab_h1_1')}
+            </motion.span>
+            <motion.span style={{ display: 'block' }} {...heroItem(2)}>
+              {t('lab_h1_2')}
+            </motion.span>
+            <motion.em style={{ display: 'block' }} {...heroItem(3)}>
+              {t('lab_h1_3')}
+            </motion.em>
           </h1>
-          <p className="lead">
+          <motion.p className="lead" {...heroItem(4)}>
             {t('lab_lead_1')}
             <br />
             {t('lab_lead_2')}
-          </p>
-          <button
+          </motion.p>
+          <motion.button
+            {...heroItem(5)}
             type="button"
             className="rule-link lab-hero__cta"
             onClick={() => {
@@ -86,8 +104,8 @@ export function HomeView({ lang, progress, quizBest, onOpenCourse, onNav }: Home
               {hasProgress && <span className="lab-hero__cta-sub">{ctaCourse.title[lang]}</span>}
             </span>
             <ArrowUpRight size={18} aria-hidden="true" className="rule-link__arrow" />
-          </button>
-          <p className="lab-hero__foot">
+          </motion.button>
+          <motion.p className="lab-hero__foot" {...heroItem(6)}>
             {hasProgress ? (
               <>
                 {fmt(t('home_progress_value'), { done: completedLessons, total: totalLessons })}
@@ -105,46 +123,55 @@ export function HomeView({ lang, progress, quizBest, onOpenCourse, onNav }: Home
                 {t('lab_foot_2')}
               </>
             )}
-          </p>
+          </motion.p>
         </div>
-        <div className="lab-hero__instrument">
+        <motion.div
+          className="lab-hero__instrument"
+          initial={{ opacity: 0, x: 24 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.65, ease: EASE, delay: 0.3 }}
+        >
           <LabExperiment lang={lang} />
-        </div>
+        </motion.div>
       </section>
 
       {/* Depth levels */}
       <section className="home-section" aria-labelledby="home-depth-title">
-        <p className="eyebrow eyebrow--muted">{t('home_depth_eyebrow')}</p>
-        <h2 id="home-depth-title" className="section-title home-section__title">
-          {t('home_depth_title')}
-        </h2>
-        <p className="lead">{t('home_depth_lead')}</p>
+        <Reveal>
+          <p className="eyebrow eyebrow--muted">{t('home_depth_eyebrow')}</p>
+          <h2 id="home-depth-title" className="section-title home-section__title">
+            {t('home_depth_title')}
+          </h2>
+          <p className="lead">{t('home_depth_lead')}</p>
+        </Reveal>
         <ol className="depth-levels">
-          {levels.map((l) => (
-            <li key={l.n} className="depth-level">
+          {levels.map((l, i) => (
+            <Reveal as="li" index={i} key={l.n} className="depth-level">
               <span className="depth-level__num display" aria-hidden="true">
                 {l.n}
               </span>
               <h3 className="depth-level__title">{l.title}</h3>
               <p className="depth-level__desc">{l.desc}</p>
-            </li>
+            </Reveal>
           ))}
         </ol>
       </section>
 
       {/* Course catalog */}
       <section className="home-section" aria-labelledby="home-courses-title">
-        <p className="eyebrow eyebrow--muted">{t('home_catalog_eyebrow')}</p>
-        <h2 id="home-courses-title" className="section-title home-section__title">
-          {t('home_courses')}
-        </h2>
+        <Reveal>
+          <p className="eyebrow eyebrow--muted">{t('home_catalog_eyebrow')}</p>
+          <h2 id="home-courses-title" className="section-title home-section__title">
+            {t('home_courses')}
+          </h2>
+        </Reveal>
         <ol className="course-list">
           {COURSES.map((c, i) => {
             const done = (progress[c.id] || []).filter(Boolean).length;
             const total = c.lessons.length;
             const cp = total ? Math.round((done / total) * 100) : 0;
             return (
-              <li key={c.id}>
+              <Reveal as="li" index={i} key={c.id}>
                 <button
                   type="button"
                   className="course-row"
@@ -166,7 +193,7 @@ export function HomeView({ lang, progress, quizBest, onOpenCourse, onNav }: Home
                   </span>
                   <ArrowUpRight size={20} aria-hidden="true" className="course-row__arrow" />
                 </button>
-              </li>
+              </Reveal>
             );
           })}
         </ol>
@@ -174,13 +201,15 @@ export function HomeView({ lang, progress, quizBest, onOpenCourse, onNav }: Home
 
       {/* Tools */}
       <section className="home-section" aria-labelledby="home-tools-title">
-        <p className="eyebrow eyebrow--muted">{t('home_tools_eyebrow')}</p>
-        <h2 id="home-tools-title" className="section-title home-section__title">
-          {t('home_tools_title')}
-        </h2>
+        <Reveal>
+          <p className="eyebrow eyebrow--muted">{t('home_tools_eyebrow')}</p>
+          <h2 id="home-tools-title" className="section-title home-section__title">
+            {t('home_tools_title')}
+          </h2>
+        </Reveal>
         <ul className="tool-grid">
-          {tools.map((item) => (
-            <li key={item.page}>
+          {tools.map((item, i) => (
+            <Reveal as="li" index={i} key={item.page}>
               <button
                 type="button"
                 className="tool-card"
@@ -195,7 +224,7 @@ export function HomeView({ lang, progress, quizBest, onOpenCourse, onNav }: Home
                 </span>
                 <span className="tool-card__desc">{t(item.dKey)}</span>
               </button>
-            </li>
+            </Reveal>
           ))}
         </ul>
       </section>
@@ -208,7 +237,7 @@ function ReferenceList({ items, lang }: { items: { icon?: string; t: Record<Lang
   return (
     <ol className="reference-list">
       {items.map((h, i) => (
-        <li key={i} className="reference-item">
+        <Reveal as="li" index={i} key={i} className="reference-item">
           <span className="reference-item__num mono" aria-hidden="true">
             {String(i + 1).padStart(2, '0')}
           </span>
@@ -221,7 +250,7 @@ function ReferenceList({ items, lang }: { items: { icon?: string; t: Record<Lang
               </div>
             )}
           </div>
-        </li>
+        </Reveal>
       ))}
     </ol>
   );

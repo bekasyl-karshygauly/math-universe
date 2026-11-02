@@ -2,16 +2,17 @@
 
 import React, { useEffect } from 'react';
 import Lenis from 'lenis';
+import { useReduceMotion } from '../lib/motionPref';
 
 export function LenisProvider({ children }: { children: React.ReactNode }) {
+  const reduce = useReduceMotion();
+
   useEffect(() => {
-    // Respect user's motion preferences
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      return;
-    }
+    // Smooth scrolling only when animations are on (in-app setting or OS preference)
+    if (reduce) return;
 
     const lenis = new Lenis({
-      duration: 0.9,
+      duration: 1.05,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
     });
@@ -28,7 +29,7 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
       cancelAnimationFrame(animId);
       lenis.destroy();
     };
-  }, []);
+  }, [reduce]);
 
   return <>{children}</>;
 }

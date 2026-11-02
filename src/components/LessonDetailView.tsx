@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useRef, useState } from 'react';
-import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
+import { useReduceMotion } from '../lib/motionPref';
 import { ArrowLeft, Check, Lightbulb, ArrowDown } from 'lucide-react';
 import { Course, Lesson } from '../data/courses';
 import { COURSES } from '../data/courses';
@@ -44,7 +45,7 @@ export function LessonDetailView({
   onBack,
 }: LessonDetailViewProps) {
   const t = (k: string) => I18N[lang][k] || k;
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useReduceMotion();
   // Start at the first unread lesson
   const [openIndex, setOpenIndex] = useState<number>(() => {
     const firstUnread = course.lessons.findIndex((_, i) => !progress[i]);
@@ -117,6 +118,14 @@ export function LessonDetailView({
                       {read ? <Check size={14} /> : String(idx + 1).padStart(2, '0')}
                     </span>
                     <span className="lesson-outline__title">{l.title[lang]}</span>
+                    {idx === openIndex && (
+                      <motion.span
+                        layoutId={`outline-${course.id}`}
+                        className="lesson-outline__indicator"
+                        transition={{ type: 'spring', stiffness: 420, damping: 38 }}
+                        aria-hidden="true"
+                      />
+                    )}
                     {read && <span className="sr-only">{t('lesson_done_state')}</span>}
                   </button>
                 </li>

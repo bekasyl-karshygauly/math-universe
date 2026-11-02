@@ -1,6 +1,7 @@
-﻿'use client';
+'use client';
 import React, { useEffect, useRef } from 'react';
-import { motion, useReducedMotion } from 'motion/react';
+import { motion } from 'motion/react';
+import { useReduceMotion } from '../lib/motionPref';
 import { Award } from 'lucide-react';
 import { ACHIEVEMENTS } from '../data/achievements';
 import { Language } from '../lib/storage';
@@ -14,7 +15,7 @@ interface AchievementToastProps {
 
 export function AchievementToast({ achievementKey, lang, onDone }: AchievementToastProps) {
   const def = ACHIEVEMENTS.find((a) => a.key === achievementKey);
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useReduceMotion();
   // Ref keeps the timer from restarting when the parent passes a new callback
   const onDoneRef = useRef(onDone);
   onDoneRef.current = onDone;

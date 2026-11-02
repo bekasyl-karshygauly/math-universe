@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { motion } from 'motion/react';
 import { Language } from '../lib/storage';
 import { I18N } from '../data/i18n';
 import { playSmoothSound } from '../lib/sound';
@@ -46,6 +47,15 @@ export function NavTabs({ currentPage, lang, onSelectPage }: NavTabsProps) {
                   }}
                 >
                   {t(item.key)}
+                  {/* Shared layoutId: the underline slides from the previous section to the new one */}
+                  {isActive && (
+                    <motion.span
+                      layoutId="nav-underline"
+                      className="app-nav__indicator"
+                      transition={{ type: 'spring', stiffness: 420, damping: 38 }}
+                      aria-hidden="true"
+                    />
+                  )}
                 </button>
               </li>
             );
