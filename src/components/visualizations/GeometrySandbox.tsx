@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { motion } from 'motion/react';
+import { Pause, Play, RotateCcw } from 'lucide-react';
 import { playClickSound, playSuccessSound } from '../../lib/sound';
+import { getLabPalette, withAlpha } from '../../lib/labPalette';
 
 interface Point {
   x: number;
@@ -62,8 +63,10 @@ export function GeometrySandbox() {
   const handleTrianglePointerMove = (e: React.PointerEvent) => {
     if (!draggingPoint.current || !triSvgRef.current) return;
     const rect = triSvgRef.current.getBoundingClientRect();
-    const x = Math.max(20, Math.min(380, e.clientX - rect.left));
-    const y = Math.max(20, Math.min(280, e.clientY - rect.top));
+    // The SVG scales with its container: convert screen pixels to viewBox units
+    const scale = 400 / rect.width;
+    const x = Math.max(20, Math.min(380, (e.clientX - rect.left) * scale));
+    const y = Math.max(20, Math.min(280, (e.clientY - rect.top) * scale));
 
     if (draggingPoint.current === 'A') setPA({ x, y });
     else if (draggingPoint.current === 'B') setPB({ x, y });
@@ -89,6 +92,10 @@ export function GeometrySandbox() {
     const w = canvas.width;
     const h = canvas.height;
     const r = w / 2;
+    // Canvas cannot resolve CSS variables: take theme colors once per run
+    const pal = getLabPalette();
+    const inColor = withAlpha(pal.success, 0.7);
+    const outColor = withAlpha(pal.danger, 0.7);
 
     const step = () => {
       let localIn = 0;
@@ -101,7 +108,7 @@ export function GeometrySandbox() {
         const dy = y - r;
         const inside = dx * dx + dy * dy <= r * r;
 
-        ctx.fillStyle = inside ? 'rgba(16, 185, 129, 0.75)' : 'rgba(244, 63, 94, 0.75)';
+        ctx.fillStyle = inside ? inColor : outColor;
         ctx.fillRect(x, y, 2.5, 2.5);
 
         if (inside) localIn++;
@@ -129,10 +136,12 @@ export function GeometrySandbox() {
     if (canvas) {
       const ctx = canvas.getContext('2d');
       if (ctx) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const pal = getLabPalette();
+        ctx.fillStyle = pal.surface;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
         // redraw circle outline
         const r = canvas.width / 2;
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
+        ctx.strokeStyle = pal.axis;
         ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.arc(r, r, r - 2, 0, Math.PI * 2);
@@ -153,86 +162,54 @@ export function GeometrySandbox() {
   return (
     <div>
       {/* Sub tabs */}
-      <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
+      <div className="seg-tabs" role="group" aria-label="Геометрия" style={{ marginBottom: '20px' }}>
         <button
+          type="button"
+          className="seg-tab"
+          aria-pressed={activeTab === 'triangle'}
           onClick={() => {
             setActiveTab('triangle');
             playClickSound();
           }}
-          style={{
-            padding: '9px 18px',
-            borderRadius: '11px',
-            fontWeight: 800,
-            fontSize: '13.5px',
-            border: 'none',
-            cursor: 'pointer',
-            background: activeTab === 'triangle' ? 'var(--primary-gradient)' : 'var(--surface-secondary)',
-            color: activeTab === 'triangle' ? '#fff' : 'var(--text-muted)',
-            boxShadow: activeTab === 'triangle' ? '0 4px 12px rgba(79, 70, 229, 0.35)' : 'none',
-          }}
         >
-          📐 Живой треугольник
+          Живой треугольник
         </button>
         <button
+          type="button"
+          className="seg-tab"
+          aria-pressed={activeTab === 'montecarlo'}
           onClick={() => {
             setActiveTab('montecarlo');
             playClickSound();
           }}
-          style={{
-            padding: '9px 18px',
-            borderRadius: '11px',
-            fontWeight: 800,
-            fontSize: '13.5px',
-            border: 'none',
-            cursor: 'pointer',
-            background: activeTab === 'montecarlo' ? 'var(--primary-gradient)' : 'var(--surface-secondary)',
-            color: activeTab === 'montecarlo' ? '#fff' : 'var(--text-muted)',
-            boxShadow: activeTab === 'montecarlo' ? '0 4px 12px rgba(79, 70, 229, 0.35)' : 'none',
-          }}
         >
-          🎯 Метод Монте-Карло (Число π)
+          Метод Монте-Карло (число π)
         </button>
       </div>
 
       {/* TAB 1: TRIANGLE */}
       {activeTab === 'triangle' && (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px', alignItems: 'center' }}>
-          <div>
+        <div className="sandbox-grid">
+          <div style={{ minWidth: 0 }}>
             <svg
               ref={triSvgRef}
-              width={400}
-              height={300}
               viewBox="0 0 400 300"
+              role="img"
+              aria-label={`α = ${degA.toFixed(1)}°, β = ${degB.toFixed(1)}°, γ = ${degC.toFixed(1)}°`}
               onPointerMove={handleTrianglePointerMove}
               onPointerUp={handleTrianglePointerUp}
-              style={{
-                width: '100%',
-                maxHeight: '300px',
-                background: 'var(--surface-secondary)',
-                borderRadius: '18px',
-                border: '1px solid var(--border)',
-                touchAction: 'none',
-                userSelect: 'none',
-              }}
+              className="plot-surface"
+              style={{ height: 'auto', touchAction: 'none', userSelect: 'none' }}
             >
               {/* Circumcircle (if inside bounds) */}
               {circumR < 400 && circumR > 10 && (
-                <circle
-                  cx={ccX}
-                  cy={ccY}
-                  r={circumR}
-                  fill="none"
-                  stroke="var(--accent-cyan)"
-                  strokeWidth={1}
-                  strokeDasharray="4 4"
-                  opacity={0.4}
-                />
+                <circle cx={ccX} cy={ccY} r={circumR} fill="none" stroke="var(--plot-axis)" strokeWidth={1} strokeDasharray="4 4" />
               )}
 
               {/* Triangle fill & outline */}
               <polygon
                 points={`${pA.x},${pA.y} ${pB.x},${pB.y} ${pC.x},${pC.y}`}
-                fill="rgba(99, 102, 241, 0.12)"
+                fill="color-mix(in srgb, var(--chart-1) 12%, transparent)"
                 stroke="var(--primary)"
                 strokeWidth={3}
                 strokeLinejoin="round"
@@ -243,79 +220,78 @@ export function GeometrySandbox() {
                 cx={pA.x}
                 cy={pA.y}
                 r={10}
-                fill="#ef4444"
-                stroke="#fff"
+                fill="var(--chart-2)"
+                stroke="var(--plot-bg)"
                 strokeWidth={2.5}
                 style={{ cursor: 'grab' }}
                 onPointerDown={(e) => handleTrianglePointerDown('A', e)}
               />
-              <text x={pA.x - 18} y={pA.y + 18} fill="#ef4444" fontWeight={900} fontSize={14}>A</text>
+              <text x={pA.x - 18} y={pA.y + 18} fill="var(--chart-2)" fontWeight={700} fontSize={14}>A</text>
 
               {/* Vertex B */}
               <circle
                 cx={pB.x}
                 cy={pB.y}
                 r={10}
-                fill="#3b82f6"
-                stroke="#fff"
+                fill="var(--chart-3)"
+                stroke="var(--plot-bg)"
                 strokeWidth={2.5}
                 style={{ cursor: 'grab' }}
                 onPointerDown={(e) => handleTrianglePointerDown('B', e)}
               />
-              <text x={pB.x + 10} y={pB.y + 18} fill="#3b82f6" fontWeight={900} fontSize={14}>B</text>
+              <text x={pB.x + 10} y={pB.y + 18} fill="var(--chart-3)" fontWeight={700} fontSize={14}>B</text>
 
               {/* Vertex C */}
               <circle
                 cx={pC.x}
                 cy={pC.y}
                 r={10}
-                fill="#10b981"
-                stroke="#fff"
+                fill="var(--chart-6)"
+                stroke="var(--plot-bg)"
                 strokeWidth={2.5}
                 style={{ cursor: 'grab' }}
                 onPointerDown={(e) => handleTrianglePointerDown('C', e)}
               />
-              <text x={pC.x} y={pC.y - 14} fill="#10b981" fontWeight={900} fontSize={14} textAnchor="middle">C</text>
+              <text x={pC.x} y={pC.y - 14} fill="var(--chart-6)" fontWeight={700} fontSize={14} textAnchor="middle">C</text>
             </svg>
-            <div style={{ fontSize: '12px', color: 'var(--text-muted)', textAlign: 'center', marginTop: '8px' }}>
-              💡 Перетаскивай вершины <b>A, B, C</b> мышкой или пальцем
-            </div>
+            <p className="field-help" style={{ textAlign: 'center', marginTop: '8px' }}>
+              Перетаскивайте вершины A, B, C мышью или пальцем
+            </p>
           </div>
 
           {/* Metrics */}
-          <div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', marginBottom: '14px' }}>
-              <div style={{ padding: '10px', borderRadius: '10px', background: 'var(--surface-secondary)', textAlign: 'center' }}>
-                <div style={{ fontSize: '11px', color: '#ef4444', fontWeight: 800 }}>Угол A (α)</div>
-                <div style={{ fontSize: '17px', fontWeight: 900, marginTop: '2px' }}>{degA.toFixed(1)}°</div>
+          <div style={{ minWidth: 0 }}>
+            <div className="metric-grid" style={{ gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', marginBottom: '14px' }}>
+              <div className="metric" style={{ boxShadow: 'inset 3px 0 0 var(--chart-2)' }}>
+                <span className="metric__label">α (A)</span>
+                <span className="metric__value">{degA.toFixed(1)}°</span>
               </div>
-              <div style={{ padding: '10px', borderRadius: '10px', background: 'var(--surface-secondary)', textAlign: 'center' }}>
-                <div style={{ fontSize: '11px', color: '#3b82f6', fontWeight: 800 }}>Угол B (β)</div>
-                <div style={{ fontSize: '17px', fontWeight: 900, marginTop: '2px' }}>{degB.toFixed(1)}°</div>
+              <div className="metric" style={{ boxShadow: 'inset 3px 0 0 var(--chart-3)' }}>
+                <span className="metric__label">β (B)</span>
+                <span className="metric__value">{degB.toFixed(1)}°</span>
               </div>
-              <div style={{ padding: '10px', borderRadius: '10px', background: 'var(--surface-secondary)', textAlign: 'center' }}>
-                <div style={{ fontSize: '11px', color: '#10b981', fontWeight: 800 }}>Угол C (γ)</div>
-                <div style={{ fontSize: '17px', fontWeight: 900, marginTop: '2px' }}>{degC.toFixed(1)}°</div>
+              <div className="metric" style={{ boxShadow: 'inset 3px 0 0 var(--chart-6)' }}>
+                <span className="metric__label">γ (C)</span>
+                <span className="metric__value">{degC.toFixed(1)}°</span>
               </div>
-            </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', marginBottom: '14px' }}>
-              <div style={{ padding: '12px', borderRadius: '10px', background: 'var(--surface-secondary)' }}>
-                <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 700 }}>Площадь (Герон)</div>
-                <div style={{ fontSize: '19px', fontWeight: 900, color: 'var(--primary)' }}>S = {(area / 100).toFixed(1)}</div>
+              <div className="metric">
+                <span className="metric__label">Площадь (Герон)</span>
+                <span className="metric__value" style={{ color: 'var(--primary)' }}>S = {(area / 100).toFixed(1)}</span>
               </div>
-              <div style={{ padding: '12px', borderRadius: '10px', background: 'var(--surface-secondary)' }}>
-                <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 700 }}>Периметр</div>
-                <div style={{ fontSize: '19px', fontWeight: 900 }}>P = {((sideA + sideB + sideC) / 10).toFixed(1)}</div>
+              <div className="metric" style={{ gridColumn: 'span 2' }}>
+                <span className="metric__label">Периметр</span>
+                <span className="metric__value">P = {((sideA + sideB + sideC) / 10).toFixed(1)}</span>
               </div>
             </div>
 
-            <div style={{ padding: '12px 16px', borderRadius: '12px', background: 'var(--surface-secondary)', fontSize: '13px' }}>
-              <div style={{ fontWeight: 800, marginBottom: '6px', color: 'var(--accent-cyan)' }}>Теорема синусов (2R):</div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'var(--font-mono)' }}>
-                <span>a / sin(A) = {(sideA / Math.sin(angleA) / 10).toFixed(1)}</span>
-                <span>b / sin(B) = {(sideB / Math.sin(angleB) / 10).toFixed(1)}</span>
-                <span>c / sin(C) = {(sideC / Math.sin(angleC) / 10).toFixed(1)}</span>
+            <div className="result-panel" style={{ marginTop: 0 }}>
+              <p className="eyebrow eyebrow--muted" style={{ marginBottom: '8px' }}>
+                Теорема синусов (2R)
+              </p>
+              <div className="mono" style={{ display: 'flex', justifyContent: 'space-between', gap: '8px 16px', flexWrap: 'wrap', fontSize: '13px' }}>
+                <span>a / sin A = {(sideA / Math.sin(angleA) / 10).toFixed(1)}</span>
+                <span>b / sin B = {(sideB / Math.sin(angleB) / 10).toFixed(1)}</span>
+                <span>c / sin C = {(sideC / Math.sin(angleC) / 10).toFixed(1)}</span>
               </div>
             </div>
           </div>
@@ -324,98 +300,74 @@ export function GeometrySandbox() {
 
       {/* TAB 2: MONTE CARLO */}
       {activeTab === 'montecarlo' && (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px', alignItems: 'center' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <div className="sandbox-grid">
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: 0 }}>
             <canvas
               ref={mcCanvasRef}
               width={300}
               height={300}
-              style={{
-                borderRadius: '18px',
-                background: '#0d1117',
-                border: '1px solid var(--border)',
-                boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
-              }}
+              className="plot-surface"
+              role="img"
+              aria-label={`π ≈ ${approxPi.toFixed(5)}`}
+              style={{ width: '100%', maxWidth: '300px', height: 'auto', aspectRatio: '1 / 1' }}
             />
-            <div style={{ display: 'flex', gap: '10px', marginTop: '14px' }}>
+            <div style={{ display: 'flex', gap: '8px', marginTop: '14px' }}>
               <button
+                type="button"
+                className={isSimulating ? 'btn btn--secondary' : 'btn btn--primary'}
+                aria-pressed={isSimulating}
                 onClick={() => {
                   setIsSimulating(!isSimulating);
                   playClickSound();
                   if (!isSimulating && pointsTotal > 500) playSuccessSound();
                 }}
-                style={{
-                  padding: '9px 20px',
-                  borderRadius: '11px',
-                  background: isSimulating ? 'var(--accent-rose)' : 'var(--primary-gradient)',
-                  color: '#fff',
-                  fontWeight: 800,
-                  fontSize: '13.5px',
-                  border: 'none',
-                  cursor: 'pointer',
-                }}
               >
-                {isSimulating ? '⏸ Пауза' : '▶ Запустить дождь'}
+                {isSimulating ? <Pause size={16} aria-hidden="true" /> : <Play size={16} aria-hidden="true" />}
+                {isSimulating ? 'Пауза' : 'Запустить'}
               </button>
               <button
+                type="button"
+                className="btn btn--ghost"
                 onClick={() => {
                   resetMonteCarlo();
                   playClickSound();
                 }}
-                style={{
-                  padding: '9px 16px',
-                  borderRadius: '11px',
-                  background: 'var(--surface-secondary)',
-                  border: '1px solid var(--border)',
-                  color: 'var(--text-muted)',
-                  fontWeight: 700,
-                  fontSize: '13px',
-                  cursor: 'pointer',
-                }}
               >
-                ↺ Сброс
+                <RotateCcw size={16} aria-hidden="true" />
+                Сброс
               </button>
             </div>
           </div>
 
-          <div>
+          <div style={{ minWidth: 0 }}>
             <div style={{ marginBottom: '18px' }}>
-              <div style={{ fontSize: '13px', color: 'var(--text-muted)', fontWeight: 700 }}>
-                Приближение числа π = 4 · (N_внутри / N_всего):
-              </div>
-              <div style={{ fontSize: '42px', fontWeight: 900, color: 'var(--primary)', letterSpacing: '-0.02em', margin: '4px 0' }}>
+              <p className="eyebrow eyebrow--muted">π ≈ 4 · N_внутри / N_всего</p>
+              <p className="mono" style={{ fontSize: '40px', fontWeight: 700, color: 'var(--primary)', margin: '6px 0' }} aria-live="off">
                 {approxPi.toFixed(5)}
-              </div>
-              <div style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
-                Истинное значение: <b>{Math.PI.toFixed(5)}</b> (погрешность: <b style={{ color: piError < 1 ? 'var(--accent-emerald)' : 'var(--accent-rose)' }}>{piError.toFixed(2)}%</b>)
-              </div>
+              </p>
+              <p className="result-note">
+                Истинное значение: <b className="mono">{Math.PI.toFixed(5)}</b> · погрешность:{' '}
+                <b className="mono" style={{ color: piError < 1 ? 'var(--accent-emerald)' : 'var(--accent-rose)' }}>{piError.toFixed(2)}%</b>
+              </p>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '16px' }}>
-              <div style={{ padding: '12px', borderRadius: '12px', background: 'var(--surface-secondary)', borderLeft: '4px solid var(--accent-emerald)' }}>
-                <div style={{ fontSize: '11px', color: 'var(--accent-emerald)', fontWeight: 800 }}>Точек внутри круга</div>
-                <div style={{ fontSize: '20px', fontWeight: 900, marginTop: '2px' }}>{pointsInside.toLocaleString()}</div>
+            <div className="metric-grid" style={{ gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', marginBottom: '16px' }}>
+              <div className="metric" style={{ boxShadow: 'inset 3px 0 0 var(--accent-emerald)' }}>
+                <span className="metric__label">Внутри круга</span>
+                <span className="metric__value">{pointsInside.toLocaleString()}</span>
               </div>
-              <div style={{ padding: '12px', borderRadius: '12px', background: 'var(--surface-secondary)', borderLeft: '4px solid var(--text-muted)' }}>
-                <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 800 }}>Всего сгенерировано</div>
-                <div style={{ fontSize: '20px', fontWeight: 900, marginTop: '2px' }}>{pointsTotal.toLocaleString()}</div>
+              <div className="metric">
+                <span className="metric__label">Всего точек</span>
+                <span className="metric__value">{pointsTotal.toLocaleString()}</span>
               </div>
             </div>
 
             <div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: 'var(--text-muted)', marginBottom: '4px' }}>
-                <span>Скорость симуляции</span>
-                <span>{speed * 60} точек/сек</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: 'var(--text-secondary)', marginBottom: '4px' }}>
+                <label htmlFor="mc-speed">Скорость симуляции</label>
+                <span className="mono">{speed * 60} точек/сек</span>
               </div>
-              <input
-                type="range"
-                min={5}
-                max={150}
-                step={5}
-                value={speed}
-                onChange={(e) => setSpeed(+e.target.value)}
-                style={{ width: '100%', accentColor: 'var(--primary)', cursor: 'pointer' }}
-              />
+              <input id="mc-speed" type="range" min={5} max={150} step={5} value={speed} onChange={(e) => setSpeed(+e.target.value)} style={{ width: '100%', cursor: 'pointer' }} />
             </div>
           </div>
         </div>

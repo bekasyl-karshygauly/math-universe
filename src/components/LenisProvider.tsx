@@ -11,18 +11,18 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
     }
 
     const lenis = new Lenis({
-      duration: 1.15,
+      duration: 0.9,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
-      touchMultiplier: 1.5,
     });
 
+    // Track the latest frame id: cancelling only the first one left the loop running after unmount
+    let animId = 0;
     function raf(time: number) {
       lenis.raf(time);
-      requestAnimationFrame(raf);
+      animId = requestAnimationFrame(raf);
     }
-
-    const animId = requestAnimationFrame(raf);
+    animId = requestAnimationFrame(raf);
 
     return () => {
       cancelAnimationFrame(animId);

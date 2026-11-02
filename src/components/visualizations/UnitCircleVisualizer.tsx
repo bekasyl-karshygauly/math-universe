@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { motion } from 'motion/react';
+import { Pause, Play } from 'lucide-react';
 import { playClickSound } from '../../lib/sound';
 
 interface UnitCircleVisualizerProps {
@@ -91,8 +91,10 @@ export function UnitCircleVisualizer({ initialAngleDeg = 45, onAngleChange }: Un
   const handlePointerMove = (e: React.PointerEvent) => {
     if (!isDragging.current || !svgRef.current) return;
     const rect = svgRef.current.getBoundingClientRect();
-    const dx = e.clientX - rect.left - cx;
-    const dy = cy - (e.clientY - rect.top);
+    // The SVG scales with its container: convert screen pixels to viewBox units
+    const scale = 340 / rect.width;
+    const dx = (e.clientX - rect.left) * scale - cx;
+    const dy = cy - (e.clientY - rect.top) * scale;
     let deg = (Math.atan2(dy, dx) * 180) / Math.PI;
     if (deg < 0) deg += 360;
     updateAngle(deg);
@@ -105,42 +107,26 @@ export function UnitCircleVisualizer({ initialAngleDeg = 45, onAngleChange }: Un
   const quadrant = angle < 90 ? 'I' : angle < 180 ? 'II' : angle < 270 ? 'III' : 'IV';
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px', alignItems: 'center' }}>
+    <div className="unit-circle">
       {/* SVG Canvas */}
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minWidth: 0 }}>
         <svg
           ref={svgRef}
-          width={340}
-          height={340}
           viewBox="0 0 340 340"
+          role="img"
+          aria-label={`θ = ${Math.round(angle)}°, cos θ = ${cosVal.toFixed(3)}, sin θ = ${sinVal.toFixed(3)}`}
           onPointerDown={handlePointerDown}
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
-          style={{
-            cursor: 'grab',
-            touchAction: 'none',
-            background: 'var(--surface-secondary)',
-            borderRadius: '20px',
-            border: '1px solid var(--border)',
-            boxShadow: 'inset 0 2px 8px rgba(0,0,0,0.1)',
-          }}
+          className="plot-surface"
+          style={{ width: '100%', maxWidth: '340px', height: 'auto', cursor: 'grab', touchAction: 'none' }}
         >
-          <defs>
-            <radialGradient id="circleGlow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="var(--primary)" stopOpacity="0.08" />
-              <stop offset="100%" stopColor="transparent" stopOpacity="0" />
-            </radialGradient>
-          </defs>
-
-          {/* Glow */}
-          <circle cx={cx} cy={cy} r={radius + 20} fill="url(#circleGlow)" />
-
           {/* Grid Axes */}
-          <line x1={20} y1={cy} x2={320} y2={cy} stroke="var(--border)" strokeWidth={1.5} />
-          <line x1={cx} y1={20} x2={cx} y2={320} stroke="var(--border)" strokeWidth={1.5} />
+          <line x1={20} y1={cy} x2={320} y2={cy} stroke="var(--plot-axis)" strokeWidth={1} />
+          <line x1={cx} y1={20} x2={cx} y2={320} stroke="var(--plot-axis)" strokeWidth={1} />
 
           {/* Unit Circle */}
-          <circle cx={cx} cy={cy} r={radius} fill="none" stroke="var(--text-muted)" strokeWidth={1.5} strokeDasharray="3 3" opacity={0.6} />
+          <circle cx={cx} cy={cy} r={radius} fill="none" stroke="var(--plot-axis)" strokeWidth={1.5} strokeDasharray="3 3" />
 
           {/* Special Angle Points */}
           {SPECIAL_ANGLES.map((sa) => {
@@ -153,9 +139,8 @@ export function UnitCircleVisualizer({ initialAngleDeg = 45, onAngleChange }: Un
                 key={sa.deg}
                 cx={sx}
                 cy={sy}
-                r={isNear ? 5 : 2.5}
-                fill={isNear ? 'var(--accent-cyan)' : 'var(--text-muted)'}
-                opacity={isNear ? 1 : 0.4}
+                r={isNear ? 5 : 3}
+                fill={isNear ? 'var(--primary)' : 'var(--plot-axis)'}
                 style={{ cursor: 'pointer' }}
                 onClick={() => {
                   updateAngle(sa.deg);
@@ -169,22 +154,21 @@ export function UnitCircleVisualizer({ initialAngleDeg = 45, onAngleChange }: Un
           <path
             d={`M ${cx + 30} ${cy} A 30 30 0 ${angle > 180 ? 1 : 0} 0 ${cx + 30 * Math.cos(rad)} ${cy - 30 * Math.sin(rad)}`}
             fill="none"
-            stroke="var(--accent-cyan)"
+            stroke="var(--primary)"
             strokeWidth={2}
-            opacity={0.8}
           />
 
           {/* Right triangle fills */}
           <polygon
             points={`${cx},${cy} ${px},${cy} ${px},${py}`}
-            fill="rgba(99, 102, 241, 0.12)"
+            fill="color-mix(in srgb, var(--chart-1) 12%, transparent)"
           />
 
           {/* Cosine vector (horizontal, blue/indigo) */}
-          <line x1={cx} y1={cy} x2={px} y2={cy} stroke="#3b82f6" strokeWidth={3.5} strokeLinecap="round" />
+          <line x1={cx} y1={cy} x2={px} y2={cy} stroke="var(--chart-3)" strokeWidth={3.5} strokeLinecap="round" />
 
           {/* Sine vector (vertical, rose/pink) */}
-          <line x1={px} y1={cy} x2={px} y2={py} stroke="#ec4899" strokeWidth={3.5} strokeLinecap="round" />
+          <line x1={px} y1={cy} x2={px} y2={py} stroke="var(--chart-2)" strokeWidth={3.5} strokeLinecap="round" />
 
           {/* Hypotenuse (radius line) */}
           <line x1={cx} y1={cy} x2={px} y2={py} stroke="var(--text-primary)" strokeWidth={2} strokeDasharray="4 2" />
@@ -195,143 +179,96 @@ export function UnitCircleVisualizer({ initialAngleDeg = 45, onAngleChange }: Un
             cy={py}
             r={10}
             fill="var(--primary)"
-            stroke="#ffffff"
+            stroke="var(--plot-bg)"
             strokeWidth={3}
-            style={{ filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.4))' }}
           />
 
           {/* Labels */}
-          <text x={315} y={cy - 8} fill="var(--text-muted)" fontSize={11} fontWeight={700}>X (cos)</text>
-          <text x={cx + 8} y={32} fill="var(--text-muted)" fontSize={11} fontWeight={700}>Y (sin)</text>
+          <text x={298} y={cy - 8} fill="var(--plot-label)" fontSize={11}>x · cos</text>
+          <text x={cx + 8} y={32} fill="var(--plot-label)" fontSize={11}>y · sin</text>
         </svg>
 
         {/* Controls below circle */}
-        <div style={{ display: 'flex', gap: '10px', marginTop: '14px', alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: '8px', marginTop: '14px', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
           <button
+            type="button"
+            className={isPlaying ? 'btn btn--secondary btn--sm' : 'btn btn--primary btn--sm'}
+            aria-pressed={isPlaying}
             onClick={() => {
               setIsPlaying(!isPlaying);
               playClickSound();
             }}
-            style={{
-              padding: '7px 16px',
-              borderRadius: '10px',
-              background: isPlaying ? 'var(--accent-rose)' : 'var(--primary-gradient)',
-              color: '#fff',
-              fontSize: '13px',
-              fontWeight: 800,
-              border: 'none',
-              cursor: 'pointer',
-            }}
           >
-            {isPlaying ? '⏸ Стоп' : '▶ Вращение'}
+            {isPlaying ? <Pause size={14} aria-hidden="true" /> : <Play size={14} aria-hidden="true" />}
+            {isPlaying ? 'Стоп' : 'Вращение'}
           </button>
-          <button
-            onClick={() => {
-              updateAngle(0);
-              playClickSound();
-            }}
-            style={{
-              padding: '7px 14px',
-              borderRadius: '10px',
-              background: 'var(--surface-secondary)',
-              border: '1px solid var(--border)',
-              color: 'var(--text-muted)',
-              fontSize: '13px',
-              fontWeight: 700,
-              cursor: 'pointer',
-            }}
-          >
-            0°
-          </button>
-          <button
-            onClick={() => {
-              updateAngle(90);
-              playClickSound();
-            }}
-            style={{
-              padding: '7px 14px',
-              borderRadius: '10px',
-              background: 'var(--surface-secondary)',
-              border: '1px solid var(--border)',
-              color: 'var(--text-muted)',
-              fontSize: '13px',
-              fontWeight: 700,
-              cursor: 'pointer',
-            }}
-          >
-            90°
-          </button>
-          <button
-            onClick={() => {
-              updateAngle(180);
-              playClickSound();
-            }}
-            style={{
-              padding: '7px 14px',
-              borderRadius: '10px',
-              background: 'var(--surface-secondary)',
-              border: '1px solid var(--border)',
-              color: 'var(--text-muted)',
-              fontSize: '13px',
-              fontWeight: 700,
-              cursor: 'pointer',
-            }}
-          >
-            180°
-          </button>
+          {[0, 90, 180, 270].map((deg) => (
+            <button
+              key={deg}
+              type="button"
+              className="btn btn--secondary btn--sm mono"
+              onClick={() => {
+                updateAngle(deg);
+                playClickSound();
+              }}
+            >
+              {deg}°
+            </button>
+          ))}
         </div>
       </div>
 
       {/* Info & Metrics */}
-      <div>
+      <div style={{ minWidth: 0 }}>
         <div style={{ marginBottom: '16px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '8px' }}>
-            <span style={{ fontSize: '13px', color: 'var(--text-muted)', fontWeight: 600 }}>Угол θ:</span>
-            <span style={{ fontSize: '24px', fontWeight: 900, color: 'var(--primary)' }}>
-              {Math.round(angle)}° <span style={{ fontSize: '15px', color: 'var(--text-muted)' }}>({(rad).toFixed(3)} rad)</span>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '8px', gap: '12px' }}>
+            <label htmlFor="unit-circle-angle" className="field-label">
+              θ
+            </label>
+            <span className="mono" style={{ fontSize: '22px', fontWeight: 700, color: 'var(--primary)' }}>
+              {Math.round(angle)}° <span style={{ fontSize: '14px', color: 'var(--text-secondary)' }}>({rad.toFixed(3)} rad)</span>
             </span>
           </div>
 
           <input
+            id="unit-circle-angle"
             type="range"
             min={0}
             max={360}
             step={1}
             value={Math.round(angle)}
             onChange={(e) => updateAngle(parseFloat(e.target.value))}
-            style={{ width: '100%', accentColor: 'var(--primary)', cursor: 'pointer' }}
+            style={{ width: '100%', cursor: 'pointer' }}
           />
         </div>
 
-        {/* Real-time Cards */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '16px' }}>
-          <div style={{ padding: '14px', borderRadius: '12px', background: 'var(--surface-secondary)', borderLeft: '4px solid #3b82f6' }}>
-            <div style={{ fontSize: '12px', color: '#3b82f6', fontWeight: 800 }}>cos(θ) [ось X]</div>
-            <div style={{ fontSize: '20px', fontWeight: 900, marginTop: '4px' }}>{cosVal.toFixed(4)}</div>
+        {/* Real-time values */}
+        <div className="metric-grid" style={{ gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', marginBottom: '16px' }}>
+          <div className="metric" style={{ boxShadow: 'inset 3px 0 0 var(--chart-3)' }}>
+            <span className="metric__label">cos θ · x</span>
+            <span className="metric__value">{cosVal.toFixed(4)}</span>
           </div>
-          <div style={{ padding: '14px', borderRadius: '12px', background: 'var(--surface-secondary)', borderLeft: '4px solid #ec4899' }}>
-            <div style={{ fontSize: '12px', color: '#ec4899', fontWeight: 800 }}>sin(θ) [ось Y]</div>
-            <div style={{ fontSize: '20px', fontWeight: 900, marginTop: '4px' }}>{sinVal.toFixed(4)}</div>
+          <div className="metric" style={{ boxShadow: 'inset 3px 0 0 var(--chart-2)' }}>
+            <span className="metric__label">sin θ · y</span>
+            <span className="metric__value">{sinVal.toFixed(4)}</span>
           </div>
-          <div style={{ padding: '14px', borderRadius: '12px', background: 'var(--surface-secondary)', borderLeft: '4px solid #10b981' }}>
-            <div style={{ fontSize: '12px', color: '#10b981', fontWeight: 800 }}>tan(θ) = sin/cos</div>
-            <div style={{ fontSize: '20px', fontWeight: 900, marginTop: '4px' }}>
-              {tanVal !== null ? tanVal.toFixed(4) : '±∞ (разрыв)'}
-            </div>
+          <div className="metric">
+            <span className="metric__label">tan θ = sin/cos</span>
+            <span className="metric__value">{tanVal !== null ? tanVal.toFixed(4) : '±∞ (разрыв)'}</span>
           </div>
-          <div style={{ padding: '14px', borderRadius: '12px', background: 'var(--surface-secondary)', borderLeft: '4px solid var(--accent-cyan)' }}>
-            <div style={{ fontSize: '12px', color: 'var(--accent-cyan)', fontWeight: 800 }}>Квадрант</div>
-            <div style={{ fontSize: '20px', fontWeight: 900, marginTop: '4px' }}>{quadrant} четверть</div>
+          <div className="metric">
+            <span className="metric__label">Квадрант</span>
+            <span className="metric__value">{quadrant}</span>
           </div>
         </div>
 
         {/* Identity Check */}
-        <div style={{ padding: '12px 16px', borderRadius: '10px', background: 'var(--surface-secondary)', fontSize: '13px', display: 'flex', justifyContent: 'space-between' }}>
-          <span style={{ color: 'var(--text-muted)' }}>Основное тригонометрическое тождество:</span>
-          <span style={{ fontWeight: 800, color: 'var(--accent-emerald)' }}>
+        <p className="result-note" style={{ display: 'flex', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap' }}>
+          <span>Основное тригонометрическое тождество</span>
+          <span className="mono" style={{ fontWeight: 700, color: 'var(--accent-emerald)' }}>
             sin² + cos² = {(sinVal * sinVal + cosVal * cosVal).toFixed(4)} ✓
           </span>
-        </div>
+        </p>
       </div>
     </div>
   );

@@ -1,12 +1,14 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
-import gsap from 'gsap';
+import React, { useState } from 'react';
+import { ChevronDown } from 'lucide-react';
 import { Language } from '../../lib/storage';
 import { I18N } from '../../data/i18n';
 import { KaTeXMath } from '../KaTeXMath';
 import { UnitCircleVisualizer } from '../visualizations/UnitCircleVisualizer';
 import { LaTeXPlayground } from '../LaTeXPlayground';
+import { Field } from '../ui/Field';
+import { SegmentedTabs } from '../ui/SegmentedTabs';
 import { playClickSound, playSuccessSound } from '../../lib/sound';
 import { parseFunctionOrNaN } from '../../lib/mathExpr';
 
@@ -16,94 +18,24 @@ interface CalculatorsViewProps {
   lang: Language;
 }
 
-// GSAP Animated Result Box component
-function ResultBox({
-  children,
-  resultKey,
-  borderColor = 'var(--primary)',
-}: {
-  children: React.ReactNode;
-  resultKey: any;
-  borderColor?: string;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (ref.current && resultKey) {
-      gsap.killTweensOf(ref.current);
-      gsap.fromTo(
-        ref.current,
-        { opacity: 0, y: 20, scale: 0.96, filter: 'blur(3px)' },
-        { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', duration: 0.4, ease: 'back.out(1.5)' }
-      );
-
-      const items = ref.current.querySelectorAll('.calc-result-row');
-      if (items.length > 0) {
-        gsap.fromTo(
-          items,
-          { opacity: 0, x: -14 },
-          { opacity: 1, x: 0, duration: 0.32, stagger: 0.05, ease: 'power2.out', delay: 0.06 }
-        );
-      }
-    }
-  }, [resultKey]);
-
+// Result area: keyed by the result object so each new calculation re-runs the short reveal
+function ResultBox({ children, resultKey, tone = 'default' }: { children: React.ReactNode; resultKey: any; tone?: 'default' | 'success' | 'danger' }) {
+  const toneClass = tone === 'success' ? ' result-panel--success' : tone === 'danger' ? ' result-panel--danger' : '';
   return (
-    <div
-      ref={ref}
-      style={{
-        marginTop: '22px',
-        padding: '20px 24px',
-        borderRadius: '16px',
-        background: 'var(--surface-secondary)',
-        border: '1px solid var(--border)',
-        borderLeft: `5px solid ${borderColor}`,
-        boxShadow: '0 8px 30px rgba(0,0,0,0.12)',
-      }}
-    >
+    <div key={JSON.stringify(resultKey)} className={`result-panel reveal${toneClass}`} role="status" aria-live="polite">
       {children}
     </div>
   );
 }
 
-// GSAP Animated Action Button
-function CalcButton({
-  onClick,
-  children,
-}: {
-  onClick: () => void;
-  children: React.ReactNode;
-}) {
-  const btnRef = useRef<HTMLButtonElement>(null);
-
-  const handleClick = () => {
-    if (btnRef.current) {
-      gsap.timeline()
-        .to(btnRef.current, { scale: 0.92, duration: 0.08, ease: 'power2.in' })
-        .to(btnRef.current, { scale: 1.05, duration: 0.16, ease: 'back.out(2.5)' })
-        .to(btnRef.current, { scale: 1, duration: 0.1, ease: 'power1.out' });
-    }
-    playClickSound();
-    onClick();
-  };
-
+function CalcButton({ onClick, children }: { onClick: () => void; children: React.ReactNode }) {
   return (
     <button
-      ref={btnRef}
-      onClick={handleClick}
-      style={{
-        padding: '12px 28px',
-        borderRadius: '12px',
-        background: 'var(--primary-gradient)',
-        color: '#fff',
-        fontWeight: 800,
-        fontSize: '14px',
-        border: 'none',
-        cursor: 'pointer',
-        boxShadow: '0 4px 16px rgba(79, 70, 229, 0.35)',
-        display: 'inline-flex',
-        alignItems: 'center',
-        gap: '8px',
+      type="button"
+      className="btn btn--primary"
+      onClick={() => {
+        playClickSound();
+        onClick();
       }}
     >
       {children}
@@ -111,57 +43,23 @@ function CalcButton({
   );
 }
 
-// Step-by-step accordion helper
-function StepsToggle({
-  isOpen,
-  onToggle,
-  children,
-}: {
-  isOpen: boolean;
-  onToggle: () => void;
-  children: React.ReactNode;
-}) {
+// Step-by-step disclosure
+function StepsToggle({ isOpen, onToggle, children, labels }: { isOpen: boolean; onToggle: () => void; children: React.ReactNode; labels: [string, string] }) {
   return (
-    <div style={{ marginTop: '16px', borderTop: '1px dashed var(--border)', paddingTop: '14px' }}>
+    <div className="steps-toggle">
       <button
+        type="button"
+        className="btn btn--ghost btn--sm steps-toggle__btn"
+        aria-expanded={isOpen}
         onClick={() => {
           onToggle();
           playClickSound();
         }}
-        style={{
-          background: 'none',
-          border: 'none',
-          color: 'var(--primary)',
-          fontWeight: 800,
-          fontSize: '13.5px',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '6px',
-          padding: '4px 0',
-        }}
       >
-        <span>{isOpen ? '▼' : '▶'}</span>
-        <span>{isOpen ? 'Скрыть пошаговое решение' : '💡 Показать пошаговое решение'}</span>
+        <ChevronDown size={16} aria-hidden="true" style={{ transform: isOpen ? 'rotate(180deg)' : 'none', transition: 'transform var(--transition-fast)' }} />
+        {isOpen ? labels[1] : labels[0]}
       </button>
-
-      {isOpen && (
-        <div
-          style={{
-            marginTop: '12px',
-            padding: '16px',
-            borderRadius: '12px',
-            background: 'var(--surface)',
-            border: '1px solid var(--border)',
-            display: 'grid',
-            gap: '10px',
-            fontSize: '13.5px',
-            lineHeight: 1.6,
-          }}
-        >
-          {children}
-        </div>
-      )}
+      {isOpen && <div className="steps-toggle__body reveal">{children}</div>}
     </div>
   );
 }
@@ -169,22 +67,10 @@ function StepsToggle({
 export function CalculatorsView({ lang }: CalculatorsViewProps) {
   const [activeTab, setActiveTab] = useState<TabType>('quad');
   const [showSteps, setShowSteps] = useState<Record<string, boolean>>({});
-  const panelRef = useRef<HTMLDivElement>(null);
 
   const toggleSteps = (key: string) => {
     setShowSteps((prev) => ({ ...prev, [key]: !prev[key] }));
   };
-
-  // Animate panel when tab changes with GSAP
-  useEffect(() => {
-    if (panelRef.current) {
-      gsap.fromTo(
-        panelRef.current,
-        { opacity: 0, y: 15, scale: 0.985 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.32, ease: 'power2.out', clearProps: 'transform' }
-      );
-    }
-  }, [activeTab]);
 
   // Quad inputs
   const [qa, setQa] = useState<number>(1);
@@ -223,6 +109,7 @@ export function CalculatorsView({ lang }: CalculatorsViewProps) {
   const [logResult, setLogResult] = useState<any>(null);
 
   const t = (k: string) => I18N[lang][k] || k;
+  const stepLabels: [string, string] = [t('steps_show'), t('steps_hide')];
 
   // Quad Solver
   const solveQuad = () => {
@@ -400,134 +287,76 @@ export function CalculatorsView({ lang }: CalculatorsViewProps) {
     playSuccessSound();
   };
 
-  const handleTabChange = (id: TabType, e: React.MouseEvent<HTMLButtonElement>) => {
-    gsap.fromTo(e.currentTarget, { scale: 0.94 }, { scale: 1, duration: 0.22, ease: 'back.out(2)' });
-    playClickSound();
-    setActiveTab(id);
-  };
+  const tabs: { id: TabType; label: string }[] = [
+    { id: 'quad', label: t('c_quad') },
+    { id: 'matrix', label: t('c_matrix') },
+    { id: 'deriv', label: t('c_deriv') },
+    { id: 'stats', label: t('c_stats') },
+    { id: 'comb', label: t('c_comb') },
+    { id: 'trig', label: t('c_trig') },
+    { id: 'log', label: t('c_log') },
+    { id: 'latex', label: t('calc_latex') },
+  ];
+
+  const errorRow = (msg: string) => <div className="result-row" style={{ color: 'var(--accent-rose)', fontWeight: 700 }}>{msg}</div>;
 
   return (
     <div>
-      {/* Tab Buttons */}
-      <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', marginBottom: '24px', paddingBottom: '4px' }}>
-        {[
-          ['quad', 'c_quad', '📉'],
-          ['matrix', 'c_matrix', '🔷'],
-          ['deriv', 'c_deriv', '📈'],
-          ['stats', 'c_stats', '📊'],
-          ['comb', 'c_comb', '🎲'],
-          ['trig', 'c_trig', '📐'],
-          ['log', 'c_log', '🔢'],
-          ['latex', 'c_latex', '⚡'],
-        ].map(([id, key, icon]) => {
-          const isActive = activeTab === id;
-          const label = id === 'latex' ? 'Песочница LaTeX' : t(key);
-          return (
-            <button
-              key={id}
-              onClick={(e) => handleTabChange(id as TabType, e)}
-              style={{
-                padding: '10px 18px',
-                borderRadius: '12px',
-                fontSize: '13.5px',
-                fontWeight: 700,
-                whiteSpace: 'nowrap',
-                background: isActive ? 'var(--primary-gradient)' : 'var(--surface)',
-                color: isActive ? '#fff' : 'var(--text-muted)',
-                border: '1px solid',
-                borderColor: isActive ? 'transparent' : 'var(--border)',
-                boxShadow: isActive ? '0 4px 14px rgba(79, 70, 229, 0.35)' : 'none',
-                cursor: 'pointer',
-                transition: 'all 0.2s',
-              }}
-            >
-              <span style={{ marginRight: '6px' }}>{icon}</span>
-              {label}
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Panels with GSAP Transition */}
-      <div
-        ref={panelRef}
-        style={{
-          background: 'var(--surface)',
-          border: '1px solid var(--border)',
-          borderRadius: '20px',
-          padding: '28px',
-          boxShadow: 'var(--shadow-sm)',
+      <SegmentedTabs
+        label={t('calc_tools_label')}
+        items={tabs}
+        value={activeTab}
+        idPrefix="calc"
+        scroll
+        onChange={(id) => {
+          playClickSound();
+          setActiveTab(id);
         }}
-      >
+      />
+
+      <div key={activeTab} id="calc-panel" role="tabpanel" aria-labelledby={`calc-tab-${activeTab}`} className="panel panel--instrument calc-panel reveal">
         {/* QUAD */}
         {activeTab === 'quad' && (
           <div>
-            <h3 style={{ fontSize: '18px', marginBottom: '16px' }}>
+            <h2 className="calc-panel__title">
               <KaTeXMath math="ax^2 + bx + c = 0" />
-            </h3>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '12px', marginBottom: '18px' }}>
-              <div>
-                <label style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>a =</label>
-                <input
-                  type="number"
-                  value={qa}
-                  onChange={(e) => setQa(parseFloat(e.target.value) || 0)}
-                  style={{ width: '100%', padding: '10px 14px', borderRadius: '10px', border: '1px solid var(--border)', background: 'var(--surface-secondary)' }}
-                />
-              </div>
-              <div>
-                <label style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>b =</label>
-                <input
-                  type="number"
-                  value={qb}
-                  onChange={(e) => setQb(parseFloat(e.target.value) || 0)}
-                  style={{ width: '100%', padding: '10px 14px', borderRadius: '10px', border: '1px solid var(--border)', background: 'var(--surface-secondary)' }}
-                />
-              </div>
-              <div>
-                <label style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>c =</label>
-                <input
-                  type="number"
-                  value={qc}
-                  onChange={(e) => setQc(parseFloat(e.target.value) || 0)}
-                  style={{ width: '100%', padding: '10px 14px', borderRadius: '10px', border: '1px solid var(--border)', background: 'var(--surface-secondary)' }}
-                />
-              </div>
+            </h2>
+            <div className="calc-fields calc-fields--3">
+              <Field label="a =" type="number" mono value={qa} onChange={(e) => setQa(parseFloat(e.target.value) || 0)} />
+              <Field label="b =" type="number" mono value={qb} onChange={(e) => setQb(parseFloat(e.target.value) || 0)} />
+              <Field label="c =" type="number" mono value={qc} onChange={(e) => setQc(parseFloat(e.target.value) || 0)} />
             </div>
 
-            <CalcButton onClick={solveQuad}>
-              ⚡ {t('c_solve')}
-            </CalcButton>
+            <CalcButton onClick={solveQuad}>{t('c_solve')}</CalcButton>
 
             {quadResult && (
-              <ResultBox resultKey={quadResult} borderColor="var(--primary)">
+              <ResultBox resultKey={quadResult} tone={quadResult.error ? 'danger' : 'default'}>
                 {quadResult.error ? (
-                  <div className="calc-result-row" style={{ color: 'var(--accent-rose)', fontWeight: 700 }}>⚠️ {quadResult.error}</div>
+                  errorRow(quadResult.error)
                 ) : (
-                  <div style={{ display: 'grid', gap: '8px', fontSize: '14.5px' }}>
-                    <div className="calc-result-row"><b>Дискриминант:</b> D = b² - 4ac = <b>{quadResult.D}</b></div>
+                  <div style={{ display: 'grid', gap: '8px', fontSize: '15px' }}>
+                    <div className="result-row"><b>Дискриминант:</b> D = b² - 4ac = <b className="mono">{quadResult.D}</b></div>
                     {quadResult.type === 'real' && (
                       <>
-                        <div className="calc-result-row"><b>Корень x₁:</b> <span style={{ color: 'var(--primary)', fontWeight: 800 }}>{quadResult.x1}</span></div>
-                        <div className="calc-result-row"><b>Корень x₂:</b> <span style={{ color: 'var(--primary)', fontWeight: 800 }}>{quadResult.x2}</span></div>
-                        <div className="calc-result-row"><b>Проверка Виета:</b> x₁ + x₂ = {quadResult.vietaSum} (ожидается -b/a = {quadResult.vietaExpected}) ✓</div>
+                        <div className="result-row"><b>Корень x₁:</b> <span className="result-value">{quadResult.x1}</span></div>
+                        <div className="result-row"><b>Корень x₂:</b> <span className="result-value">{quadResult.x2}</span></div>
+                        <div className="result-row"><b>Проверка Виета:</b> x₁ + x₂ = {quadResult.vietaSum} (ожидается -b/a = {quadResult.vietaExpected}) ✓</div>
                       </>
                     )}
                     {quadResult.type === 'single' && (
-                      <div className="calc-result-row"><b>Единственный корень:</b> x = <b>{quadResult.x1}</b> (парабола касается оси X)</div>
+                      <div className="result-row"><b>Единственный корень:</b> x = <span className="result-value">{quadResult.x1}</span> (парабола касается оси X)</div>
                     )}
                     {quadResult.type === 'complex' && (
                       <>
-                        <div className="calc-result-row"><b>Комплексный x₁:</b> <span style={{ color: 'var(--accent-cyan)', fontWeight: 800 }}>{quadResult.x1}</span></div>
-                        <div className="calc-result-row"><b>Комплексный x₂:</b> <span style={{ color: 'var(--accent-cyan)', fontWeight: 800 }}>{quadResult.x2}</span></div>
+                        <div className="result-row"><b>Комплексный x₁:</b> <span className="result-value">{quadResult.x1}</span></div>
+                        <div className="result-row"><b>Комплексный x₂:</b> <span className="result-value">{quadResult.x2}</span></div>
                       </>
                     )}
-                    <div className="calc-result-row" style={{ fontSize: '13px', color: 'var(--text-muted)', marginTop: '4px' }}>
+                    <div className="result-row result-note">
                       Вершина параболы: ({quadResult.vertexX}, {quadResult.vertexY})
                     </div>
 
-                    {/* Step-by-step breakdown */}
-                    <StepsToggle isOpen={!!showSteps['quad']} onToggle={() => toggleSteps('quad')}>
+                    <StepsToggle labels={stepLabels} isOpen={!!showSteps['quad']} onToggle={() => toggleSteps('quad')}>
                       <div><b>Шаг 1 (Коэффициенты):</b> a = {qa}, b = {qb}, c = {qc}.</div>
                       <div>
                         <b>Шаг 2 (Дискриминант):</b>
@@ -556,34 +385,44 @@ export function CalculatorsView({ lang }: CalculatorsViewProps) {
         {/* MATRIX */}
         {activeTab === 'matrix' && (
           <div>
-            <h3 style={{ fontSize: '18px', marginBottom: '16px' }}>Матрица 2×2</h3>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 80px)', gap: '10px', marginBottom: '18px' }}>
-              <input type="number" value={m11} onChange={(e) => setM11(+e.target.value)} style={{ padding: '10px', textAlign: 'center', borderRadius: '8px', border: '1px solid var(--border)', background: 'var(--surface-secondary)' }} />
-              <input type="number" value={m12} onChange={(e) => setM12(+e.target.value)} style={{ padding: '10px', textAlign: 'center', borderRadius: '8px', border: '1px solid var(--border)', background: 'var(--surface-secondary)' }} />
-              <input type="number" value={m21} onChange={(e) => setM21(+e.target.value)} style={{ padding: '10px', textAlign: 'center', borderRadius: '8px', border: '1px solid var(--border)', background: 'var(--surface-secondary)' }} />
-              <input type="number" value={m22} onChange={(e) => setM22(+e.target.value)} style={{ padding: '10px', textAlign: 'center', borderRadius: '8px', border: '1px solid var(--border)', background: 'var(--surface-secondary)' }} />
+            <h2 className="calc-panel__title">{t('c_matrix')}</h2>
+            <div className="matrix-input" role="group" aria-label="A">
+              <span className="matrix-input__bracket" aria-hidden="true">[</span>
+              <div className="matrix-input__grid">
+                <input aria-label="a₁₁" className="field-input field-input--mono" type="number" value={m11} onChange={(e) => setM11(+e.target.value)} />
+                <input aria-label="a₁₂" className="field-input field-input--mono" type="number" value={m12} onChange={(e) => setM12(+e.target.value)} />
+                <input aria-label="a₂₁" className="field-input field-input--mono" type="number" value={m21} onChange={(e) => setM21(+e.target.value)} />
+                <input aria-label="a₂₂" className="field-input field-input--mono" type="number" value={m22} onChange={(e) => setM22(+e.target.value)} />
+              </div>
+              <span className="matrix-input__bracket" aria-hidden="true">]</span>
             </div>
 
-            <CalcButton onClick={solveMatrix}>
-              ⚡ {t('c_calc')}
-            </CalcButton>
+            <CalcButton onClick={solveMatrix}>{t('c_calc')}</CalcButton>
 
             {matrixResult && (
-              <ResultBox resultKey={matrixResult} borderColor="var(--primary)">
-                <div className="calc-result-row"><b>Определитель det A:</b> <b>{matrixResult.det}</b></div>
-                <div className="calc-result-row"><b>След матрицы tr A:</b> <b>{matrixResult.tr}</b></div>
+              <ResultBox resultKey={matrixResult} tone={matrixResult.hasInverse ? 'default' : 'danger'}>
+                <div className="result-row"><b>Определитель det A:</b> <span className="result-value">{matrixResult.det}</span></div>
+                <div className="result-row"><b>След матрицы tr A:</b> <span className="result-value">{matrixResult.tr}</span></div>
                 {matrixResult.hasInverse ? (
-                  <div className="calc-result-row" style={{ marginTop: '8px' }}>
+                  <div className="result-row" style={{ marginTop: '10px' }}>
                     <b>Обратная матрица A⁻¹:</b>
-                    <div style={{ fontFamily: 'var(--font-mono)', marginTop: '4px' }}>
-                      [[{matrixResult.inv[0][0]}, {matrixResult.inv[0][1]}], [{matrixResult.inv[1][0]}, {matrixResult.inv[1][1]}]]
-                    </div>
+                    <table className="matrix-table mono">
+                      <tbody>
+                        {matrixResult.inv.map((row: string[], i: number) => (
+                          <tr key={i}>
+                            {row.map((v, j) => (
+                              <td key={j}>{v}</td>
+                            ))}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
                 ) : (
-                  <div className="calc-result-row" style={{ color: 'var(--accent-rose)', marginTop: '6px' }}>⚠️ det = 0 → матрица вырождена, обратной матрицы не существует!</div>
+                  <div className="result-row" style={{ color: 'var(--accent-rose)', marginTop: '6px' }}>det = 0 → матрица вырождена, обратной матрицы не существует!</div>
                 )}
 
-                <StepsToggle isOpen={!!showSteps['matrix']} onToggle={() => toggleSteps('matrix')}>
+                <StepsToggle labels={stepLabels} isOpen={!!showSteps['matrix']} onToggle={() => toggleSteps('matrix')}>
                   <div><b>Шаг 1 (Определитель):</b> det A = ({m11} · {m22}) - ({m12} · {m21}) = {m11 * m22} - {m12 * m21} = <b>{matrixResult.det}</b>.</div>
                   {matrixResult.hasInverse ? (
                     <div>
@@ -607,32 +446,24 @@ export function CalculatorsView({ lang }: CalculatorsViewProps) {
         {/* DERIV */}
         {activeTab === 'deriv' && (
           <div>
-            <h3 style={{ fontSize: '18px', marginBottom: '16px' }}>Численная производная f′(x₀)</h3>
-            <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '14px', marginBottom: '18px' }}>
-              <div>
-                <label style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>f(x) =</label>
-                <input value={dFunc} onChange={(e) => setDFunc(e.target.value)} style={{ width: '100%', padding: '10px 14px', borderRadius: '10px', border: '1px solid var(--border)', background: 'var(--surface-secondary)' }} />
-              </div>
-              <div>
-                <label style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>x₀ =</label>
-                <input type="number" value={dX0} onChange={(e) => setDX0(+e.target.value)} style={{ width: '100%', padding: '10px 14px', borderRadius: '10px', border: '1px solid var(--border)', background: 'var(--surface-secondary)' }} />
-              </div>
+            <h2 className="calc-panel__title">Численная производная f′(x₀)</h2>
+            <div className="calc-fields calc-fields--wide">
+              <Field label={t('c_func')} mono value={dFunc} onChange={(e) => setDFunc(e.target.value)} help="sin(x), ln(x), sqrt(x), e^x, 2x^2" spellCheck={false} autoComplete="off" />
+              <Field label="x₀ =" type="number" mono value={dX0} onChange={(e) => setDX0(+e.target.value)} />
             </div>
 
-            <CalcButton onClick={solveDeriv}>
-              ⚡ {t('c_calc')}
-            </CalcButton>
+            <CalcButton onClick={solveDeriv}>{t('c_calc')}</CalcButton>
 
             {derivResult && (
-              <ResultBox resultKey={derivResult} borderColor="var(--accent-cyan)">
+              <ResultBox resultKey={derivResult} tone={derivResult.error ? 'danger' : 'default'}>
                 {derivResult.error ? (
-                  <div className="calc-result-row" style={{ color: 'var(--accent-rose)' }}>{derivResult.error}</div>
+                  errorRow(derivResult.error)
                 ) : (
-                  <div style={{ display: 'grid', gap: '6px' }}>
-                    <div className="calc-result-row">f({dX0}) = <b>{derivResult.y0}</b></div>
-                    <div className="calc-result-row">f′({dX0}) ≈ <b style={{ color: 'var(--primary)' }}>{derivResult.fp}</b> (наклон касательной)</div>
-                    <div className="calc-result-row">f″({dX0}) ≈ <b>{derivResult.fpp}</b> (кривизна)</div>
-                    <div className="calc-result-row">Касательная: <b>{derivResult.tangentEq}</b></div>
+                  <div className="metric-grid">
+                    <div className="metric"><span className="metric__label">f({dX0})</span><span className="metric__value">{derivResult.y0}</span></div>
+                    <div className="metric"><span className="metric__label">f′({dX0}) · наклон касательной</span><span className="metric__value" style={{ color: 'var(--primary)' }}>{derivResult.fp}</span></div>
+                    <div className="metric"><span className="metric__label">f″({dX0}) · кривизна</span><span className="metric__value">{derivResult.fpp}</span></div>
+                    <div className="metric" style={{ gridColumn: '1 / -1' }}><span className="metric__label">Касательная</span><span className="metric__value">{derivResult.tangentEq}</span></div>
                   </div>
                 )}
               </ResultBox>
@@ -643,24 +474,28 @@ export function CalculatorsView({ lang }: CalculatorsViewProps) {
         {/* STATS */}
         {activeTab === 'stats' && (
           <div>
-            <h3 style={{ fontSize: '18px', marginBottom: '16px' }}>Математическая статистика</h3>
-            <div style={{ marginBottom: '18px' }}>
-              <label style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>Выборка чисел (через запятую):</label>
-              <input value={sData} onChange={(e) => setSData(e.target.value)} style={{ width: '100%', padding: '10px 14px', borderRadius: '10px', border: '1px solid var(--border)', background: 'var(--surface-secondary)' }} />
+            <h2 className="calc-panel__title">Математическая статистика</h2>
+            <div className="calc-fields">
+              <Field label="Выборка чисел (через запятую)" mono value={sData} onChange={(e) => setSData(e.target.value)} />
             </div>
 
-            <CalcButton onClick={solveStats}>
-              ⚡ {t('c_analyze')}
-            </CalcButton>
+            <CalcButton onClick={solveStats}>{t('c_analyze')}</CalcButton>
 
             {statsResult && (
-              <ResultBox resultKey={statsResult} borderColor="var(--accent-emerald)">
-                <div className="calc-result-row">Размер выборки: n = <b>{statsResult.n}</b> | Сумма = <b>{statsResult.sum}</b></div>
-                <div className="calc-result-row">Среднее значение x̄: <b style={{ color: 'var(--primary)' }}>{statsResult.mean}</b></div>
-                <div className="calc-result-row">Медиана: <b>{statsResult.median}</b></div>
-                <div className="calc-result-row">Дисперсия D(X): <b>{statsResult.variance}</b></div>
-                <div className="calc-result-row">Стандартное отклонение σ: <b style={{ color: 'var(--accent-cyan)' }}>{statsResult.stdDev}</b></div>
-                <div className="calc-result-row" style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Размах: [{statsResult.min} ... {statsResult.max}]</div>
+              <ResultBox resultKey={statsResult} tone={statsResult.error ? 'danger' : 'success'}>
+                {statsResult.error ? (
+                  errorRow(statsResult.error)
+                ) : (
+                  <div className="metric-grid">
+                    <div className="metric"><span className="metric__label">n</span><span className="metric__value">{statsResult.n}</span></div>
+                    <div className="metric"><span className="metric__label">Сумма</span><span className="metric__value">{statsResult.sum}</span></div>
+                    <div className="metric"><span className="metric__label">Среднее x̄</span><span className="metric__value" style={{ color: 'var(--primary)' }}>{statsResult.mean}</span></div>
+                    <div className="metric"><span className="metric__label">Медиана</span><span className="metric__value">{statsResult.median}</span></div>
+                    <div className="metric"><span className="metric__label">Дисперсия D(X)</span><span className="metric__value">{statsResult.variance}</span></div>
+                    <div className="metric"><span className="metric__label">Ст. отклонение σ</span><span className="metric__value">{statsResult.stdDev}</span></div>
+                    <div className="metric"><span className="metric__label">Размах</span><span className="metric__value">[{statsResult.min} … {statsResult.max}]</span></div>
+                  </div>
+                )}
               </ResultBox>
             )}
           </div>
@@ -669,35 +504,27 @@ export function CalculatorsView({ lang }: CalculatorsViewProps) {
         {/* COMB */}
         {activeTab === 'comb' && (
           <div>
-            <h3 style={{ fontSize: '18px', marginBottom: '16px' }}>Комбинаторика: n!, A(n, k), C(n, k)</h3>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px', marginBottom: '18px' }}>
-              <div>
-                <label style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>n =</label>
-                <input type="number" value={cN} onChange={(e) => setCN(+e.target.value)} style={{ width: '100%', padding: '10px 14px', borderRadius: '10px', border: '1px solid var(--border)', background: 'var(--surface-secondary)' }} />
-              </div>
-              <div>
-                <label style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>k =</label>
-                <input type="number" value={cK} onChange={(e) => setCK(+e.target.value)} style={{ width: '100%', padding: '10px 14px', borderRadius: '10px', border: '1px solid var(--border)', background: 'var(--surface-secondary)' }} />
-              </div>
+            <h2 className="calc-panel__title">Комбинаторика: n!, A(n, k), C(n, k)</h2>
+            <div className="calc-fields calc-fields--2">
+              <Field label={t('c_n')} type="number" mono value={cN} onChange={(e) => setCN(+e.target.value)} />
+              <Field label={t('c_k')} type="number" mono value={cK} onChange={(e) => setCK(+e.target.value)} />
             </div>
 
-            <CalcButton onClick={solveComb}>
-              ⚡ {t('c_calc')}
-            </CalcButton>
+            <CalcButton onClick={solveComb}>{t('c_calc')}</CalcButton>
 
             {combResult && (
-              <ResultBox resultKey={combResult} borderColor="var(--accent-purple)">
+              <ResultBox resultKey={combResult} tone={combResult.error ? 'danger' : 'default'}>
                 {combResult.error ? (
-                  <div className="calc-result-row" style={{ color: 'var(--accent-rose)' }}>{combResult.error}</div>
+                  errorRow(combResult.error)
                 ) : (
-                  <div style={{ display: 'grid', gap: '8px' }}>
-                    <div className="calc-result-row"><b>Факториал n! :</b> <b>{combResult.nFact}</b></div>
-                    <div className="calc-result-row"><b>Размещения A(n, k) (порядок важен):</b> <b style={{ color: 'var(--primary)' }}>{combResult.ank}</b></div>
-                    <div className="calc-result-row"><b>Сочетания C(n, k) (порядок не важен):</b> <b style={{ color: 'var(--accent-emerald)' }}>{combResult.cnk}</b></div>
+                  <div className="metric-grid">
+                    <div className="metric"><span className="metric__label">Факториал n!</span><span className="metric__value">{combResult.nFact}</span></div>
+                    <div className="metric"><span className="metric__label">A(n, k) · порядок важен</span><span className="metric__value" style={{ color: 'var(--primary)' }}>{combResult.ank}</span></div>
+                    <div className="metric"><span className="metric__label">C(n, k) · порядок не важен</span><span className="metric__value">{combResult.cnk}</span></div>
                   </div>
                 )}
 
-                <StepsToggle isOpen={!!showSteps['comb']} onToggle={() => toggleSteps('comb')}>
+                <StepsToggle labels={stepLabels} isOpen={!!showSteps['comb']} onToggle={() => toggleSteps('comb')}>
                   <div><b>Формула факториала:</b> {cN}! = 1 · 2 · ... · {cN} = {combResult.nFact}</div>
                   <div><b>Формула A({cN}, {cK}):</b> {cN}! / ({cN} - {cK})! = {cN}! / {cN - cK}! = {combResult.ank}</div>
                   <div><b>Формула C({cN}, {cK}):</b> {cN}! / ({cK}! · ({cN} - {cK})!) = {combResult.cnk}</div>
@@ -710,36 +537,27 @@ export function CalculatorsView({ lang }: CalculatorsViewProps) {
         {/* TRIG + UNIT CIRCLE */}
         {activeTab === 'trig' && (
           <div>
-            <h3 style={{ fontSize: '18px', marginBottom: '16px' }}>Тригонометрия и Единичная Окружность</h3>
-            
+            <h2 className="calc-panel__title">Тригонометрия и единичная окружность</h2>
+
             <div style={{ marginBottom: '28px' }}>
-              <UnitCircleVisualizer
-                initialAngleDeg={tAngle}
-                onAngleChange={(deg) => setTAngle(Math.round(deg))}
-              />
+              <UnitCircleVisualizer initialAngleDeg={tAngle} onAngleChange={(deg) => setTAngle(Math.round(deg))} />
             </div>
 
             <div style={{ borderTop: '1px solid var(--border)', paddingTop: '20px' }}>
-              <h4 style={{ fontSize: '15px', fontWeight: 800, marginBottom: '12px' }}>Точный расчёт для угла (°):</h4>
-              <div style={{ display: 'flex', gap: '12px', alignItems: 'center', marginBottom: '16px' }}>
-                <input
-                  type="number"
-                  value={tAngle}
-                  onChange={(e) => setTAngle(+e.target.value)}
-                  style={{ width: '130px', padding: '10px 14px', borderRadius: '10px', border: '1px solid var(--border)', background: 'var(--surface-secondary)' }}
-                />
-                <CalcButton onClick={solveTrig}>
-                  ⚡ {t('c_calc')}
-                </CalcButton>
+              <div className="inline-form" style={{ alignItems: 'flex-end', maxWidth: '420px' }}>
+                <Field label={t('c_angle')} type="number" mono value={tAngle} onChange={(e) => setTAngle(+e.target.value)} />
+                <CalcButton onClick={solveTrig}>{t('c_calc')}</CalcButton>
               </div>
 
               {trigResult && (
-                <ResultBox resultKey={trigResult} borderColor="var(--accent-cyan)">
-                  <div className="calc-result-row">Угол в радианах: <b>{trigResult.rad} рад</b></div>
-                  <div className="calc-result-row">sin({tAngle}°) = <b style={{ color: 'var(--primary)' }}>{trigResult.sin}</b></div>
-                  <div className="calc-result-row">cos({tAngle}°) = <b style={{ color: 'var(--accent-cyan)' }}>{trigResult.cos}</b></div>
-                  <div className="calc-result-row">tan({tAngle}°) = <b>{trigResult.tan}</b></div>
-                  <div className="calc-result-row" style={{ color: 'var(--accent-emerald)', marginTop: '4px' }}>sin² + cos² = {trigResult.pythagoras} ✓</div>
+                <ResultBox resultKey={trigResult}>
+                  <div className="metric-grid">
+                    <div className="metric"><span className="metric__label">Радианы</span><span className="metric__value">{trigResult.rad}</span></div>
+                    <div className="metric"><span className="metric__label">sin({tAngle}°)</span><span className="metric__value" style={{ color: 'var(--chart-2)' }}>{trigResult.sin}</span></div>
+                    <div className="metric"><span className="metric__label">cos({tAngle}°)</span><span className="metric__value" style={{ color: 'var(--chart-3)' }}>{trigResult.cos}</span></div>
+                    <div className="metric"><span className="metric__label">tan({tAngle}°)</span><span className="metric__value">{trigResult.tan}</span></div>
+                  </div>
+                  <div className="result-row result-note" style={{ color: 'var(--accent-emerald)', marginTop: '10px' }}>sin² + cos² = {trigResult.pythagoras} ✓</div>
                 </ResultBox>
               )}
             </div>
@@ -749,37 +567,29 @@ export function CalculatorsView({ lang }: CalculatorsViewProps) {
         {/* LOG */}
         {activeTab === 'log' && (
           <div>
-            <h3 style={{ fontSize: '18px', marginBottom: '16px' }}>Логарифм log_a(b)</h3>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px', marginBottom: '18px' }}>
-              <div>
-                <label style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>Основание a =</label>
-                <input type="number" value={lA} onChange={(e) => setLA(+e.target.value)} style={{ width: '100%', padding: '10px 14px', borderRadius: '10px', border: '1px solid var(--border)', background: 'var(--surface-secondary)' }} />
-              </div>
-              <div>
-                <label style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-muted)', display: 'block', marginBottom: '4px' }}>Число b =</label>
-                <input type="number" value={lB} onChange={(e) => setLB(+e.target.value)} style={{ width: '100%', padding: '10px 14px', borderRadius: '10px', border: '1px solid var(--border)', background: 'var(--surface-secondary)' }} />
-              </div>
+            <h2 className="calc-panel__title">Логарифм log_a(b)</h2>
+            <div className="calc-fields calc-fields--2">
+              <Field label={t('c_base')} type="number" mono value={lA} onChange={(e) => setLA(+e.target.value)} />
+              <Field label={t('c_num')} type="number" mono value={lB} onChange={(e) => setLB(+e.target.value)} />
             </div>
 
-            <CalcButton onClick={solveLog}>
-              ⚡ {t('c_calc')}
-            </CalcButton>
+            <CalcButton onClick={solveLog}>{t('c_calc')}</CalcButton>
 
             {logResult && (
-              <ResultBox resultKey={logResult} borderColor="var(--primary)">
+              <ResultBox resultKey={logResult} tone={logResult.error ? 'danger' : 'default'}>
                 {logResult.error ? (
-                  <div className="calc-result-row" style={{ color: 'var(--accent-rose)' }}>{logResult.error}</div>
+                  errorRow(logResult.error)
                 ) : (
                   <div>
-                    <div className="calc-result-row">log_{lA}({lB}) = ln({lB}) / ln({lA}) = {logResult.lnB} / {logResult.lnA}</div>
-                    <div className="calc-result-row" style={{ fontSize: '18px', margin: '8px 0' }}>
-                      = <b style={{ color: 'var(--primary)' }}>{logResult.res}</b>
+                    <div className="result-row mono">log_{lA}({lB}) = ln({lB}) / ln({lA}) = {logResult.lnB} / {logResult.lnA}</div>
+                    <div className="result-row" style={{ fontSize: '22px', margin: '8px 0' }}>
+                      = <span className="result-value">{logResult.res}</span>
                     </div>
-                    <div className="calc-result-row" style={{ color: 'var(--accent-emerald)', fontSize: '13px' }}>
+                    <div className="result-row result-note" style={{ color: 'var(--accent-emerald)' }}>
                       Проверка: {lA}^{logResult.res} ≈ {logResult.checkPower} ✓
                     </div>
 
-                    <StepsToggle isOpen={!!showSteps['log']} onToggle={() => toggleSteps('log')}>
+                    <StepsToggle labels={stepLabels} isOpen={!!showSteps['log']} onToggle={() => toggleSteps('log')}>
                       <div><b>Шаг 1 (Переход к новому основанию):</b> log_{lA}({lB}) = ln({lB}) / ln({lA}).</div>
                       <div><b>Шаг 2 (Значения натуральных логарифмов):</b> ln({lB}) ≈ {logResult.lnB}, ln({lA}) ≈ {logResult.lnA}.</div>
                       <div><b>Шаг 3 (Деление):</b> {logResult.lnB} / {logResult.lnA} ≈ <b>{logResult.res}</b>.</div>
@@ -793,9 +603,7 @@ export function CalculatorsView({ lang }: CalculatorsViewProps) {
         )}
 
         {/* LATEX PLAYGROUND */}
-        {activeTab === 'latex' && (
-          <LaTeXPlayground />
-        )}
+        {activeTab === 'latex' && <LaTeXPlayground />}
       </div>
     </div>
   );

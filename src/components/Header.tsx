@@ -1,47 +1,11 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useId, useRef, useState } from 'react';
+import { Moon, Sun, Volume2, VolumeX, SlidersHorizontal, Trash2, Sigma, MessageSquareText } from 'lucide-react';
 import { Language, Theme } from '../lib/storage';
+import { I18N } from '../data/i18n';
 import { isSoundEnabled, setSoundEnabled, playClickSound } from '../lib/sound';
 import { UserHUD } from './UserHUD';
-
-function SoundButton() {
-  const [enabled, setEnabled] = useState(true);
-
-  useEffect(() => {
-    setEnabled(isSoundEnabled());
-  }, []);
-
-  const toggle = () => {
-    const next = !enabled;
-    setEnabled(next);
-    setSoundEnabled(next);
-    if (next) playClickSound();
-  };
-
-  return (
-    <button
-      onClick={toggle}
-      title={enabled ? 'Выключить звук' : 'Включить звук'}
-      style={{
-        width: '38px',
-        height: '38px',
-        borderRadius: '10px',
-        background: 'var(--surface-secondary)',
-        border: '1px solid var(--border)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        cursor: 'pointer',
-        fontSize: '16px',
-        color: enabled ? 'var(--primary)' : 'var(--text-muted)',
-        transition: 'transform 0.15s, border-color 0.15s',
-      }}
-    >
-      {enabled ? '🔊' : '🔇'}
-    </button>
-  );
-}
 
 interface HeaderProps {
   lang: Language;
@@ -53,154 +17,167 @@ interface HeaderProps {
   onOpenProfile: () => void;
   onOpenAIChat: () => void;
   onOpenSolver: () => void;
+  onHome: () => void;
 }
 
-export function Header({ lang, theme, onSetLang, onToggleTheme, onReset, onOpenAuth, onOpenProfile, onOpenAIChat, onOpenSolver }: HeaderProps) {
+const LANGS: { id: Language; label: string }[] = [
+  { id: 'ru', label: 'RU' },
+  { id: 'kz', label: 'KZ' },
+  { id: 'en', label: 'EN' },
+];
+
+function useSound() {
+  const [enabled, setEnabled] = useState(true);
+  useEffect(() => {
+    setEnabled(isSoundEnabled());
+  }, []);
+  const toggle = () => {
+    const next = !enabled;
+    setEnabled(next);
+    setSoundEnabled(next);
+    if (next) playClickSound();
+  };
+  return { enabled, toggle };
+}
+
+function LangSwitch({ lang, onSetLang, label }: { lang: Language; onSetLang: (l: Language) => void; label: string }) {
   return (
-    <header
-      className="app-header"
-      style={{
-        position: 'sticky',
-        top: 0,
-        zIndex: 200,
-        backgroundColor: 'var(--surface-glass)',
-        backdropFilter: 'blur(20px)',
-        WebkitBackdropFilter: 'blur(20px)',
-        borderBottom: '1px solid var(--surface-glass-border)',
-        transition: 'background-color 0.25s, border-color 0.25s',
-      }}
-    >
-      <div
-        className="app-header-inner"
-        style={{
-          maxWidth: '1440px',
-          margin: '0 auto',
-          padding: '12px 24px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: '16px',
-          flexWrap: 'wrap',
-        }}
-      >
-        {/* Brand Logo */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }}>
-          <div
-            style={{
-              width: '40px',
-              height: '40px',
-              borderRadius: '12px',
-              background: 'var(--primary-gradient)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: '#fff',
-              fontSize: '22px',
-              fontWeight: 900,
-              boxShadow: '0 4px 16px rgba(99, 102, 241, 0.4)',
-            }}
-          >
-            ∞
+    <div role="group" aria-label={label} className="lang-switch">
+      {LANGS.map((l) => (
+        <button
+          key={l.id}
+          type="button"
+          aria-pressed={lang === l.id}
+          className="lang-switch__btn"
+          onClick={() => onSetLang(l.id)}
+        >
+          {l.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+export function Header({ lang, theme, onSetLang, onToggleTheme, onReset, onOpenAuth, onOpenProfile, onOpenAIChat, onOpenSolver, onHome }: HeaderProps) {
+  const t = (k: string) => I18N[lang][k] || k;
+  const sound = useSound();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuId = useId();
+  const menuRef = useRef<HTMLDivElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  const themeLabel = theme === 'dark' ? t('a_theme_light') : t('a_theme_dark');
+
+  // Close the settings popover on outside click or Escape
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onDown = (e: MouseEvent) => {
+      if (!menuRef.current?.contains(e.target as Node) && !toggleRef.current?.contains(e.target as Node)) setMenuOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setMenuOpen(false);
+        toggleRef.current?.focus();
+      }
+    };
+    document.addEventListener('mousedown', onDown);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('mousedown', onDown);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [menuOpen]);
+
+  return (
+    <header className="app-header">
+      <div className="container app-header__row">
+        <button type="button" className="brand" onClick={onHome} aria-label="Math Universe">
+          <span className="brand__mark" aria-hidden="true">
+            m<span>u</span>
+          </span>
+          <span className="brand__name" aria-hidden="true">
+            Math Universe
+            <br />
+            {t('brand_sub')}
+          </span>
+        </button>
+
+        <div className="app-header__actions">
+          <button type="button" className="header-action" onClick={onOpenSolver} title={t('a_solver_long')}>
+            <Sigma size={18} aria-hidden="true" />
+            <span className="header-action__label">{t('a_solver')}</span>
+          </button>
+          <button type="button" className="header-action" onClick={onOpenAIChat} title={t('a_chat_long')}>
+            <MessageSquareText size={18} aria-hidden="true" />
+            <span className="header-action__label">{t('a_chat')}</span>
+          </button>
+
+          <span className="app-header__divider desktop-only" aria-hidden="true" />
+
+          <div className="desktop-only">
+            <LangSwitch lang={lang} onSetLang={onSetLang} label={t('a_lang')} />
           </div>
-          <div>
-            <div style={{ fontWeight: 800, fontSize: '18px', letterSpacing: '-0.02em', lineHeight: 1.2 }}>
-              Math Universe
-            </div>
-            <div className="hide-on-mobile" style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>
-              Interactive Educational Platform
-            </div>
+          <button type="button" className="icon-btn desktop-only" onClick={onToggleTheme} aria-label={themeLabel} title={themeLabel}>
+            {theme === 'dark' ? <Sun size={18} aria-hidden="true" /> : <Moon size={18} aria-hidden="true" />}
+          </button>
+
+          <div className="settings">
+            <button
+              ref={toggleRef}
+              type="button"
+              className="icon-btn"
+              aria-expanded={menuOpen}
+              aria-controls={menuId}
+              aria-label={t('a_settings')}
+              title={t('a_settings')}
+              onClick={() => setMenuOpen((v) => !v)}
+            >
+              <SlidersHorizontal size={18} aria-hidden="true" />
+            </button>
+            {menuOpen && (
+              <div ref={menuRef} id={menuId} className="settings__panel reveal" role="group" aria-label={t('a_settings')}>
+                <div className="settings__row">
+                  <span className="settings__label">{t('a_lang')}</span>
+                  <LangSwitch lang={lang} onSetLang={onSetLang} label={t('a_lang')} />
+                </div>
+                <div className="settings__row">
+                  <span className="settings__label">{t('theme_label')}</span>
+                  <button type="button" className="btn btn--secondary btn--sm" onClick={onToggleTheme}>
+                    {theme === 'dark' ? <Moon size={16} aria-hidden="true" /> : <Sun size={16} aria-hidden="true" />}
+                    {theme === 'dark' ? t('theme_dark') : t('theme_light')}
+                  </button>
+                </div>
+                <div className="settings__row">
+                  <span className="settings__label">{t('sound_label')}</span>
+                  <button
+                    type="button"
+                    className="btn btn--secondary btn--sm"
+                    aria-pressed={sound.enabled}
+                    onClick={sound.toggle}
+                    title={sound.enabled ? t('a_sound_off') : t('a_sound_on')}
+                  >
+                    {sound.enabled ? <Volume2 size={16} aria-hidden="true" /> : <VolumeX size={16} aria-hidden="true" />}
+                    {sound.enabled ? t('on') : t('off')}
+                  </button>
+                </div>
+                <div className="settings__danger">
+                  <button
+                    type="button"
+                    className="btn btn--danger btn--sm btn--block"
+                    onClick={() => {
+                      setMenuOpen(false);
+                      onReset();
+                    }}
+                  >
+                    <Trash2 size={16} aria-hidden="true" />
+                    {t('a_reset')}
+                  </button>
+                  <p className="field-help">{t('a_reset_hint')}</p>
+                </div>
+              </div>
+            )}
           </div>
-        </div>
 
-        {/* Right Controls */}
-        <div className="app-header-controls" style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-          {/* AI Chat Button */}
-          <button onClick={onOpenAIChat} title="AI-Математик"
-            style={{ padding: '8px 14px', borderRadius: '10px', background: 'linear-gradient(135deg,#7c3aed,#ec4899)', color: '#fff', fontWeight: 700, fontSize: '13px', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', boxShadow: '0 3px 12px rgba(124,58,237,0.35)' }}>
-            🤖 <span className="hide-on-mobile">AI-чат</span>
-          </button>
-          {/* Step Solver Button */}
-          <button onClick={onOpenSolver} title="Решатель уравнений"
-            style={{ padding: '8px 14px', borderRadius: '10px', background: 'linear-gradient(135deg,#06b6d4,#3b82f6)', color: '#fff', fontWeight: 700, fontSize: '13px', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', boxShadow: '0 3px 12px rgba(6,182,212,0.35)' }}>
-            🧮 <span className="hide-on-mobile">Решатель</span>
-          </button>
-          {/* Sound Toggle */}
-          <SoundButton />
-
-          {/* Language Switcher */}
-          <div
-            style={{
-              display: 'flex',
-              background: 'var(--surface-secondary)',
-              borderRadius: '10px',
-              padding: '3px',
-              border: '1px solid var(--border)',
-            }}
-          >
-            {(['ru', 'kz', 'en'] as Language[]).map((l) => (
-              <button
-                key={l}
-                onClick={() => onSetLang(l)}
-                style={{
-                  padding: '5px 11px',
-                  borderRadius: '7px',
-                  fontSize: '12.5px',
-                  fontWeight: 800,
-                  textTransform: 'uppercase',
-                  background: lang === l ? 'var(--primary-gradient)' : 'transparent',
-                  color: lang === l ? '#fff' : 'var(--text-muted)',
-                  boxShadow: lang === l ? '0 2px 8px rgba(79, 70, 229, 0.35)' : 'none',
-                  transition: 'all 0.2s',
-                }}
-              >
-                {l}
-              </button>
-            ))}
-          </div>
-
-          {/* Theme Toggle */}
-          <button
-            onClick={onToggleTheme}
-            title="Переключить тему"
-            style={{
-              width: '38px',
-              height: '38px',
-              borderRadius: '10px',
-              background: 'var(--surface-secondary)',
-              border: '1px solid var(--border)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '16px',
-              cursor: 'pointer',
-              transition: 'transform 0.15s, border-color 0.15s',
-            }}
-          >
-            {theme === 'dark' ? '☀️' : '🌙'}
-          </button>
-
-          {/* Reset State */}
-          <button
-            onClick={onReset}
-            title="Сбросить прогресс"
-            style={{
-              width: '38px',
-              height: '38px',
-              borderRadius: '10px',
-              background: 'var(--surface-secondary)',
-              border: '1px solid var(--border)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '16px',
-              cursor: 'pointer',
-              transition: 'transform 0.15s',
-            }}
-          >
-            🗑️
-          </button>
-          {/* User HUD */}
-          <UserHUD onOpenAuth={onOpenAuth} onOpenProfile={onOpenProfile} />
+          <UserHUD lang={lang} onOpenAuth={onOpenAuth} onOpenProfile={onOpenProfile} />
         </div>
       </div>
     </header>

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { Check, Copy } from 'lucide-react';
 import { KaTeXMath } from './KaTeXMath';
 import { playClickSound, playSuccessSound } from '../lib/sound';
 
@@ -43,89 +44,44 @@ export function LaTeXPlayground() {
   };
 
   return (
-    <div style={{ padding: '24px', borderRadius: '20px', background: 'var(--surface)', border: '1px solid var(--border)' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-        <h3 style={{ fontSize: '19px', fontWeight: 800 }}>⚡ Интерактивная песочница LaTeX</h3>
-        <button
-          onClick={handleCopy}
-          style={{
-            padding: '7px 16px',
-            borderRadius: '9px',
-            background: copied ? 'var(--accent-emerald)' : 'var(--surface-secondary)',
-            color: copied ? '#fff' : 'var(--text-primary)',
-            border: '1px solid var(--border)',
-            fontWeight: 700,
-            fontSize: '13px',
-            cursor: 'pointer',
-            transition: 'all 0.2s',
-          }}
-        >
-          {copied ? '✓ Скопировано!' : '📋 Копировать код'}
+    <div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', marginBottom: '16px', flexWrap: 'wrap' }}>
+        <h2 className="calc-panel__title" style={{ marginBottom: 0 }}>
+          Песочница LaTeX
+        </h2>
+        <button type="button" className="btn btn--secondary btn--sm" onClick={handleCopy} aria-live="polite">
+          {copied ? <Check size={14} aria-hidden="true" /> : <Copy size={14} aria-hidden="true" />}
+          {copied ? 'Скопировано' : 'Копировать код'}
         </button>
       </div>
 
       {/* Quick insertion chips */}
-      <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '16px' }}>
+      <div className="solver-examples" style={{ marginBottom: '16px', marginTop: 0 }}>
         {QUICK_CHIPS.map((chip) => (
-          <button
-            key={chip.label}
-            onClick={() => handleInsert(chip.insert)}
-            style={{
-              padding: '6px 12px',
-              borderRadius: '8px',
-              background: 'var(--surface-secondary)',
-              border: '1px solid var(--border)',
-              color: 'var(--text-primary)',
-              fontSize: '12.5px',
-              fontWeight: 700,
-              cursor: 'pointer',
-              fontFamily: 'var(--font-mono)',
-            }}
-          >
+          <button key={chip.label} type="button" className="chip mono" onClick={() => handleInsert(chip.insert)}>
             + {chip.label}
           </button>
         ))}
       </div>
 
-      {/* Input textarea */}
+      <label className="field-label" htmlFor="latex-source" style={{ marginBottom: '6px' }}>
+        LaTeX
+      </label>
       <textarea
+        id="latex-source"
+        className="field-input field-input--mono"
         value={latex}
         onChange={(e) => setLatex(e.target.value)}
-        placeholder="Введите код формулы в формате LaTeX (например, \frac{-b \pm \sqrt{b^2 - 4ac}}{2a})..."
+        placeholder="\frac{-b \pm \sqrt{b^2 - 4ac}}{2a}"
         rows={3}
-        style={{
-          width: '100%',
-          padding: '14px 18px',
-          borderRadius: '12px',
-          border: '1px solid var(--border)',
-          background: 'var(--surface-secondary)',
-          color: 'var(--text-primary)',
-          fontSize: '14.5px',
-          fontFamily: 'var(--font-mono)',
-          outline: 'none',
-          resize: 'vertical',
-          marginBottom: '20px',
-        }}
+        spellCheck={false}
+        style={{ minHeight: '96px', marginBottom: '20px' }}
       />
 
-      {/* Live Preview Box */}
-      <div style={{ fontSize: '13px', color: 'var(--text-muted)', fontWeight: 700, marginBottom: '8px' }}>
-        ЖИВОЙ ПРЕДПРОСМОТР (KaTeX):
-      </div>
-      <div
-        style={{
-          padding: '28px',
-          borderRadius: '14px',
-          background: 'var(--surface-secondary)',
-          border: '1px solid var(--border)',
-          minHeight: '80px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          boxShadow: 'inset 0 2px 6px rgba(0,0,0,0.06)',
-          overflowX: 'auto',
-        }}
-      >
+      <p className="eyebrow eyebrow--muted" style={{ marginBottom: '8px' }}>
+        KaTeX
+      </p>
+      <div className="latex-preview" aria-live="polite">
         <KaTeXMath math={latex || 'y = f(x)'} block />
       </div>
     </div>

@@ -1,8 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
+import { Save, Download, Upload } from 'lucide-react';
 import { Language } from '../lib/storage';
 import { I18N } from '../data/i18n';
+import { fmt } from '../data/i18n-lab';
 
 interface NotesViewProps {
   lang: Language;
@@ -14,10 +16,16 @@ interface NotesViewProps {
 
 export function NotesView({ lang, initialNotes, onSaveNotes, onImportState, onToast }: NotesViewProps) {
   const [notes, setNotes] = useState<string>(initialNotes);
+  // Notes are saved by the button, so the UI shows when there are unsaved edits
+  const [savedNotes, setSavedNotes] = useState<string>(initialNotes);
+  const fileRef = useRef<HTMLInputElement>(null);
   const t = (k: string) => I18N[lang][k] || k;
+  const dirty = notes !== savedNotes;
+  const lineCount = notes.trim() ? notes.trim().split('\n').length : 0;
 
   const handleSave = () => {
     onSaveNotes(notes);
+    setSavedNotes(notes);
     onToast(t('t_saved'));
   };
 
@@ -48,6 +56,7 @@ export function NotesView({ lang, initialNotes, onSaveNotes, onImportState, onTo
         const parsed = JSON.parse(evt.target?.result as string);
         if (parsed.notes !== undefined) {
           setNotes(parsed.notes);
+          setSavedNotes(parsed.notes);
           onSaveNotes(parsed.notes);
         }
         if (onImportState) {
@@ -55,7 +64,7 @@ export function NotesView({ lang, initialNotes, onSaveNotes, onImportState, onTo
         }
         onToast(t('t_import'));
       } catch (err) {
-        onToast('⚠️ Ошибка импорта файла');
+        onToast(t('notes_import_error'));
       }
     };
     reader.readAsText(file);
@@ -63,96 +72,49 @@ export function NotesView({ lang, initialNotes, onSaveNotes, onImportState, onTo
   };
 
   return (
-    <div
-      style={{
-        background: 'var(--surface)',
-        border: '1px solid var(--border)',
-        borderRadius: '24px',
-        padding: '32px',
-        boxShadow: 'var(--shadow-sm)',
-        maxWidth: '900px',
-        margin: '0 auto',
-      }}
-    >
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px', flexWrap: 'wrap', gap: '8px' }}>
-        <h3 style={{ fontSize: '20px', fontWeight: 800 }}>📝 {t('notes_title')}</h3>
-        <span style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
-          {notes.trim() ? notes.trim().split('\n').length : 0} строк заметок
+    <div className="panel panel--instrument notes">
+      <div className="notes__head">
+        <label htmlFor="notes-text" className="field-label">
+          {t('notes_title')}
+        </label>
+        <span className="mono notes__meta" aria-live="polite">
+          {fmt(t('notes_lines'), { n: lineCount })} · {dirty ? t('notes_dirty') : t('notes_clean')}
         </span>
       </div>
 
-      <p style={{ color: 'var(--text-muted)', fontSize: '14.5px', marginBottom: '16px' }}>
-        {t('notes_sub')}
-      </p>
-
       <textarea
+        id="notes-text"
+        className="field-input notes__text"
         value={notes}
         onChange={(e) => setNotes(e.target.value)}
         placeholder={t('notes_ph')}
-        style={{
-          width: '100%',
-          minHeight: '320px',
-          padding: '18px 20px',
-          borderRadius: '16px',
-          border: '1px solid var(--border)',
-          background: 'var(--surface-secondary)',
-          color: 'var(--text-primary)',
-          fontSize: '15px',
-          lineHeight: 1.7,
-          fontFamily: 'inherit',
-          resize: 'vertical',
-          outline: 'none',
-          boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.03)',
+        aria-describedby="notes-storage"
+        onKeyDown={(e) => {
+          // Ctrl/Cmd + S saves without leaving the keyboard
+          if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
+            e.preventDefault();
+            handleSave();
+          }
         }}
       />
 
-      <div style={{ display: 'flex', gap: '12px', marginTop: '18px', flexWrap: 'wrap', alignItems: 'center' }}>
-        <button
-          onClick={handleSave}
-          style={{
-            padding: '12px 26px',
-            borderRadius: '12px',
-            background: 'var(--primary-gradient)',
-            color: '#fff',
-            fontWeight: 700,
-            fontSize: '14px',
-            boxShadow: '0 4px 14px rgba(79, 70, 229, 0.35)',
-          }}
-        >
+      <div className="notes__actions">
+        <button type="button" className="btn btn--primary" onClick={handleSave}>
+          <Save size={16} aria-hidden="true" />
           {t('notes_save')}
         </button>
-
-        <button
-          onClick={handleExport}
-          style={{
-            padding: '12px 22px',
-            borderRadius: '12px',
-            background: 'var(--surface-secondary)',
-            border: '1px solid var(--border)',
-            fontWeight: 600,
-            fontSize: '14px',
-          }}
-        >
+        <button type="button" className="btn btn--secondary" onClick={handleExport}>
+          <Download size={16} aria-hidden="true" />
           {t('notes_export')}
         </button>
-
-        <label
-          style={{
-            padding: '12px 22px',
-            borderRadius: '12px',
-            background: 'var(--surface-secondary)',
-            border: '1px solid var(--border)',
-            fontWeight: 600,
-            fontSize: '14px',
-            cursor: 'pointer',
-          }}
-        >
+        <button type="button" className="btn btn--secondary" onClick={() => fileRef.current?.click()}>
+          <Upload size={16} aria-hidden="true" />
           {t('notes_import')}
-          <input type="file" accept=".json,.txt" onChange={handleImport} style={{ display: 'none' }} />
-        </label>
+        </button>
+        <input ref={fileRef} type="file" accept=".json,.txt" onChange={handleImport} className="sr-only" tabIndex={-1} aria-hidden="true" />
       </div>
 
-      <p style={{ marginTop: '16px', fontSize: '13px', color: 'var(--text-muted)' }}>
+      <p id="notes-storage" className="field-help" style={{ marginTop: '14px' }}>
         {t('notes_cookie')}
       </p>
     </div>

@@ -72,37 +72,37 @@ export function VisualProofInteractive({ type, lang }: VisualProofInteractivePro
   };
 
   return (
-    <div style={{ padding: '16px', borderRadius: '18px', background: 'var(--surface-secondary)', border: '1px solid var(--border)' }}>
+    <div style={{ padding: '16px', borderRadius: 'var(--radius-sm)', background: 'var(--surface-secondary)', border: '1px solid var(--border)' }}>
       {/* ================= 1. SQUARE COMPLETION ================= */}
       {type === 'square_completion' && (
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', flexWrap: 'wrap', gap: '8px' }}>
-            <span style={{ fontSize: '13.5px', fontWeight: 800, color: 'var(--primary)' }}>
+            <span style={{ fontSize: '13.5px', fontWeight: 700, color: 'var(--primary)' }}>
               Геометрическая сборка полного квадрата (x + d)²
             </span>
             <button
               onClick={animateSquareCompletion}
               style={{
                 padding: '7px 16px',
-                borderRadius: '9px',
+                borderRadius: 'var(--radius-sm)',
                 background: 'var(--primary-gradient)',
-                color: '#fff',
+                color: 'var(--on-primary)',
                 fontSize: '12.5px',
-                fontWeight: 800,
+                fontWeight: 700,
                 border: 'none',
                 cursor: 'pointer',
-                boxShadow: '0 2px 8px rgba(79, 70, 229, 0.35)',
+                boxShadow: 'none',
               }}
             >
-              ▶ {sqT > 0.8 ? 'Разобрать' : 'Собрать квадрат'}
+              {sqT > 0.8 ? 'Разобрать' : 'Собрать квадрат'}
             </button>
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <svg ref={sqContainerRef} width={320} height={260} viewBox="0 0 320 260" style={{ background: '#0a0d14', borderRadius: '14px', border: '1px solid var(--border)' }}>
+            <svg ref={sqContainerRef} width={320} height={260} viewBox="0 0 320 260" style={{ background: 'var(--plot-bg)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)' }}>
               {/* Main square x * x */}
-              <rect x={40} y={40} width={130} height={130} fill="#4f46e5" rx={4} />
-              <text x={105} y={110} fill="#fff" fontSize={16} fontWeight={900} textAnchor="middle">x²</text>
+              <rect x={40} y={40} width={130} height={130} fill="var(--chart-1)" rx={2} />
+              <text x={105} y={110} fill="var(--plot-bg)" fontSize={16} fontWeight={700} textAnchor="middle">x²</text>
 
               {/* Top strip (width x, height d) */}
               <rect
@@ -110,12 +110,12 @@ export function VisualProofInteractive({ type, lang }: VisualProofInteractivePro
                 y={40 - 50 * sqT}
                 width={130}
                 height={50 * sqT}
-                fill="#06b6d4"
+                fill="var(--chart-3)"
                 opacity={0.85}
                 rx={3}
               />
               {sqT > 0.4 && (
-                <text x={105} y={40 - 20 * sqT} fill="#fff" fontSize={12} fontWeight={700} textAnchor="middle">
+                <text x={105} y={40 - 20 * sqT} fill="var(--plot-bg)" fontSize={12} fontWeight={700} textAnchor="middle">
                   x · (b/2a)
                 </text>
               )}
@@ -126,12 +126,12 @@ export function VisualProofInteractive({ type, lang }: VisualProofInteractivePro
                 y={40}
                 width={50 * sqT}
                 height={130}
-                fill="#06b6d4"
+                fill="var(--chart-3)"
                 opacity={0.85}
                 rx={3}
               />
               {sqT > 0.4 && (
-                <text x={40 + 130 + 25 * sqT} y={110} fill="#fff" fontSize={11} fontWeight={700} textAnchor="middle">
+                <text x={40 + 130 + 25 * sqT} y={110} fill="var(--plot-bg)" fontSize={11} fontWeight={700} textAnchor="middle">
                   (b/2a)·x
                 </text>
               )}
@@ -142,19 +142,19 @@ export function VisualProofInteractive({ type, lang }: VisualProofInteractivePro
                 y={40 - 50 * sqT}
                 width={50 * sqT}
                 height={50 * sqT}
-                fill="#f59e0b"
+                fill="var(--chart-4)"
                 opacity={sqT}
                 rx={3}
               />
               {sqT > 0.6 && (
-                <text x={40 + 130 + 25 * sqT} y={40 - 20 * sqT} fill="#fff" fontSize={10} fontWeight={800} textAnchor="middle">
+                <text x={40 + 130 + 25 * sqT} y={40 - 20 * sqT} fill="var(--plot-bg)" fontSize={10} fontWeight={700} textAnchor="middle">
                   (b/2a)²
                 </text>
               )}
 
               {/* Dimension markers */}
               <text x={105} y={195} fill="var(--text-muted)" fontSize={12} textAnchor="middle">Сторона x</text>
-              <text x={220} y={195} fill="#06b6d4" fontSize={12} textAnchor="middle">+ (b / 2a)</text>
+              <text x={220} y={195} fill="var(--chart-3)" fontSize={12} textAnchor="middle">+ (b / 2a)</text>
             </svg>
 
             {/* Slider */}
@@ -179,7 +179,7 @@ export function VisualProofInteractive({ type, lang }: VisualProofInteractivePro
           </div>
 
           <div style={{ marginTop: '12px', fontSize: '13px', color: 'var(--text-secondary)', textAlign: 'center', lineHeight: 1.5 }}>
-            💡 Добавление золотого уголка <b style={{ color: '#f59e0b' }}>(b/2a)²</b> превращает прямоугольную фигуру в идеальный квадрат площади <b style={{ color: 'var(--primary)' }}>(x + b/2a)²</b>!
+            Добавление золотого уголка <b style={{ color: 'var(--chart-4)' }}>(b/2a)²</b> превращает прямоугольную фигуру в идеальный квадрат площади <b style={{ color: 'var(--primary)' }}>(x + b/2a)²</b>!
           </div>
         </div>
       )}
@@ -188,23 +188,23 @@ export function VisualProofInteractive({ type, lang }: VisualProofInteractivePro
       {type === 'secant_to_tangent' && (
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', flexWrap: 'wrap', gap: '8px' }}>
-            <span style={{ fontSize: '13.5px', fontWeight: 800, color: 'var(--primary)' }}>
+            <span style={{ fontSize: '13.5px', fontWeight: 700, color: 'var(--primary)' }}>
               Предельный переход секущей к касательной: Δx → 0
             </span>
             <button
               onClick={animateSecantLimit}
               style={{
                 padding: '7px 16px',
-                borderRadius: '9px',
+                borderRadius: 'var(--radius-sm)',
                 background: 'var(--primary-gradient)',
-                color: '#fff',
+                color: 'var(--on-primary)',
                 fontSize: '12.5px',
-                fontWeight: 800,
+                fontWeight: 700,
                 border: 'none',
                 cursor: 'pointer',
               }}
             >
-              ▶ {dx < 0.1 ? 'Отдалить точку Q' : 'Стянуть Δx → 0'}
+              {dx < 0.1 ? 'Отдалить точку Q' : 'Стянуть Δx → 0'}
             </button>
           </div>
 
@@ -224,16 +224,16 @@ export function VisualProofInteractive({ type, lang }: VisualProofInteractivePro
               const toSvgY = (y: number) => 210 - y * 65;
 
               return (
-                <svg ref={secantSvgRef} width={340} height={240} viewBox="0 0 340 240" style={{ background: '#0a0d14', borderRadius: '14px', border: '1px solid var(--border)' }}>
+                <svg ref={secantSvgRef} width={340} height={240} viewBox="0 0 340 240" style={{ background: 'var(--plot-bg)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)' }}>
                   {/* Grid axes */}
-                  <line x1={30} y1={210} x2={320} y2={210} stroke="rgba(255,255,255,0.15)" strokeWidth={1} />
-                  <line x1={50} y1={20} x2={50} y2={230} stroke="rgba(255,255,255,0.15)" strokeWidth={1} />
+                  <line x1={30} y1={210} x2={320} y2={210} stroke="var(--plot-axis)" strokeWidth={1} />
+                  <line x1={50} y1={20} x2={50} y2={230} stroke="var(--plot-axis)" strokeWidth={1} />
 
                   {/* Curve f(x) = 0.5 * x^2 */}
                   <path
                     d={`M ${toSvgX(0)} ${toSvgY(f(0))} Q ${toSvgX(1.5)} ${toSvgY(0.5)} ${toSvgX(3.2)} ${toSvgY(f(3.2))}`}
                     fill="none"
-                    stroke="#8b5cf6"
+                    stroke="var(--chart-5)"
                     strokeWidth={3}
                   />
 
@@ -243,7 +243,7 @@ export function VisualProofInteractive({ type, lang }: VisualProofInteractivePro
                     y1={toSvgY(y0 - 0.8 * secantSlope)}
                     x2={toSvgX(x1 + 0.8)}
                     y2={toSvgY(y1 + 0.8 * secantSlope)}
-                    stroke="#06b6d4"
+                    stroke="var(--chart-3)"
                     strokeWidth={2}
                     strokeDasharray={dx < 0.05 ? 'none' : '4 3'}
                   />
@@ -254,18 +254,18 @@ export function VisualProofInteractive({ type, lang }: VisualProofInteractivePro
                     y1={toSvgY(y0 - x0 * tangentSlope)}
                     x2={toSvgX(3)}
                     y2={toSvgY(y0 + 2 * tangentSlope)}
-                    stroke="#10b981"
+                    stroke="var(--chart-6)"
                     strokeWidth={1.5}
                     opacity={0.4}
                   />
 
                   {/* Point P(x0, y0) */}
-                  <circle cx={toSvgX(x0)} cy={toSvgY(y0)} r={6} fill="#ef4444" stroke="#fff" strokeWidth={2} />
-                  <text x={toSvgX(x0) - 16} y={toSvgY(y0) - 10} fill="#ef4444" fontSize={11} fontWeight={800}>P</text>
+                  <circle cx={toSvgX(x0)} cy={toSvgY(y0)} r={6} fill="var(--chart-2)" stroke="var(--plot-bg)" strokeWidth={2} />
+                  <text x={toSvgX(x0) - 16} y={toSvgY(y0) - 10} fill="var(--chart-2)" fontSize={11} fontWeight={700}>P</text>
 
                   {/* Point Q(x1, y1) */}
-                  <circle cx={toSvgX(x1)} cy={toSvgY(y1)} r={6} fill="#06b6d4" stroke="#fff" strokeWidth={2} />
-                  <text x={toSvgX(x1) + 8} y={toSvgY(y1) - 6} fill="#06b6d4" fontSize={11} fontWeight={800}>Q</text>
+                  <circle cx={toSvgX(x1)} cy={toSvgY(y1)} r={6} fill="var(--chart-3)" stroke="var(--plot-bg)" strokeWidth={2} />
+                  <text x={toSvgX(x1) + 8} y={toSvgY(y1) - 6} fill="var(--chart-3)" fontSize={11} fontWeight={700}>Q</text>
                 </svg>
               );
             })()}
@@ -274,7 +274,7 @@ export function VisualProofInteractive({ type, lang }: VisualProofInteractivePro
             <div style={{ width: '100%', maxWidth: '320px', marginTop: '12px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: 'var(--text-muted)', marginBottom: '4px' }}>
                 <span>Δx = {dx.toFixed(2)}</span>
-                <span style={{ color: 'var(--primary)', fontWeight: 800 }}>
+                <span style={{ color: 'var(--primary)', fontWeight: 700 }}>
                   Наклон секущей k = {(0.5 * ((1 + dx) ** 2 - 1) / dx).toFixed(3)} → 1.000 (f′)
                 </span>
               </div>
@@ -299,7 +299,7 @@ export function VisualProofInteractive({ type, lang }: VisualProofInteractivePro
       {type === 'parallelogram_area' && (
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
-            <span style={{ fontSize: '13.5px', fontWeight: 800, color: 'var(--primary)' }}>
+            <span style={{ fontSize: '13.5px', fontWeight: 700, color: 'var(--primary)' }}>
               Определитель 2×2 как ориентированная площадь S = |u × v|
             </span>
           </div>
@@ -317,28 +317,28 @@ export function VisualProofInteractive({ type, lang }: VisualProofInteractivePro
 
             return (
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <svg width={320} height={220} viewBox="0 0 320 220" style={{ background: '#0a0d14', borderRadius: '14px', border: '1px solid var(--border)' }}>
+                <svg width={320} height={220} viewBox="0 0 320 220" style={{ background: 'var(--plot-bg)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)' }}>
                   {/* Parallelogram fill */}
                   <polygon
                     points={`${ox},${oy} ${ox + uX},${oy - uY} ${ox + uX + vX},${oy - (uY + vY)} ${ox + vX},${oy - vY}`}
-                    fill="rgba(99, 102, 241, 0.22)"
+                    fill="color-mix(in srgb, var(--chart-1) 22%, transparent)"
                     stroke="var(--primary)"
                     strokeWidth={2}
                   />
 
                   {/* Vector u (cyan) */}
-                  <line x1={ox} y1={oy} x2={ox + uX} y2={oy - uY} stroke="#06b6d4" strokeWidth={3} strokeLinecap="round" />
-                  <text x={ox + uX / 2} y={oy + 18} fill="#06b6d4" fontSize={12} fontWeight={800}>Вектор u</text>
+                  <line x1={ox} y1={oy} x2={ox + uX} y2={oy - uY} stroke="var(--chart-3)" strokeWidth={3} strokeLinecap="round" />
+                  <text x={ox + uX / 2} y={oy + 18} fill="var(--chart-3)" fontSize={12} fontWeight={700}>Вектор u</text>
 
                   {/* Vector v (rose) */}
-                  <line x1={ox} y1={oy} x2={ox + vX} y2={oy - vY} stroke="#f43f5e" strokeWidth={3} strokeLinecap="round" />
-                  <text x={ox + vX / 2 - 20} y={oy - vY / 2} fill="#f43f5e" fontSize={12} fontWeight={800}>Вектор v</text>
+                  <line x1={ox} y1={oy} x2={ox + vX} y2={oy - vY} stroke="var(--chart-2)" strokeWidth={3} strokeLinecap="round" />
+                  <text x={ox + vX / 2 - 20} y={oy - vY / 2} fill="var(--chart-2)" fontSize={12} fontWeight={700}>Вектор v</text>
                 </svg>
 
                 <div style={{ width: '100%', maxWidth: '320px', marginTop: '12px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: 'var(--text-muted)', marginBottom: '4px' }}>
                     <span>Угол между векторами: {pAngle}°</span>
-                    <span style={{ color: 'var(--accent-emerald)', fontWeight: 800 }}>Площадь det = {areaVal.toFixed(1)}</span>
+                    <span style={{ color: 'var(--accent-emerald)', fontWeight: 700 }}>Площадь det = {areaVal.toFixed(1)}</span>
                   </div>
                   <input
                     type="range"
@@ -362,23 +362,23 @@ export function VisualProofInteractive({ type, lang }: VisualProofInteractivePro
       {(type === 'euler_spiral' || type === 'unit_circle') && (
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', flexWrap: 'wrap', gap: '8px' }}>
-            <span style={{ fontSize: '13.5px', fontWeight: 800, color: 'var(--primary)' }}>
+            <span style={{ fontSize: '13.5px', fontWeight: 700, color: 'var(--primary)' }}>
               Фазор Эйлера e^(iθ) в комплексной плоскости C
             </span>
             <button
               onClick={animateEulerToPi}
               style={{
                 padding: '6px 14px',
-                borderRadius: '8px',
-                background: 'linear-gradient(135deg, #ec4899, #7c3aed)',
-                color: '#fff',
+                borderRadius: 'var(--radius-sm)',
+                background: 'var(--primary)',
+                color: 'var(--on-primary)',
                 fontSize: '12px',
-                fontWeight: 800,
+                fontWeight: 700,
                 border: 'none',
                 cursor: 'pointer',
               }}
             >
-              ▶ Вращение к π (e^iπ = -1)
+              Вращение к π (e^iπ = -1)
             </button>
           </div>
 
@@ -392,7 +392,7 @@ export function VisualProofInteractive({ type, lang }: VisualProofInteractivePro
 
             return (
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <svg width={320} height={220} viewBox="0 0 320 220" style={{ background: '#0a0d14', borderRadius: '14px', border: '1px solid var(--border)' }}>
+                <svg width={320} height={220} viewBox="0 0 320 220" style={{ background: 'var(--plot-bg)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)' }}>
                   {/* Real & Imaginary Axes */}
                   <line x1={30} y1={cy} x2={290} y2={cy} stroke="rgba(255,255,255,0.2)" strokeWidth={1} />
                   <line x1={cx} y1={15} x2={cx} y2={205} stroke="rgba(255,255,255,0.2)" strokeWidth={1} />
@@ -400,23 +400,23 @@ export function VisualProofInteractive({ type, lang }: VisualProofInteractivePro
                   <text x={cx + 6} y={26} fill="var(--text-muted)" fontSize={11}>Im</text>
 
                   {/* Unit circle */}
-                  <circle cx={cx} cy={cy} r={r} fill="none" stroke="rgba(99,102,241,0.3)" strokeDasharray="3 3" />
+                  <circle cx={cx} cy={cy} r={r} fill="none" stroke="color-mix(in srgb, var(--chart-1) 30%, transparent)" strokeDasharray="3 3" />
 
                   {/* Cosine projection (Re) */}
-                  <line x1={cx} y1={cy} x2={px} y2={cy} stroke="#3b82f6" strokeWidth={3} strokeLinecap="round" />
+                  <line x1={cx} y1={cy} x2={px} y2={cy} stroke="var(--chart-3)" strokeWidth={3} strokeLinecap="round" />
 
                   {/* Sine projection (Im) */}
-                  <line x1={px} y1={cy} x2={px} y2={py} stroke="#ec4899" strokeWidth={3} strokeLinecap="round" />
+                  <line x1={px} y1={cy} x2={px} y2={py} stroke="var(--chart-2)" strokeWidth={3} strokeLinecap="round" />
 
                   {/* Phasor arrow */}
-                  <line x1={cx} y1={cy} x2={px} y2={py} stroke="#ffffff" strokeWidth={2} />
-                  <circle cx={px} cy={py} r={6} fill="var(--primary)" stroke="#fff" strokeWidth={2} />
+                  <line x1={cx} y1={cy} x2={px} y2={py} stroke="var(--text-primary)" strokeWidth={2} />
+                  <circle cx={px} cy={py} r={6} fill="var(--primary)" stroke="var(--plot-bg)" strokeWidth={2} />
                 </svg>
 
                 <div style={{ width: '100%', maxWidth: '320px', marginTop: '12px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: 'var(--text-muted)', marginBottom: '4px' }}>
                     <span>θ = {Math.round(eulerAngle)}° ({rad.toFixed(2)} rad)</span>
-                    <span style={{ color: 'var(--primary)', fontWeight: 800 }}>
+                    <span style={{ color: 'var(--primary)', fontWeight: 700 }}>
                       cos + i·sin = {Math.cos(rad).toFixed(2)} + {Math.sin(rad).toFixed(2)}i
                     </span>
                   </div>
@@ -441,7 +441,7 @@ export function VisualProofInteractive({ type, lang }: VisualProofInteractivePro
       {/* ================= 5. BAYES VENN ================= */}
       {type === 'bayes_venn' && (
         <div>
-          <div style={{ fontSize: '13.5px', fontWeight: 800, color: 'var(--primary)', marginBottom: '12px' }}>
+          <div style={{ fontSize: '13.5px', fontWeight: 700, color: 'var(--primary)', marginBottom: '12px' }}>
             Вероятностные множества: апостериорная вероятность P(A|B)
           </div>
 
@@ -451,23 +451,23 @@ export function VisualProofInteractive({ type, lang }: VisualProofInteractivePro
 
             return (
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <svg width={320} height={180} viewBox="0 0 320 180" style={{ background: '#0a0d14', borderRadius: '14px', border: '1px solid var(--border)' }}>
+                <svg width={320} height={180} viewBox="0 0 320 180" style={{ background: 'var(--plot-bg)', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border)' }}>
                   {/* Circle A */}
-                  <circle cx={120} cy={90} r={65} fill="rgba(79, 70, 229, 0.3)" stroke="#4f46e5" strokeWidth={2} />
-                  <text x={90} y={90} fill="#fff" fontSize={13} fontWeight={800}>A ({Math.round(probA * 100)}%)</text>
+                  <circle cx={120} cy={90} r={65} fill="color-mix(in srgb, var(--chart-1) 30%, transparent)" stroke="var(--chart-1)" strokeWidth={2} />
+                  <text x={90} y={90} fill="var(--text-primary)" fontSize={13} fontWeight={700}>A ({Math.round(probA * 100)}%)</text>
 
                   {/* Circle B */}
-                  <circle cx={200} cy={90} r={65} fill="rgba(6, 182, 212, 0.3)" stroke="#06b6d4" strokeWidth={2} />
-                  <text x={220} y={90} fill="#fff" fontSize={13} fontWeight={800}>B</text>
+                  <circle cx={200} cy={90} r={65} fill="color-mix(in srgb, var(--chart-3) 30%, transparent)" stroke="var(--chart-3)" strokeWidth={2} />
+                  <text x={220} y={90} fill="var(--text-primary)" fontSize={13} fontWeight={700}>B</text>
 
                   {/* Overlap */}
-                  <text x={160} y={95} fill="#f59e0b" fontSize={11} fontWeight={900} textAnchor="middle">A ∩ B</text>
+                  <text x={160} y={95} fill="var(--chart-4)" fontSize={11} fontWeight={700} textAnchor="middle">A ∩ B</text>
                 </svg>
 
                 <div style={{ width: '100%', maxWidth: '320px', marginTop: '14px', display: 'grid', gap: '8px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: 'var(--text-muted)' }}>
                     <span>Априорная P(A): {Math.round(probA * 100)}%</span>
-                    <span style={{ color: 'var(--accent-emerald)', fontWeight: 800 }}>P(A | B) = {Math.round(pAgivenB * 100)}%</span>
+                    <span style={{ color: 'var(--accent-emerald)', fontWeight: 700 }}>P(A | B) = {Math.round(pAgivenB * 100)}%</span>
                   </div>
                   <input
                     type="range"

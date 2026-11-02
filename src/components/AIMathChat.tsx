@@ -1,7 +1,9 @@
-﻿'use client';
+'use client';
 import React, { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { ArrowUp } from 'lucide-react';
 import { Language } from '../lib/storage';
+import { I18N } from '../data/i18n';
+import { Dialog } from './ui/Dialog';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -52,14 +54,16 @@ function getAIResponse(question: string): string {
 }
 
 export function AIMathChat({ onClose, lang }: AIChatProps) {
+  const t = (k: string) => I18N[lang][k] || k;
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'assistant', content: '👋 Привет! Я AI-математик. Задай мне любой вопрос по математике — объясню теорему, помогу решить задачу или расскажу правила. Что хочешь узнать?' }
+    { role: 'assistant', content: 'Здесь собраны готовые справочные ответы по основным темам: уравнения, производные, интегралы, матрицы, логарифмы, тригонометрия, пределы и вероятность. Напиши тему или выбери пример ниже.' }
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const inputId = 'math-chat-input';
 
-  useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [messages]);
+  useEffect(() => { bottomRef.current?.scrollIntoView({ block: 'end' }); }, [messages, loading]);
 
   const send = async () => {
     if (!input.trim() || loading) return;
@@ -76,80 +80,56 @@ export function AIMathChat({ onClose, lang }: AIChatProps) {
   const suggestions = ['Как решить квадратное уравнение?', 'Объясни производную', 'Что такое интеграл?', 'Как умножать матрицы?'];
 
   return (
-    <AnimatePresence>
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-        onClick={onClose}
-        style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', zIndex: 10000, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', padding: '0' }}>
-        <motion.div initial={{ opacity: 0, y: 100 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 100 }}
-          transition={{ type: 'spring', stiffness: 280, damping: 26 }}
-          onClick={(e) => e.stopPropagation()}
-          style={{ background: 'var(--surface)', borderRadius: '28px 28px 0 0', width: '100%', maxWidth: '700px', height: '85vh', display: 'flex', flexDirection: 'column', boxShadow: '0 -20px 80px rgba(0,0,0,0.4)', border: '1px solid var(--border)' }}>
-
-          {/* Header */}
-          <div style={{ padding: '20px 24px', borderBottom: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'linear-gradient(135deg,#7c3aed,#ec4899)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px' }}>🤖</div>
-              <div>
-                <div style={{ fontWeight: 900, fontSize: '16px' }}>AI-Математик</div>
-                <div style={{ color: '#10b981', fontSize: '12px', fontWeight: 600 }}>● Онлайн</div>
-              </div>
-            </div>
-            <button onClick={onClose} style={{ background: 'var(--surface-secondary)', border: '1px solid var(--border)', borderRadius: '10px', width: '34px', height: '34px', cursor: 'pointer', color: 'var(--text-muted)', fontSize: '18px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>✕</button>
-          </div>
-
-          {/* Messages */}
-          <div style={{ flex: 1, overflowY: 'auto', padding: '20px 24px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
-            {messages.map((m, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-                style={{ display: 'flex', justifyContent: m.role === 'user' ? 'flex-end' : 'flex-start' }}>
-                <div style={{
-                  maxWidth: '80%', padding: '12px 16px', borderRadius: m.role === 'user' ? '18px 18px 4px 18px' : '18px 18px 18px 4px',
-                  background: m.role === 'user' ? 'var(--primary-gradient)' : 'var(--surface-secondary)',
-                  color: m.role === 'user' ? '#fff' : 'var(--text-primary)',
-                  fontSize: '14px', lineHeight: 1.6, whiteSpace: 'pre-wrap', border: m.role === 'assistant' ? '1px solid var(--border)' : 'none',
-                }}>
-                  {m.content}
-                </div>
-              </motion.div>
-            ))}
-            {loading && (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <div style={{ padding: '12px 16px', background: 'var(--surface-secondary)', borderRadius: '18px 18px 18px 4px', border: '1px solid var(--border)' }}>
-                  {[0, 1, 2].map((j) => (
-                    <motion.span key={j} animate={{ opacity: [0.3, 1, 0.3] }} transition={{ duration: 1, repeat: Infinity, delay: j * 0.2 }}
-                      style={{ display: 'inline-block', width: '7px', height: '7px', background: 'var(--text-muted)', borderRadius: '50%', margin: '0 2px' }} />
-                  ))}
-                </div>
-              </motion.div>
-            )}
-            <div ref={bottomRef} />
-          </div>
-
-          {/* Suggestions */}
-          {messages.length <= 1 && (
-            <div style={{ padding: '0 24px 12px', display: 'flex', gap: '8px', overflowX: 'auto', scrollbarWidth: 'none', flexShrink: 0 }}>
-              {suggestions.map((s) => (
-                <button key={s} onClick={() => { setInput(s); }}
-                  style={{ padding: '7px 14px', borderRadius: '20px', background: 'var(--surface-secondary)', border: '1px solid var(--border)', color: 'var(--text-secondary)', fontSize: '12.5px', cursor: 'pointer', whiteSpace: 'nowrap', fontWeight: 600 }}>
-                  {s}
-                </button>
-              ))}
-            </div>
+    <Dialog onClose={onClose} title={t('chat_title')} subtitle={t('chat_sub')} closeLabel={t('close')} maxWidth={720} height="85vh" bodyClassName="chat__body">
+      <div className="chat">
+        <ol className="chat__log" aria-live="polite" aria-relevant="additions">
+          {messages.map((m, i) => (
+            <li key={i} className={`chat__msg chat__msg--${m.role} reveal`}>
+              {m.content}
+            </li>
+          ))}
+          {loading && (
+            <li className="chat__msg chat__msg--assistant chat__typing" role="status">
+              {t('chat_typing')}
+            </li>
           )}
+          <div ref={bottomRef} />
+        </ol>
 
-          {/* Input */}
-          <div style={{ padding: '14px 24px 24px', flexShrink: 0, borderTop: '1px solid var(--border)', display: 'flex', gap: '10px' }}>
-            <input value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && send()}
-              placeholder="Спроси по математике..."
-              style={{ flex: 1, padding: '13px 16px', borderRadius: '14px', border: '1px solid var(--border)', background: 'var(--surface-secondary)', color: 'var(--text-primary)', fontSize: '14.5px', outline: 'none' }} />
-            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
-              onClick={send} disabled={loading || !input.trim()}
-              style={{ padding: '13px 20px', borderRadius: '14px', background: 'var(--primary-gradient)', color: '#fff', fontWeight: 800, fontSize: '15px', border: 'none', cursor: 'pointer', flexShrink: 0 }}>
-              →
-            </motion.button>
+        {messages.length <= 1 && (
+          <div className="solver-examples chat__suggestions">
+            {suggestions.map((s) => (
+              <button key={s} type="button" className="chip" onClick={() => setInput(s)}>
+                {s}
+              </button>
+            ))}
           </div>
-        </motion.div>
-      </motion.div>
-    </AnimatePresence>
+        )}
+
+        <form
+          className="chat__form"
+          onSubmit={(e) => {
+            e.preventDefault();
+            send();
+          }}
+        >
+          <label htmlFor={inputId} className="sr-only">
+            {t('chat_input_label')}
+          </label>
+          <input
+            id={inputId}
+            data-autofocus
+            className="field-input"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder={t('chat_input_label')}
+            autoComplete="off"
+          />
+          <button type="submit" className="btn btn--primary" disabled={loading || !input.trim()} aria-label={t('chat_send')}>
+            <ArrowUp size={18} aria-hidden="true" />
+          </button>
+        </form>
+      </div>
+    </Dialog>
   );
 }

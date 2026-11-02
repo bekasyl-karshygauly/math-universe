@@ -13,67 +13,45 @@ interface NavTabsProps {
   onSelectPage: (page: NavPage) => void;
 }
 
+const NAV_ITEMS: { id: NavPage; key: string }[] = [
+  { id: 'home', key: 'nav_home' },
+  { id: 'courses', key: 'nav_courses' },
+  { id: 'calc', key: 'nav_calc' },
+  { id: 'plot', key: 'nav_plot' },
+  { id: 'quiz', key: 'nav_quiz' },
+  { id: 'notes', key: 'nav_notes' },
+  { id: 'hacks', key: 'nav_hacks' },
+  { id: 'bonus', key: 'nav_bonus' },
+];
+
+/** Section navigation: logical screens of the single page, marked with aria-current. */
 export function NavTabs({ currentPage, lang, onSelectPage }: NavTabsProps) {
   const t = (k: string) => I18N[lang][k] || k;
 
-  const NAV_ITEMS: { id: NavPage; key: string; icon: string }[] = [
-    { id: 'home', key: 'nav_home', icon: '🏠' },
-    { id: 'courses', key: 'nav_courses', icon: '📚' },
-    { id: 'calc', key: 'nav_calc', icon: '🧮' },
-    { id: 'plot', key: 'nav_plot', icon: '📈' },
-    { id: 'quiz', key: 'nav_quiz', icon: '🎯' },
-    { id: 'notes', key: 'nav_notes', icon: '📝' },
-    { id: 'hacks', key: 'nav_hacks', icon: '⚡' },
-    { id: 'bonus', key: 'nav_bonus', icon: '🌌' },
-  ];
-
   return (
-    <nav
-      className="app-nav"
-      style={{
-        display: 'flex',
-        gap: '6px',
-        overflowX: 'auto',
-        padding: '10px 24px',
-        // Without an explicit width the flex-column parent sizes the nav to its content,
-        // which made the whole page ~1000px wide on phones
-        width: '100%',
-        maxWidth: '1440px',
-        margin: '0 auto',
-        scrollbarWidth: 'none',
-      }}
-    >
-      {NAV_ITEMS.map((item) => {
-        const isActive = currentPage === item.id;
-        return (
-          <button
-            key={item.id}
-            onClick={() => {
-              playSmoothSound();
-              onSelectPage(item.id);
-            }}
-            style={{
-              padding: '8px 16px',
-              borderRadius: '10px',
-              fontWeight: 700,
-              fontSize: '13.5px',
-              whiteSpace: 'nowrap',
-              background: isActive ? 'var(--primary-gradient)' : 'transparent',
-              color: isActive ? '#fff' : 'var(--text-muted)',
-              border: '1px solid',
-              borderColor: isActive ? 'transparent' : 'transparent',
-              boxShadow: isActive ? '0 3px 12px rgba(99, 102, 241, 0.35)' : 'none',
-              transition: 'all 0.2s',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-            }}
-          >
-            <span>{item.icon}</span>
-            <span>{t(item.key)}</span>
-          </button>
-        );
-      })}
+    <nav className="app-nav" aria-label={t('nav_label')}>
+      <div className="container">
+        <ul className="app-nav__list">
+          {NAV_ITEMS.map((item) => {
+            const isActive = currentPage === item.id;
+            return (
+              <li key={item.id}>
+                <button
+                  type="button"
+                  className="app-nav__link"
+                  aria-current={isActive ? 'page' : undefined}
+                  onClick={() => {
+                    playSmoothSound();
+                    onSelectPage(item.id);
+                  }}
+                >
+                  {t(item.key)}
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
     </nav>
   );
 }

@@ -1,0 +1,130 @@
+# Math Universe — Mathematical Laboratory
+
+The design system of the whole application. Reference: the approved
+"Mathematical Laboratory" concept (desktop 1440 px and mobile 390 px screenshots).
+
+## Identity
+
+A professional digital mathematics laboratory where a formula, its explanation
+and an experiment form one unit. Calm, intellectual, precise, editorial, and
+comfortable for long reading and problem solving.
+
+What it is **not**: cosmic/neon, glassmorphism, gradient SaaS dashboard,
+poster-style geometry.
+
+## Palette
+
+All colors live as CSS custom properties in `src/app/globals.css` (the single
+runtime source). Components use the semantic names, never raw hex. Canvas,
+JSXGraph and Three.js read the same variables through `src/lib/labPalette.ts`.
+
+| Role | Token | Light | Dark |
+|---|---|---|---|
+| canvas | `--bg` | `#F5F7F7` | `#101819` |
+| surface (instruments) | `--surface` | `#FFFFFF` | `#162123` |
+| surface-secondary | `--surface-secondary` | `#F5F7F7` | `#1B282A` |
+| soft / offset shadow | `--surface-soft` | `#E5EBEC` | `#0B1213` |
+| text-primary | `--text-primary` | `#243C40` | `#E2EBEB` |
+| text-secondary | `--text-secondary` | `#536B6F` | `#A8BBBD` |
+| text-muted | `--text-muted` | `#536B6F` | `#94A9AB` |
+| border | `--border` | `#C7D3D5` | `#2F4346` |
+| border (rules, grid) | `--border-hover` / `--border-light` | `#B9C9CC` / `#DCE3E5` | `#3B5154` / `#22312F` |
+| accent / primary action | `--primary` | `#176668` | `#6CC2BD` |
+| on-accent text | `--on-primary` | `#FFFFFF` | `#0D1A1B` |
+| focus ring | `--focus` | `#176668` | `#6CC2BD` |
+| success | `--accent-emerald` | `#2E7350` | `#7CC79A` |
+| warning | `--accent-amber` | `#8A5A00` | `#E0B45A` |
+| danger | `--accent-rose` | `#B0302A` | `#EE8A82` |
+| chart series 1–6 | `--chart-1…6` | teal, rust, slate blue, ochre, plum, green | lighter equivalents |
+
+Legacy names (`--primary-gradient`, `--accent-cyan`, `--accent-violet`,
+`--shadow-glow`, `--border-glow`) are kept for compatibility but resolve to flat
+laboratory values: no gradients, no glow.
+
+All text/background pairs above meet WCAG 2.2 AA (≥ 4.5:1 for body text).
+
+## Typography
+
+| Role | Stack | Size |
+|---|---|---|
+| Display (hero, page titles) | Georgia, "Times New Roman", serif — `--font-display` | 64–80 px desktop, 42–53 px phone |
+| Accent phrase | display, *italic*, `--primary` | — |
+| Section headings | Arial/Helvetica bold — `--font-ui` | 24–40 px |
+| UI and body | Arial, Helvetica, sans-serif — `--font-ui` | 16–18 px body, 14 px controls |
+| Eyebrow / captions | `--font-ui`, 11–12 px, uppercase, letter-spacing .14em | 11–14 px |
+| Numbers, short math notes | Geist Mono → ui-monospace — `--font-mono` | 12–14 px |
+| Mathematics | KaTeX | scaled by context |
+
+Cyrillic, Kazakh (ә ғ қ ң ө ұ ү һ і) and Latin are covered by the system serif
+and sans stacks; no web font is required for the main text.
+
+## Space and layout
+
+- Content width: max 1280 px (`--content-max`), side gutters 20–24 px on phones,
+  `clamp(20px, 5vw, 72px)` on large screens.
+- Rhythm: 4 px base; common steps 8 / 12 / 16 / 24 / 32 / 48 / 72.
+- Corners: nearly square (`--radius-*` 2–4 px). Circles only for real circular
+  marks (avatars, plot points).
+- Rules: 1 px `--border`; strong editorial rules 1 px `--text-primary`.
+- Instrument panels: white surface, 1 px border, offset shadow
+  `9px 9px 0 var(--surface-soft)` (`--shadow-instrument`). No blur shadows.
+
+## Components (`src/components/ui/`)
+
+- `Button` — `primary` (filled accent), `secondary` (outlined), `ghost`
+  (text), `danger`; sizes `sm` / `md`; min touch target 40–44 px.
+- `PageHeader` — eyebrow + serif title + optional lead.
+- `SegmentedTabs` — `role="tablist"`, arrow-key navigation, active = filled accent.
+- `Field` — label bound to input, help and error text.
+- `Dialog` — `role="dialog"`, `aria-modal`, labelled title, Escape, focus trap,
+  focus return, scroll lock without layout jump.
+- CSS classes in `globals.css`: `.panel`, `.panel--instrument`, `.eyebrow`,
+  `.display`, `.rule-link`, `.field-*`, `.btn*`, `.result-panel`, `.status-*`,
+  `.chip`, `.data-table`.
+
+## States
+
+- Hover: border or underline change, never glow.
+- Focus: 2 px `--focus` outline with 2 px offset on every interactive element.
+- Pressed/selected: filled accent with `--on-primary` text, plus `aria-pressed`
+  / `aria-selected` / `aria-current`.
+- Disabled: 45 % opacity, `not-allowed` cursor.
+- Success / warning / danger: text color + icon or word, never color alone.
+- Loading: plain text status in `--text-muted`; empty: one sentence + next action.
+
+## Motion
+
+Precise feedback, calm reveal, a clear link between cause and effect.
+
+- Hover/focus: 120–180 ms. Regular transitions: 180–260 ms. Reveal: 220–320 ms.
+- Only `opacity` and short `transform` (≤ 12 px). No springs with overshoot,
+  no blur, no infinite decorative loops.
+- Motion (`motion/react`) for overlays and reveals; CSS for simple states;
+  SVG/Canvas for math experiments; Three.js only for existing 3D tools.
+- `prefers-reduced-motion`: CSS durations collapse, Motion uses
+  `useReducedMotion`, Canvas/3D stop auto-animation but keep manual controls.
+
+## Visualizations
+
+- Plot background = `--surface`; grid = `--border-light`; axes = `--border-hover`;
+  labels = `--text-secondary`.
+- Main curve = `--chart-1` (accent). Further series use `--chart-2…6`, and are
+  distinguished by dash pattern or label as well as color.
+- Points: filled series color with a `--surface` outline.
+- 3D scenes use the theme background and the same series colors.
+
+## Coverage
+
+| Screen | Components | Status |
+|---|---|---|
+| Shell | Header, NavTabs, UserHUD, footer, toasts | see final report |
+| Home | HomeView, LabExperiment | |
+| Catalog | page.tsx courses grid, search | |
+| Lessons | LessonDetailView, MathRenderer, embedded demos | |
+| Calculators | CalculatorsView (8 tabs), LaTeXPlayground, UnitCircleVisualizer | |
+| Graphs | PlotterView (2D, JSXGraph, 3D, sandbox) | |
+| Quiz | QuizView, MathSprint, FormulaTrainer | |
+| Notes & reference | NotesView, HacksView, BonusView, WhyItWorksModal | |
+| Account | AuthModal, DashboardModal (4 tabs) | |
+| Assistants | AIMathChat, StepSolver | |
+| Notifications | AchievementToast, toast | |

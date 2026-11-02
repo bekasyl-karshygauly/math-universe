@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import confetti from 'canvas-confetti';
+import { Play, RotateCcw, Timer } from 'lucide-react';
 import { playClickSound, playSuccessSound, playFanfareSound } from '../lib/sound';
+import { labConfetti } from '../lib/celebrate';
 
 interface Question {
   text: string;
@@ -73,6 +73,10 @@ export function MathSprint() {
   useEffect(() => {
     const stored = localStorage.getItem('mu_sprint_best');
     if (stored) setBestScore(parseInt(stored, 10) || 0);
+    // Stop the countdown when the sprint is left mid-game (tab switch or page change)
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
   }, []);
 
   const startGame = () => {
@@ -101,9 +105,7 @@ export function MathSprint() {
   const endGame = () => {
     setIsPlaying(false);
     playFanfareSound();
-    try {
-      confetti({ particleCount: 100, spread: 80, origin: { y: 0.6 } });
-    } catch (e) {}
+    labConfetti(80);
 
     setScore((finalScore) => {
       const stored = localStorage.getItem('mu_sprint_best');
@@ -142,151 +144,70 @@ export function MathSprint() {
   };
 
   return (
-    <div style={{ maxWidth: '640px', margin: '0 auto' }}>
+    <div className="panel panel--instrument sprint">
       {!isPlaying && timeLeft === 60 && (
-        <div style={{ textAlign: 'center', padding: '36px 20px' }}>
-          <div style={{ fontSize: '48px', marginBottom: '14px' }}>⚡</div>
-          <h3 style={{ fontSize: '26px', fontWeight: 900, marginBottom: '10px' }}>
-            60-Секундный Математический Спринт
-          </h3>
-          <p style={{ color: 'var(--text-muted)', fontSize: '15px', lineHeight: 1.6, marginBottom: '26px' }}>
-            Решай примеры на скорость! Каждая серия правильных ответов активирует множитель очков (×2, ×3). Проверь свой устный счёт!
+        <div className="sprint__intro">
+          <p className="eyebrow eyebrow--muted">60 s</p>
+          <h2 className="calc-panel__title">Математический спринт</h2>
+          <p className="lead" style={{ fontSize: '15px', marginBottom: '22px' }}>
+            Решай примеры на скорость. Серия правильных ответов включает множитель очков (×2, ×3).
           </p>
 
           {bestScore > 0 && (
-            <div style={{ display: 'inline-block', padding: '10px 22px', borderRadius: '14px', background: 'var(--surface-secondary)', border: '1px solid var(--border)', marginBottom: '24px', fontWeight: 800, fontSize: '15px' }}>
-              🏆 Лучший рекорд: <span style={{ color: 'var(--primary)' }}>{bestScore} очков</span>
-            </div>
+            <p className="result-note" style={{ marginBottom: '20px' }}>
+              Лучший рекорд: <b className="mono" style={{ color: 'var(--primary)' }}>{bestScore}</b> очков
+            </p>
           )}
 
-          <div>
-            <button
-              onClick={startGame}
-              style={{
-                padding: '16px 48px',
-                borderRadius: '16px',
-                background: 'var(--primary-gradient)',
-                color: '#fff',
-                fontWeight: 900,
-                fontSize: '18px',
-                border: 'none',
-                cursor: 'pointer',
-                boxShadow: '0 6px 24px rgba(79, 70, 229, 0.45)',
-              }}
-            >
-              🚀 Начать спринт!
-            </button>
-          </div>
+          <button type="button" className="btn btn--primary" onClick={startGame}>
+            <Play size={16} aria-hidden="true" />
+            Начать спринт
+          </button>
         </div>
       )}
 
       {isPlaying && currentQ && (
         <div>
           {/* Header Stats */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-            {/* Timer */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span style={{ fontSize: '20px' }}>⏱</span>
-              <span style={{ fontSize: '26px', fontWeight: 900, color: timeLeft <= 10 ? 'var(--accent-rose)' : 'var(--text-primary)' }}>
-                {timeLeft}s
-              </span>
-            </div>
+          <div className="sprint__stats">
+            <span className={`sprint__timer mono${timeLeft <= 10 ? ' is-low' : ''}`} role="timer" aria-live="off">
+              <Timer size={18} aria-hidden="true" />
+              {timeLeft} s
+            </span>
 
-            {/* Streak Multiplier */}
             {streak >= 2 && (
-              <motion.div
-                initial={{ scale: 0.8 }}
-                animate={{ scale: [1, 1.15, 1] }}
-                transition={{ duration: 0.3 }}
-                style={{
-                  padding: '6px 14px',
-                  borderRadius: '10px',
-                  background: 'linear-gradient(135deg, #f59e0b, #ef4444)',
-                  color: '#fff',
-                  fontWeight: 900,
-                  fontSize: '14px',
-                }}
-              >
-                🔥 КОМБО {streak >= 5 ? '×3' : '×2'} ({streak} подряд)
-              </motion.div>
+              <span className="chip chip--accent mono">
+                ×{streak >= 5 ? 3 : 2} · {streak} подряд
+              </span>
             )}
 
-            {/* Score */}
-            <div style={{ textAlign: 'right' }}>
-              <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 700 }}>СЧЁТ</div>
-              <div style={{ fontSize: '26px', fontWeight: 900, color: 'var(--primary)' }}>{score}</div>
-            </div>
+            <span className="sprint__score">
+              <span className="metric__label">Счёт</span>
+              <span className="mono">{score}</span>
+            </span>
           </div>
 
           {/* Time progress bar */}
-          <div style={{ height: '6px', background: 'var(--surface-secondary)', borderRadius: '4px', overflow: 'hidden', marginBottom: '28px' }}>
-            <motion.div
-              style={{
-                height: '100%',
-                background: timeLeft <= 10 ? 'var(--accent-rose)' : 'var(--primary-gradient)',
-                borderRadius: '4px',
-                width: `${(timeLeft / 60) * 100}%`,
-              }}
-            />
+          <div className="progress-track" style={{ marginBottom: '24px' }} aria-hidden="true">
+            <div className="progress-fill" style={{ width: `${(timeLeft / 60) * 100}%`, background: timeLeft <= 10 ? 'var(--accent-rose)' : undefined }} />
           </div>
 
           {/* Question Card */}
-          <motion.div
+          <div
             key={currentQ.text}
-            initial={{ scale: 0.95, opacity: 0 }}
-            animate={{
-              scale: feedback === 'correct' ? 1.04 : feedback === 'wrong' ? 0.97 : 1,
-              opacity: 1,
-            }}
-            transition={{ duration: 0.15 }}
-            style={{
-              padding: '40px 24px',
-              borderRadius: '24px',
-              textAlign: 'center',
-              background:
-                feedback === 'correct'
-                  ? 'rgba(16, 185, 129, 0.15)'
-                  : feedback === 'wrong'
-                  ? 'rgba(244, 63, 94, 0.15)'
-                  : 'var(--surface)',
-              border: `2px solid ${
-                feedback === 'correct'
-                  ? 'var(--accent-emerald)'
-                  : feedback === 'wrong'
-                  ? 'var(--accent-rose)'
-                  : 'var(--border)'
-              }`,
-              boxShadow: 'var(--shadow-md)',
-              marginBottom: '24px',
-            }}
+            className={`sprint__question reveal${feedback === 'correct' ? ' is-correct' : feedback === 'wrong' ? ' is-wrong' : ''}`}
+            aria-live="polite"
           >
-            <div style={{ fontSize: '48px', fontWeight: 900, letterSpacing: '-0.02em' }}>
-              {currentQ.text} = ?
-            </div>
-          </motion.div>
+            <span className="mono">{currentQ.text} = ?</span>
+            <span className="sr-only">{feedback === 'correct' ? '✓' : feedback === 'wrong' ? '✗' : ''}</span>
+          </div>
 
           {/* 4 Options Grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+          <div className="sprint__options">
             {currentQ.options.map((opt) => (
-              <motion.button
-                key={opt}
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.96 }}
-                onClick={() => handleSelectOption(opt)}
-                style={{
-                  padding: '20px',
-                  borderRadius: '16px',
-                  fontSize: '24px',
-                  fontWeight: 900,
-                  border: '1px solid var(--border)',
-                  background: 'var(--surface-secondary)',
-                  color: 'var(--text-primary)',
-                  cursor: 'pointer',
-                  boxShadow: 'var(--shadow-sm)',
-                }}
-              >
+              <button key={opt} type="button" className="choice sprint__option mono" onClick={() => handleSelectOption(opt)}>
                 {opt}
-              </motion.button>
+              </button>
             ))}
           </div>
         </div>
@@ -294,45 +215,28 @@ export function MathSprint() {
 
       {/* Game Over Screen */}
       {!isPlaying && timeLeft === 0 && (
-        <div style={{ textAlign: 'center', padding: '36px 20px' }}>
-          <div style={{ fontSize: '56px', marginBottom: '10px' }}>🎉</div>
-          <h3 style={{ fontSize: '28px', fontWeight: 900, marginBottom: '6px' }}>Время вышло!</h3>
-          <p style={{ color: 'var(--text-muted)', fontSize: '15px', marginBottom: '24px' }}>
-            Отличный результат в спринте!
-          </p>
+        <div className="sprint__intro reveal" role="status">
+          <p className="eyebrow eyebrow--muted">Время вышло</p>
+          <h2 className="calc-panel__title">Результат спринта</h2>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginBottom: '28px' }}>
-            <div style={{ padding: '16px', borderRadius: '14px', background: 'var(--surface-secondary)' }}>
-              <div style={{ fontSize: '12px', color: 'var(--text-muted)', fontWeight: 700 }}>ИТОГОВЫЙ СЧЁТ</div>
-              <div style={{ fontSize: '28px', fontWeight: 900, color: 'var(--primary)' }}>{score}</div>
+          <div className="metric-grid" style={{ gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', margin: '8px 0 24px' }}>
+            <div className="metric">
+              <span className="metric__label">Счёт</span>
+              <span className="metric__value" style={{ color: 'var(--primary)' }}>{score}</span>
             </div>
-            <div style={{ padding: '16px', borderRadius: '14px', background: 'var(--surface-secondary)' }}>
-              <div style={{ fontSize: '12px', color: 'var(--text-muted)', fontWeight: 700 }}>РЕШЕНО</div>
-              <div style={{ fontSize: '28px', fontWeight: 900 }}>{correctCount} / {totalAnswered}</div>
+            <div className="metric">
+              <span className="metric__label">Решено</span>
+              <span className="metric__value">{correctCount} / {totalAnswered}</span>
             </div>
-            <div style={{ padding: '16px', borderRadius: '14px', background: 'var(--surface-secondary)' }}>
-              <div style={{ fontSize: '12px', color: 'var(--text-muted)', fontWeight: 700 }}>ТОЧНОСТЬ</div>
-              <div style={{ fontSize: '28px', fontWeight: 900, color: 'var(--accent-emerald)' }}>
-                {totalAnswered > 0 ? Math.round((correctCount / totalAnswered) * 100) : 0}%
-              </div>
+            <div className="metric">
+              <span className="metric__label">Точность</span>
+              <span className="metric__value">{totalAnswered > 0 ? Math.round((correctCount / totalAnswered) * 100) : 0}%</span>
             </div>
           </div>
 
-          <button
-            onClick={startGame}
-            style={{
-              padding: '14px 40px',
-              borderRadius: '14px',
-              background: 'var(--primary-gradient)',
-              color: '#fff',
-              fontWeight: 800,
-              fontSize: '16px',
-              border: 'none',
-              cursor: 'pointer',
-              boxShadow: '0 6px 20px rgba(79, 70, 229, 0.4)',
-            }}
-          >
-            ↺ Играть ещё раз
+          <button type="button" className="btn btn--primary" onClick={startGame}>
+            <RotateCcw size={16} aria-hidden="true" />
+            Играть ещё раз
           </button>
         </div>
       )}

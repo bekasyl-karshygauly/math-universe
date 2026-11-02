@@ -10,9 +10,10 @@ export interface AppState {
   lessonLevels: Record<string, 1 | 2 | 3>;
 }
 
+// New visitors start in the light Laboratory theme; a saved theme always wins (merged on load).
 const DEFAULT_STATE: AppState = {
   lang: 'ru',
-  theme: 'dark',
+  theme: 'light',
   progress: {},
   quizBest: 0,
   notes: '',
