@@ -179,9 +179,10 @@ export default function HomePage() {
     }));
   };
 
+  // Section navigation always lands on the section root ("Курсы" from inside a course opens the catalog)
   const goTo = (page: NavPage) => {
     setCurrentPage(page);
-    if (page !== 'courses') setSelectedCourseId(null);
+    setSelectedCourseId(null);
     window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
   };
 

@@ -115,16 +115,19 @@ Precise feedback, calm reveal, a clear link between cause and effect.
 
 ## Coverage
 
-| Screen | Components | Status |
-|---|---|---|
-| Shell | Header, NavTabs, UserHUD, footer, toasts | see final report |
-| Home | HomeView, LabExperiment | |
-| Catalog | page.tsx courses grid, search | |
-| Lessons | LessonDetailView, MathRenderer, embedded demos | |
-| Calculators | CalculatorsView (8 tabs), LaTeXPlayground, UnitCircleVisualizer | |
-| Graphs | PlotterView (2D, JSXGraph, 3D, sandbox) | |
-| Quiz | QuizView, MathSprint, FormulaTrainer | |
-| Notes & reference | NotesView, HacksView, BonusView, WhyItWorksModal | |
-| Account | AuthModal, DashboardModal (4 tabs) | |
-| Assistants | AIMathChat, StepSolver | |
-| Notifications | AchievementToast, toast | |
+Checked in the browser (2026-11-02): no horizontal overflow at 360 / 390 / 720 / 768 /
+1024 / 1440 px on every screen; light and dark; ru, kz (`lang="kk"`), en.
+
+| Screen | Components | Implemented | Verified | Open issues |
+|---|---|---|---|---|
+| Shell | Header, NavTabs, UserHUD, settings popover, footer, toast | yes | desktop + mobile, Escape/focus | — |
+| Home | HomeView, LabExperiment (y = ax², a ∈ [−2, 2]) | yes | desktop + mobile, both themes | — |
+| Catalog | page.tsx course list, search with lesson matches, empty state | yes | search, empty state | — |
+| Lessons | LessonDetailView (outline + lesson), levels, demos, why-it-works | yes | level change, completion, JSXGraph | — |
+| Calculators | CalculatorsView (8 tabs), LaTeXPlayground, UnitCircleVisualizer | yes | all results match baseline | tool copy is Russian-only (pre-existing) |
+| Graphs | PlotterView 2D (canvas, DPR, resize), JSXGraph, 3D, sandbox | yes | all four modes render | — |
+| Quiz | QuizView, MathSprint, FormulaTrainer | yes | quiz → result → review, sprint, card flip | — |
+| Notes & reference | NotesView, HacksView, BonusView, WhyItWorksModal | yes | save/dirty state, why-it-works tabs | — |
+| Account | AuthModal, DashboardModal (4 tabs) | yes | sign-in dialog only | dashboard needs a signed-in test account |
+| Assistants | AIMathChat (template answers), StepSolver | yes | both dialogs, answers | — |
+| Notifications | AchievementToast, toast | yes | toast | achievement toast needs a signed-in account |

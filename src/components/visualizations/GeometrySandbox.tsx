@@ -341,7 +341,7 @@ export function GeometrySandbox() {
 
           <div style={{ minWidth: 0 }}>
             <div style={{ marginBottom: '18px' }}>
-              <p className="eyebrow eyebrow--muted">π ≈ 4 · N_внутри / N_всего</p>
+              <p className="field-help mono">π ≈ 4 · N_внутри / N_всего</p>
               <p className="mono" style={{ fontSize: '40px', fontWeight: 700, color: 'var(--primary)', margin: '6px 0' }} aria-live="off">
                 {approxPi.toFixed(5)}
               </p>

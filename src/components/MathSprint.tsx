@@ -147,7 +147,7 @@ export function MathSprint() {
     <div className="panel panel--instrument sprint">
       {!isPlaying && timeLeft === 60 && (
         <div className="sprint__intro">
-          <p className="eyebrow eyebrow--muted">60 s</p>
+          <p className="field-help mono">60 s</p>
           <h2 className="calc-panel__title">Математический спринт</h2>
           <p className="lead" style={{ fontSize: '15px', marginBottom: '22px' }}>
             Решай примеры на скорость. Серия правильных ответов включает множитель очков (×2, ×3).
