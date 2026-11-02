@@ -58,6 +58,7 @@ interface HeaderProps {
 export function Header({ lang, theme, onSetLang, onToggleTheme, onReset, onOpenAuth, onOpenProfile, onOpenAIChat, onOpenSolver }: HeaderProps) {
   return (
     <header
+      className="app-header"
       style={{
         position: 'sticky',
         top: 0,
@@ -70,6 +71,7 @@ export function Header({ lang, theme, onSetLang, onToggleTheme, onReset, onOpenA
       }}
     >
       <div
+        className="app-header-inner"
         style={{
           maxWidth: '1440px',
           margin: '0 auto',
@@ -104,23 +106,23 @@ export function Header({ lang, theme, onSetLang, onToggleTheme, onReset, onOpenA
             <div style={{ fontWeight: 800, fontSize: '18px', letterSpacing: '-0.02em', lineHeight: 1.2 }}>
               Math Universe
             </div>
-            <div style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>
+            <div className="hide-on-mobile" style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: 600 }}>
               Interactive Educational Platform
             </div>
           </div>
         </div>
 
         {/* Right Controls */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+        <div className="app-header-controls" style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
           {/* AI Chat Button */}
           <button onClick={onOpenAIChat} title="AI-Математик"
             style={{ padding: '8px 14px', borderRadius: '10px', background: 'linear-gradient(135deg,#7c3aed,#ec4899)', color: '#fff', fontWeight: 700, fontSize: '13px', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', boxShadow: '0 3px 12px rgba(124,58,237,0.35)' }}>
-            🤖 <span>AI-чат</span>
+            🤖 <span className="hide-on-mobile">AI-чат</span>
           </button>
           {/* Step Solver Button */}
           <button onClick={onOpenSolver} title="Решатель уравнений"
             style={{ padding: '8px 14px', borderRadius: '10px', background: 'linear-gradient(135deg,#06b6d4,#3b82f6)', color: '#fff', fontWeight: 700, fontSize: '13px', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px', boxShadow: '0 3px 12px rgba(6,182,212,0.35)' }}>
-            🧮 <span>Решатель</span>
+            🧮 <span className="hide-on-mobile">Решатель</span>
           </button>
           {/* Sound Toggle */}
           <SoundButton />

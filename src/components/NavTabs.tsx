@@ -29,11 +29,15 @@ export function NavTabs({ currentPage, lang, onSelectPage }: NavTabsProps) {
 
   return (
     <nav
+      className="app-nav"
       style={{
         display: 'flex',
         gap: '6px',
         overflowX: 'auto',
         padding: '10px 24px',
+        // Without an explicit width the flex-column parent sizes the nav to its content,
+        // which made the whole page ~1000px wide on phones
+        width: '100%',
         maxWidth: '1440px',
         margin: '0 auto',
         scrollbarWidth: 'none',

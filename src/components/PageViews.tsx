@@ -61,7 +61,7 @@ export function HomeView({ lang, progress, quizBest, notes, onOpenCourse, onNav 
     <motion.div key="home-view" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, y: -15 }} transition={{ duration: 0.35 }}>
       {/* Hero */}
       <motion.div initial={{ opacity: 0, y: 40, scale: 0.97 }} animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} className="hero-gradient-animated"
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} className="hero-gradient-animated home-hero"
         style={{ background: 'linear-gradient(135deg,#4f46e5 0%,#7c3aed 35%,#06b6d4 65%,#4f46e5 100%)', borderRadius: '28px', padding: '56px 48px', color: '#fff', position: 'relative', overflow: 'hidden', marginBottom: '40px', boxShadow: 'var(--shadow-lg), 0 12px 56px rgba(79,70,229,0.38)' }}>
         <div style={{ position: 'absolute', width: '520px', height: '520px', top: '-55%', right: '-8%', background: 'radial-gradient(circle, rgba(255,255,255,0.18) 0%, transparent 68%)', borderRadius: '50%', pointerEvents: 'none', zIndex: 0 }} />
         <div style={{ position: 'absolute', width: '280px', height: '280px', bottom: '-30%', left: '5%', background: 'radial-gradient(circle, rgba(6,182,212,0.20) 0%, transparent 70%)', borderRadius: '50%', pointerEvents: 'none', zIndex: 0 }} />

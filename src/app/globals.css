@@ -334,6 +334,59 @@ button {
   color: var(--text-primary);
 }
 
+/* Phones: components use inline styles, so these overrides need !important */
+@media (max-width: 640px) {
+  .hide-on-mobile {
+    display: none !important;
+  }
+
+  /* The wrapped header is ~150px tall; don't pin it over a small screen */
+  .app-header {
+    position: relative !important;
+  }
+
+  .app-header-inner {
+    padding: 10px 14px !important;
+    gap: 10px !important;
+  }
+
+  .app-header-controls {
+    gap: 6px !important;
+  }
+
+  .app-nav {
+    padding: 8px 14px !important;
+  }
+
+  .app-main {
+    padding: 18px 14px !important;
+  }
+
+  .home-hero {
+    padding: 28px 20px !important;
+    border-radius: 20px !important;
+    margin-bottom: 28px !important;
+  }
+
+  .home-hero h1 {
+    font-size: 28px !important;
+  }
+
+  .home-hero p {
+    font-size: 15px !important;
+  }
+
+  .home-hero b {
+    font-size: 22px !important;
+  }
+
+  .home-hero [style*="min-width"] {
+    min-width: 0 !important;
+    flex: 1 1 90px;
+    padding: 12px 14px !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
     animation-duration: 0.01ms !important;

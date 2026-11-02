@@ -236,7 +236,7 @@ export default function HomePage() {
         />
 
         {/* Main Content Area */}
-        <main style={{ maxWidth: '1440px', width: '100%', margin: '0 auto', padding: '26px 24px', flex: 1 }}>
+        <main className="app-main" style={{ maxWidth: '1440px', width: '100%', margin: '0 auto', padding: '26px 24px', flex: 1 }}>
           <AnimatePresence mode="wait">
             {/* ================= PAGE: HOME ================= */}
             {currentPage === 'home' && (
