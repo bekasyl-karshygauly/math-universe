@@ -62,7 +62,12 @@ export async function signUp(email: string, password: string, username: string) 
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
-    options: { data: { username } },
+    options: {
+      data: { username },
+      // The confirmation link returns to the site the user signed up on (localhost or GitHub Pages).
+      // That URL must be listed in Supabase → Authentication → URL Configuration → Redirect URLs.
+      emailRedirectTo: `${window.location.origin}${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/`,
+    },
   });
   if (error) throw error;
   return data;

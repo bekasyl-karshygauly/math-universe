@@ -474,7 +474,7 @@ export default function HomePage() {
         >
           <div>Math Universe © 2026 · {t('footer')}</div>
           <div style={{ marginTop: '6px', fontSize: '12px', opacity: 0.75 }}>
-            {t('legacy_file_badge')} · <a href="/legacy.html" target="_blank" style={{ textDecoration: 'underline' }}>Открыть оригинальный файл Qwen_html</a>
+            {t('legacy_file_badge')} · <a href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/legacy.html`} target="_blank" style={{ textDecoration: 'underline' }}>Открыть оригинальный файл Qwen_html</a>
           </div>
         </footer>
 
