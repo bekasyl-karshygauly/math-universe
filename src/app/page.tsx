@@ -11,7 +11,7 @@ import { fmt, htmlLang } from '../data/i18n-lab';
 import { COURSES } from '../data/courses';
 import { useAuth } from '../lib/auth-context';
 
-import { LenisProvider } from '../components/LenisProvider';
+import { LenisProvider, scrollToTop } from '../components/LenisProvider';
 import { Header } from '../components/Header';
 import { NavTabs, NavPage } from '../components/NavTabs';
 import { HomeView, HacksView, BonusView } from '../components/PageViews';
@@ -185,13 +185,13 @@ export default function HomePage() {
   const goTo = (page: NavPage) => {
     setCurrentPage(page);
     setSelectedCourseId(null);
-    window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+    scrollToTop(!reduceMotion);
   };
 
   const handleOpenCourse = (id: string) => {
     setSelectedCourseId(id);
     setCurrentPage('courses');
-    window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+    scrollToTop(!reduceMotion);
   };
 
   // Filter courses for courses view

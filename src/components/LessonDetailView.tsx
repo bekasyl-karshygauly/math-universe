@@ -14,6 +14,7 @@ import { MathRenderer } from './MathRenderer';
 import { JSXGraphBoard, JSXGraphDemoType } from './visualizations/JSXGraphBoard';
 import { NumberSetsVisualizer } from './visualizations/NumberSetsVisualizer';
 import { SegmentedTabs } from './ui/SegmentedTabs';
+import { scrollToElement } from './LenisProvider';
 import { playSmoothSound, playDynamicSound, playSuccessSound, playModalOpenSound } from '../lib/sound';
 
 interface LessonDetailViewProps {
@@ -68,7 +69,7 @@ export function LessonDetailView({
     setOpenIndex(idx);
     // On narrow screens the outline sits above the text: bring the lesson into view
     if (window.matchMedia('(max-width: 860px)').matches) {
-      contentRef.current?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+      if (contentRef.current) scrollToElement(contentRef.current, !reduceMotion);
     }
   };
 

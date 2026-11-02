@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { KaTeXMath } from '../KaTeXMath';
+import { prefersReducedMotion } from '../../lib/labPalette';
 import { playDynamicSound, playSmoothSound, playVisualMorphSound, playSuccessSound } from '../../lib/sound';
 
 interface VisualProofInteractiveProps {
@@ -32,43 +33,52 @@ export function VisualProofInteractive({ type, lang }: VisualProofInteractivePro
   const [probBgivenA, setProbBgivenA] = useState<number>(0.8);
   const [probBgivenNotA, setProbBgivenNotA] = useState<number>(0.2);
 
+  // One live tween at a time: a new play press, manual slider input or unmount kills it,
+  // so the latest command always wins and nothing updates state after leaving the view
+  const tweenRef = useRef<gsap.core.Tween | null>(null);
+  const stopTween = () => {
+    tweenRef.current?.kill();
+    tweenRef.current = null;
+  };
+  useEffect(() => stopTween, []);
+
+  const play = (from: number, to: number, duration: number, set: (v: number) => void) => {
+    stopTween();
+    // Reduced motion: jump to the result, the slider stays available for manual exploration
+    if (prefersReducedMotion()) {
+      set(to);
+      playSuccessSound();
+      return;
+    }
+    const obj = { val: from };
+    tweenRef.current = gsap.to(obj, {
+      val: to,
+      duration,
+      ease: 'power2.inOut',
+      onUpdate: () => set(obj.val),
+      onComplete: () => {
+        tweenRef.current = null;
+        playSuccessSound();
+      },
+    });
+  };
+
   // Auto animation for square completion
   const animateSquareCompletion = () => {
     playSmoothSound();
-    const obj = { val: sqT };
-    gsap.to(obj, {
-      val: sqT > 0.8 ? 0 : 1,
-      duration: 1.6,
-      ease: 'power2.inOut',
-      onUpdate: () => setSqT(obj.val),
-      onComplete: () => playSuccessSound(),
-    });
+    play(sqT, sqT > 0.8 ? 0 : 1, 1.2, setSqT);
   };
 
   // Auto animation for secant limit
   const animateSecantLimit = () => {
     playDynamicSound();
-    const obj = { val: dx };
-    gsap.to(obj, {
-      val: dx < 0.2 ? 2.0 : 0.01,
-      duration: 1.8,
-      ease: 'power2.inOut',
-      onUpdate: () => setDx(obj.val),
-      onComplete: () => playSuccessSound(),
-    });
+    play(dx, dx < 0.2 ? 2.0 : 0.01, 1.4, setDx);
   };
 
   // Auto animation for Euler rotation to pi
   const animateEulerToPi = () => {
     playSmoothSound();
-    const obj = { val: eulerAngle };
-    gsap.to(obj, {
-      val: 180,
-      duration: 2.0,
-      ease: 'power2.inOut',
-      onUpdate: () => setEulerAngle(obj.val),
-      onComplete: () => playSuccessSound(),
-    });
+    play(eulerAngle, 180, 1.4, setEulerAngle);
   };
 
   return (
@@ -170,6 +180,7 @@ export function VisualProofInteractive({ type, lang }: VisualProofInteractivePro
                 step={0.01}
                 value={sqT}
                 onChange={(e) => {
+                  stopTween();
                   setSqT(parseFloat(e.target.value));
                   playVisualMorphSound();
                 }}
@@ -285,6 +296,7 @@ export function VisualProofInteractive({ type, lang }: VisualProofInteractivePro
                 step={0.02}
                 value={dx}
                 onChange={(e) => {
+                  stopTween();
                   setDx(parseFloat(e.target.value));
                   playVisualMorphSound();
                 }}
@@ -426,6 +438,7 @@ export function VisualProofInteractive({ type, lang }: VisualProofInteractivePro
                     max={360}
                     value={Math.round(eulerAngle)}
                     onChange={(e) => {
+                      stopTween();
                       setEulerAngle(+e.target.value);
                       playVisualMorphSound();
                     }}

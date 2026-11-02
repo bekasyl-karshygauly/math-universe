@@ -154,12 +154,28 @@ export function Math3DViewer({ initialMode = 'vectors', height = 440, lang = 'ru
     // Render loop runs only while the canvas is on screen and the tab is visible
     let animId = 0;
     let onScreen = true;
-    const animate = () => {
+    let lastTime = 0;
+    const animate = (now: number = performance.now()) => {
       animId = 0;
-      if (!onScreen || document.hidden) return;
+      if (!onScreen || document.hidden) {
+        lastTime = 0;
+        return;
+      }
       animId = requestAnimationFrame(animate);
-      if (isRotatingRef.current && !isDragging && groupRef.current) {
-        groupRef.current.rotation.y += 0.005;
+      // Time-based motion: same speed at any frame rate; the first frame after a pause moves nothing
+      const dt = lastTime ? Math.min(0.05, (now - lastTime) / 1000) : 0;
+      lastTime = now;
+      const group = groupRef.current;
+      if (group) {
+        if (isRotatingRef.current && !isDragging) group.rotation.y += 0.3 * dt;
+        // Short scale-in after a mode change (appear: 0 → 1 over ~0.35 s)
+        const appear = group.userData.appear ?? 1;
+        if (appear < 1) {
+          const next = Math.min(1, appear + dt / 0.35);
+          group.userData.appear = next;
+          const s = 0.9 + 0.1 * (1 - Math.pow(1 - next, 3));
+          group.scale.setScalar(s);
+        }
       }
       try {
         renderer.render(scene, camera);
@@ -242,6 +258,9 @@ export function Math3DViewer({ initialMode = 'vectors', height = 440, lang = 'ru
       disposeTree(obj);
       group.remove(obj);
     }
+    // New model eases in; with reduced motion it appears at full size immediately
+    group.userData.appear = prefersReducedMotion() ? 1 : 0;
+    group.scale.setScalar(prefersReducedMotion() ? 1 : 0.9);
 
     try {
       if (mode === 'vectors') {

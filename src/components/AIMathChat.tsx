@@ -33,7 +33,8 @@ export function AIMathChat({ onClose, lang }: AIChatProps) {
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputId = 'math-chat-input';
 
-  useEffect(() => { bottomRef.current?.scrollIntoView({ block: 'end' }); }, [messages, loading]);
+  // Scroll only the message log (block: 'nearest' never moves the page behind the dialog)
+  useEffect(() => { bottomRef.current?.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); }, [messages, loading]);
 
   const send = async () => {
     if (!input.trim() || loading) return;

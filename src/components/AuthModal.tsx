@@ -5,6 +5,7 @@ import { Language } from '../lib/storage';
 import { I18N } from '../data/i18n';
 import { Dialog } from './ui/Dialog';
 import { Field } from './ui/Field';
+import { Button } from './ui/Button';
 
 interface AuthModalProps {
   onClose: () => void;
@@ -75,9 +76,10 @@ export function AuthModal({ onClose, lang }: AuthModalProps) {
           </p>
         )}
 
-        <button type="submit" className="btn btn--primary btn--block" disabled={loading}>
-          {loading ? t('loading') : mode === 'login' ? L.btn_l : L.btn_r}
-        </button>
+        <Button type="submit" block loading={loading}>
+          {mode === 'login' ? L.btn_l : L.btn_r}
+        </Button>
+        {loading && <span className="sr-only" role="status">{t('loading')}</span>}
 
         <p style={{ textAlign: 'center', fontSize: '14px', color: 'var(--text-secondary)' }}>
           {mode === 'login' ? L.switch_l : L.switch_r}{' '}

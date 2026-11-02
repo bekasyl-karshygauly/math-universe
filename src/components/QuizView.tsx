@@ -317,22 +317,26 @@ export function QuizView({ lang, onUpdateBestScore }: QuizViewProps) {
         aria-valuenow={activeQuiz.currentIndex}
         style={{ marginBottom: '24px' }}
       >
-        <div className="progress-fill" style={{ width: `${curPct}%` }} />
+        {/* No draw-in here: the bar moves smoothly from the previous value, not from zero */}
+        <div className="progress-fill progress-fill--live" style={{ width: `${curPct}%` }} />
       </div>
 
-      <h2 id="quiz-question" key={activeQuiz.currentIndex} className="quiz-card__q reveal">
-        {curQ.q[lang]}
-      </h2>
+      {/* Question and its options change together as one block (short rise + fade) */}
+      <div key={activeQuiz.currentIndex} className="reveal">
+        <h2 id="quiz-question" className="quiz-card__q">
+          {curQ.q[lang]}
+        </h2>
 
-      <div className="quiz-card__options" role="group" aria-labelledby="quiz-question">
-        {curQ.a[lang].map((opt, i) => (
-          <button key={i} type="button" className="choice" aria-pressed={curSelected === i} onClick={() => selectAnswer(i)}>
-            <span className="choice__key" aria-hidden="true">
-              {String.fromCharCode(65 + i)}
-            </span>
-            <span>{opt}</span>
-          </button>
-        ))}
+        <div className="quiz-card__options" role="group" aria-labelledby="quiz-question">
+          {curQ.a[lang].map((opt, i) => (
+            <button key={i} type="button" className="choice" aria-pressed={curSelected === i} onClick={() => selectAnswer(i)}>
+              <span className="choice__key" aria-hidden="true">
+                {String.fromCharCode(65 + i)}
+              </span>
+              <span>{opt}</span>
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="quiz-card__nav">

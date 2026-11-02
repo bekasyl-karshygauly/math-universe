@@ -17,6 +17,7 @@ export function StepSolver({ onClose, lang }: StepSolverProps) {
   const [input, setInput] = useState('');
   const [solution, setSolution] = useState<SolverSolution | null>(null);
   const [error, setError] = useState('');
+  const [run, setRun] = useState(0);
   const inputId = useId();
   const errorId = useId();
 
@@ -33,6 +34,8 @@ export function StepSolver({ onClose, lang }: StepSolverProps) {
       return;
     }
     setSolution(res.solution);
+    // New key per run: the step cascade replays for every solve, the previous one is replaced at once
+    setRun((r) => r + 1);
   };
 
   return (
@@ -81,11 +84,11 @@ export function StepSolver({ onClose, lang }: StepSolverProps) {
       )}
 
       {solution && (
-        <section aria-live="polite" style={{ marginTop: '22px' }}>
+        <section key={run} aria-live="polite" style={{ marginTop: '22px' }}>
           <p className="eyebrow eyebrow--muted">{solution.title}</p>
           <ol className="solver-steps">
             {solution.steps.map((step, i) => (
-              <li key={i} className="solver-step reveal" style={{ animationDelay: `${i * 60}ms` }}>
+              <li key={i} className="solver-step reveal" style={{ animationDelay: `${i * 40}ms` }}>
                 <span className="solver-step__num mono" aria-hidden="true">
                   {i + 1}
                 </span>
@@ -97,7 +100,7 @@ export function StepSolver({ onClose, lang }: StepSolverProps) {
               </li>
             ))}
           </ol>
-          <div className="result-panel result-panel--success solver-answer">
+          <div className="result-panel result-panel--success solver-answer reveal" style={{ animationDelay: `${solution.steps.length * 40}ms` }}>
             <span className="eyebrow eyebrow--muted">{t('solver_answer')}</span>
             <span className="solver-answer__value mono">{solution.answer}</span>
           </div>

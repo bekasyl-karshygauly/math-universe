@@ -2031,6 +2031,23 @@ textarea.field-input {
   margin-top: 12px;
 }
 
+.plot-status {
+  min-height: 20px;
+  margin: -6px 0 8px;
+  font-size: 13px;
+  color: var(--accent-rose);
+}
+
+/* Last valid graph stays visible but visibly out of date while the input is invalid */
+.plot-surface--stale {
+  opacity: 0.45;
+  transition: opacity var(--dur-state) var(--ease);
+}
+
+.plot-surface {
+  transition: opacity var(--dur-state) var(--ease);
+}
+
 .plot-controls {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 110px 110px auto;
@@ -2156,6 +2173,22 @@ textarea.field-input {
 .flashcard:hover .flashcard__face {
   border-color: var(--text-primary);
 }
+
+.flashcard__face {
+  transition: border-color var(--dur-hover) var(--ease), opacity var(--dur-reveal) var(--ease);
+}
+
+/* Reduced-motion variant: no rotation, the two faces crossfade in place */
+.flashcard--flat .flashcard__face,
+.flashcard--flat .flashcard__face--back {
+  transform: none;
+  backface-visibility: visible;
+  -webkit-backface-visibility: visible;
+}
+
+.flashcard--flat .flashcard__face--back { opacity: 0; pointer-events: none; }
+.flashcard--flat.is-flipped .flashcard__face { opacity: 0; }
+.flashcard--flat.is-flipped .flashcard__face--back { opacity: 1; }
 
 .flashcard__title {
   font-family: var(--font-display);
@@ -2945,20 +2978,35 @@ textarea.field-input {
   animation: labReveal 360ms var(--ease) both;
 }
 
-/* Progress bars draw in from the left when they appear */
+/* Progress bars draw in from the left when they first appear; later changes ease from the previous width */
 .progress-fill {
   transform-origin: left center;
   animation: labGrowX 700ms var(--ease) both;
+  transition: width var(--dur-reveal) var(--ease);
 }
 
-/* Tactile press feedback on every button-like control */
-.btn:active:not(:disabled),
-.seg-tab:active,
-.choice:active,
-.chip:active,
-.icon-btn:active,
-.header-action:active {
-  transform: scale(0.97);
+.progress-fill--live {
+  animation: none;
+}
+
+:root {
+  --dur-press: 100ms;
+  --dur-hover: 160ms;
+  --dur-state: 220ms;
+  --dur-reveal: 280ms;
+}
+
+/* Tactile press feedback: quick 0.98 squeeze, quick calm return; never on disabled controls */
+.btn:active:not(:disabled):not([aria-busy="true"]),
+.seg-tab:active:not(:disabled),
+.choice:active:not(:disabled),
+.chip:active:not(:disabled),
+.icon-btn:active:not(:disabled),
+.header-action:active:not(:disabled),
+.lang-switch__btn:active:not(:disabled),
+.why-steps__dot:active {
+  transform: scale(0.98);
+  transition-duration: var(--dur-press);
 }
 
 .btn,
@@ -2966,10 +3014,48 @@ textarea.field-input {
 .choice,
 .chip,
 .icon-btn,
-.header-action {
-  transition-property: background-color, border-color, color, transform, box-shadow;
-  transition-duration: 160ms;
+.header-action,
+.lang-switch__btn,
+.why-steps__dot,
+.user-hud {
+  transition-property: background-color, border-color, color, transform, box-shadow, opacity;
+  transition-duration: var(--dur-hover);
   transition-timing-function: var(--ease);
+}
+
+/* Loading keeps the button's size: the label stays in place (invisible) under a spinner */
+.btn[aria-busy="true"] {
+  position: relative;
+  cursor: progress;
+}
+
+.btn[aria-busy="true"] > * {
+  visibility: hidden;
+}
+
+.btn[aria-busy="true"]::after {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: labSpin 700ms linear infinite;
+}
+
+@keyframes labSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* Field state changes ease instead of snapping */
+.field-input {
+  transition: border-color var(--dur-hover) var(--ease), box-shadow var(--dur-hover) var(--ease), background-color var(--dur-hover) var(--ease);
+}
+
+.field-error,
+.status {
+  animation: labReveal var(--dur-state) var(--ease) both;
 }
 
 /* Cards and rows respond to the pointer with a short, precise lift */

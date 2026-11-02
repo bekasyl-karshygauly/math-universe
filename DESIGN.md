@@ -104,6 +104,37 @@ Precise feedback, calm reveal, a clear link between cause and effect.
 - `prefers-reduced-motion`: CSS durations collapse, Motion uses
   `useReducedMotion`, Canvas/3D stop auto-animation but keep manual controls.
 
+### Motion tokens (`src/lib/motion.ts` + CSS `--dur-*`)
+
+| Token | Duration | Use |
+|---|---|---|
+| press | 100 ms | button/tab press scale 0.98 |
+| hover | 160 ms | colour, border, small lift |
+| state | 220 ms | tabs, panels, question change |
+| reveal | 280 ms | dialogs, lesson levels, sections |
+| draw | 550 ms | first plot of a function (time-based, cancellable) |
+| ease | `cubic-bezier(0.2, 0, 0, 1)` | everything except the plot draw (`easeOutCubic`) |
+
+The in-app setting **Settings → Animations** (system / on / off) writes
+`data-motion` on `<html>`; CSS, Motion (`MotionConfig`), Lenis, canvases, GSAP
+tweens and Three.js all read it. "System" follows `prefers-reduced-motion`.
+
+### Motion audit (2026-11-02) → resolution
+
+| Component | Action | Before | Problem | Resolution |
+|---|---|---|---|---|
+| All | any | Motion/CSS gated by OS setting | Windows "animation effects" off ⇒ fully static | in-app Animations setting |
+| PlotterView | build / type / preset | frame-count reveal on every keystroke | duration depends on FPS; typing restarts animation; invalid input = blank | time-based 550 ms draw for build/preset, instant debounced redraw while typing, inline error keeps last valid graph |
+| PlotterView | tan x, 1/x | line joined across asymptotes, range squashed | misleading graph | break path at jumps, robust y-range |
+| VisualProofInteractive | play buttons | GSAP tweens never killed | stacked tweens fight, setState after unmount | one tween per control, killed on retrigger/manual input/unmount |
+| UnitCircleVisualizer | 0°/90°/180° | instant jump | no visible dependency | 300 ms tween along the shortest arc; auto-rotation dt-based with clamp |
+| Math3DViewer | rotation / mode | per-frame step | speed depends on FPS | dt-based rotation, clamped delta, short scale-in on mode change |
+| FormulaTrainer | flip | 3D flip, instant when reduced | jump | crossfade instead of rotation when reduced |
+| QuizView | next question | heading only | options swap abruptly | whole question block transitions |
+| StepSolver | re-solve | same DOM nodes | steps do not re-reveal | keyed run, steps cascade 40 ms |
+| page.tsx | section change | `scrollTo smooth` + Lenis | two smoothers on one scroll | scroll through Lenis when active |
+| Buttons | press | scale 0.97 | also on disabled | 0.98, never on disabled, loading keeps size |
+
 ## Visualizations
 
 - Plot background = `--surface`; grid = `--border-light`; axes = `--border-hover`;

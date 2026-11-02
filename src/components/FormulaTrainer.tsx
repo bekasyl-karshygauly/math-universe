@@ -6,6 +6,7 @@ import { ArrowLeft, ArrowRight, Check } from 'lucide-react';
 import { KaTeXMath } from './KaTeXMath';
 import { playClickSound, playSuccessSound } from '../lib/sound';
 import { labConfetti } from '../lib/celebrate';
+import { useReduceMotion } from '../lib/motionPref';
 
 interface Flashcard {
   id: string;
@@ -120,6 +121,7 @@ export function FormulaTrainer() {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [isFlipped, setIsFlipped] = useState<boolean>(false);
   const [knownIds, setKnownIds] = useState<Set<string>>(new Set());
+  const reduce = useReduceMotion();
 
   const filteredCards = CARDS_DATA.filter(
     (c) => selectedCat === 'all' || c.category === selectedCat
@@ -198,15 +200,17 @@ export function FormulaTrainer() {
       </div>
 
       {/* Flip card: a real button, so it works with keyboard and screen readers */}
-      <div className="flashcard__stage">
+      {/* Keyed by card: moving to another card replays a short reveal instead of swapping text in place */}
+      <div key={`${selectedCat}-${currentIndex}`} className="flashcard__stage reveal">
         <motion.button
           type="button"
-          className="flashcard"
+          className={`flashcard${reduce ? ' flashcard--flat' : ''}${isFlipped ? ' is-flipped' : ''}`}
           onClick={handleFlip}
           aria-pressed={isFlipped}
           aria-label={isFlipped ? `${card?.title}: ${card?.explanation}` : `${card?.title}. ${card?.frontPrompt}. Перевернуть карточку`}
-          animate={{ rotateY: isFlipped ? 180 : 0 }}
-          transition={{ duration: 0.32, ease: [0.2, 0, 0, 1] }}
+          // Reduced motion: no 3D turn, the faces crossfade (CSS) instead
+          animate={{ rotateY: reduce ? 0 : isFlipped ? 180 : 0 }}
+          transition={{ duration: 0.42, ease: [0.2, 0, 0, 1] }}
         >
           {/* Front Face */}
           <span className="flashcard__face" aria-hidden={isFlipped}>

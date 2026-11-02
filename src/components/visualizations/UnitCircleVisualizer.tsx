@@ -3,6 +3,8 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Pause, Play } from 'lucide-react';
 import { playClickSound } from '../../lib/sound';
+import { prefersReducedMotion } from '../../lib/labPalette';
+import { DUR, easeInOutCubic, tween } from '../../lib/motion';
 
 interface UnitCircleVisualizerProps {
   initialAngleDeg?: number;
@@ -65,7 +67,8 @@ export function UnitCircleVisualizer({ initialAngleDeg = 45, onAngleChange }: Un
 
     let lastTime = performance.now();
     const loop = (time: number) => {
-      const dt = (time - lastTime) / 1000;
+      // Time-based speed; clamp the step after returning from a background tab
+      const dt = Math.min(0.05, (time - lastTime) / 1000);
       lastTime = time;
       setAngle((prev) => {
         const next = (prev + dt * 45) % 360;
@@ -81,7 +84,36 @@ export function UnitCircleVisualizer({ initialAngleDeg = 45, onAngleChange }: Un
     };
   }, [isPlaying, onAngleChange]);
 
+  // Preset angles turn the radius along the shortest arc, so sin/cos visibly change with it
+  const cancelTween = useRef<(() => void) | null>(null);
+  const stopTween = () => {
+    cancelTween.current?.();
+    cancelTween.current = null;
+  };
+  useEffect(() => stopTween, []);
+
+  const animateTo = (target: number) => {
+    stopTween();
+    setIsPlaying(false);
+    if (prefersReducedMotion()) {
+      updateAngle(target);
+      return;
+    }
+    const from = angle;
+    let delta = ((target - from + 540) % 360) - 180;
+    if (delta === -180) delta = 180;
+    cancelTween.current = tween(
+      DUR.reveal + 0.04,
+      (p) => updateAngle(from + delta * easeInOutCubic(p)),
+      () => {
+        cancelTween.current = null;
+        updateAngle(target);
+      }
+    );
+  };
+
   const handlePointerDown = (e: React.PointerEvent) => {
+    stopTween();
     isDragging.current = true;
     (e.target as Element).setPointerCapture(e.pointerId);
     handlePointerMove(e);
@@ -143,7 +175,7 @@ export function UnitCircleVisualizer({ initialAngleDeg = 45, onAngleChange }: Un
                 fill={isNear ? 'var(--primary)' : 'var(--plot-axis)'}
                 style={{ cursor: 'pointer' }}
                 onClick={() => {
-                  updateAngle(sa.deg);
+                  animateTo(sa.deg);
                   playClickSound();
                 }}
               />
@@ -195,6 +227,7 @@ export function UnitCircleVisualizer({ initialAngleDeg = 45, onAngleChange }: Un
             className={isPlaying ? 'btn btn--secondary btn--sm' : 'btn btn--primary btn--sm'}
             aria-pressed={isPlaying}
             onClick={() => {
+              stopTween();
               setIsPlaying(!isPlaying);
               playClickSound();
             }}
@@ -208,7 +241,7 @@ export function UnitCircleVisualizer({ initialAngleDeg = 45, onAngleChange }: Un
               type="button"
               className="btn btn--secondary btn--sm mono"
               onClick={() => {
-                updateAngle(deg);
+                animateTo(deg);
                 playClickSound();
               }}
             >
@@ -237,7 +270,10 @@ export function UnitCircleVisualizer({ initialAngleDeg = 45, onAngleChange }: Un
             max={360}
             step={1}
             value={Math.round(angle)}
-            onChange={(e) => updateAngle(parseFloat(e.target.value))}
+            onChange={(e) => {
+              stopTween();
+              updateAngle(parseFloat(e.target.value));
+            }}
             style={{ width: '100%', cursor: 'pointer' }}
           />
         </div>

@@ -127,8 +127,9 @@ export function HomeView({ lang, progress, quizBest, onOpenCourse, onNav }: Home
         </div>
         <motion.div
           className="lab-hero__instrument"
-          initial={{ opacity: 0, x: 24 }}
-          animate={{ opacity: 1, x: 0 }}
+          // Vertical entrance only: a horizontal offset would briefly widen the page on phones
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.65, ease: EASE, delay: 0.3 }}
         >
           <LabExperiment lang={lang} />
