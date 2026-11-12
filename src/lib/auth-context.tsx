@@ -13,6 +13,7 @@ import {
   checkAchievements,
 } from './supabase';
 import { COURSES } from '../data/courses';
+import { MATH1_COURSE_ID, MATH1_LECTURE_COUNT } from '../data/math1/constants';
 
 interface AuthContextValue {
   user: User | null;
@@ -144,11 +145,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const merged: Record<string, boolean[]> = {};
       const toUpload: [string, number][] = [];
 
-      for (const c of COURSES) {
-        merged[c.id] = c.lessons.map((_, i) => {
-          if (serverDone.has(`${c.id}:${i}`)) return true;
-          if (local[c.id]?.[i]) {
-            toUpload.push([c.id, i]);
+      const courses = [
+        ...COURSES.map(({ id, lessons }) => ({ id, count: lessons.length })),
+        { id: MATH1_COURSE_ID, count: MATH1_LECTURE_COUNT },
+      ];
+      for (const { id, count } of courses) {
+        merged[id] = Array.from({ length: count }, (_, i) => {
+          if (serverDone.has(`${id}:${i}`)) return true;
+          if (local[id]?.[i]) {
+            toUpload.push([id, i]);
             return true;
           }
           return false;

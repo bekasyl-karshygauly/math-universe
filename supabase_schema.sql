@@ -57,7 +57,8 @@ create table if not exists public.course_catalog (
   lesson_count integer not null
 );
 insert into public.course_catalog (course_id, lesson_count) values
-  ('basics', 4), ('algebra', 3), ('calc', 5), ('linal', 4), ('prob', 3)
+  ('basics', 4), ('algebra', 3), ('calc', 5), ('linal', 4), ('prob', 3),
+  ('math1', 8) -- available lectures of «Математика 1»
 on conflict (course_id) do update set lesson_count = excluded.lesson_count;
 
 create table if not exists public.achievement_defs (

@@ -18,6 +18,7 @@ import { scrollToElement } from './LenisProvider';
 import { playSmoothSound, playDynamicSound, playSuccessSound, playModalOpenSound } from '../lib/sound';
 
 interface LessonDetailViewProps {
+  initialLessonId?: string;
   course: Course;
   lang: Language;
   progress: boolean[];
@@ -36,6 +37,7 @@ const DEMOS: Record<string, { type: JSXGraphDemoType; titleKey: string }> = {
 };
 
 export function LessonDetailView({
+  initialLessonId,
   course,
   lang,
   progress,
@@ -49,6 +51,8 @@ export function LessonDetailView({
   const reduceMotion = useReduceMotion();
   // Start at the first unread lesson
   const [openIndex, setOpenIndex] = useState<number>(() => {
+    const requested = course.lessons.findIndex((lesson) => lesson.id === initialLessonId);
+    if (requested !== -1) return requested;
     const firstUnread = course.lessons.findIndex((_, i) => !progress[i]);
     return firstUnread === -1 ? 0 : firstUnread;
   });

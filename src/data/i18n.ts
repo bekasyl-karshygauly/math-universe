@@ -1,5 +1,6 @@
 import { Language } from '../lib/storage';
 import { LAB_I18N } from './i18n-lab';
+import { M1_I18N } from './math1/i18n';
 
 export const I18N: Record<Language, Record<string, string>> = {
   ru: {
@@ -347,4 +348,9 @@ export const I18N: Record<Language, Record<string, string>> = {
 // Laboratory redesign UI strings (kept in a separate module to keep this file readable)
 for (const lang of Object.keys(LAB_I18N) as Language[]) {
   Object.assign(I18N[lang], LAB_I18N[lang]);
+}
+
+// «Математика 1» university course strings
+for (const lang of Object.keys(M1_I18N) as Language[]) {
+  Object.assign(I18N[lang], M1_I18N[lang]);
 }

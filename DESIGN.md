@@ -92,6 +92,20 @@ and sans stacks; no web font is required for the main text.
 - Success / warning / danger: text color + icon or word, never color alone.
 - Loading: plain text status in `--text-muted`; empty: one sentence + next action.
 
+### University course reading and search
+
+Lecture content uses the existing reading column, KaTeX, instrument surfaces
+and teal accent. A compact contents list links to theory sections, deeper
+explanations and practice. Derivations and worked applications live in
+independently expandable panels, with keyboard controls and reduced-motion
+support. Essential theory remains visible.
+
+Course search indexes the eight available lectures, their theory, deeper
+explanations and worked examples in all three languages. Results show the
+lecture, section and a short excerpt and open the matching section.
+Query state stays local to the course coordinator, matching the existing
+single-route navigation. Clearing returns focus to the input.
+
 ## Motion
 
 Precise feedback, calm reveal, a clear link between cause and effect.

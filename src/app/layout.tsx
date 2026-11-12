@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist_Mono } from "next/font/google";
 import "./globals.css";
+import "./math1.css";
 import { AuthProvider } from "../lib/auth-context";
 
 // Display and UI faces are system serif/sans stacks (see DESIGN.md); only the mono face is loaded.

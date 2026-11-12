@@ -7,6 +7,7 @@ import { ArrowUpRight } from 'lucide-react';
 import { HACKS } from '../data/hacks';
 import { BONUS } from '../data/bonus';
 import { COURSES } from '../data/courses';
+import { MATH1_LECTURE_COUNT } from '../data/math1/constants';
 import { KaTeXMath } from './KaTeXMath';
 import { LabExperiment } from './LabExperiment';
 import { PageHeader } from './ui/PageHeader';
@@ -49,7 +50,7 @@ interface HomeViewProps extends SharedProps {
 export function HomeView({ lang, progress, quizBest, onOpenCourse, onNav }: HomeViewProps) {
   const t = (k: string) => I18N[lang][k] || k;
   const viewMotion = useViewMotion();
-  const totalLessons = COURSES.reduce((a, c) => a + c.lessons.length, 0);
+  const totalLessons = COURSES.reduce((a, c) => a + c.lessons.length, 0) + MATH1_LECTURE_COUNT;
   const completedLessons = Object.values(progress).reduce((a, arr) => a + (arr ? arr.filter(Boolean).length : 0), 0);
   const hasProgress = completedLessons > 0;
 
@@ -134,6 +135,30 @@ export function HomeView({ lang, progress, quizBest, onOpenCourse, onNav }: Home
         >
           <LabExperiment lang={lang} />
         </motion.div>
+      </section>
+
+      {/* University course «Математика 1» */}
+      <section className="home-section" aria-labelledby="home-math1-title">
+        <Reveal>
+          <button
+            type="button"
+            className="panel panel--instrument m1-promo"
+            onClick={() => {
+              playSmoothSound();
+              onNav('math1');
+            }}
+          >
+            <span className="eyebrow">{t('m1_eyebrow')}</span>
+            <span id="home-math1-title" className="m1-promo__title">
+              {t('m1_home_title')}
+            </span>
+            <span className="m1-promo__desc">{t('m1_home_desc')}</span>
+            <span className="rule-link m1-promo__cta">
+              <span>{t('m1_home_cta')}</span>
+              <ArrowUpRight size={18} aria-hidden="true" className="rule-link__arrow" />
+            </span>
+          </button>
+        </Reveal>
       </section>
 
       {/* Depth levels */}

@@ -9,6 +9,7 @@ import { AppState, Language, Theme, loadStoredState, saveStoredState } from '../
 import { I18N } from '../data/i18n';
 import { fmt, htmlLang } from '../data/i18n-lab';
 import { COURSES } from '../data/courses';
+import { MATH1_COURSE_ID, MATH1_LECTURE_COUNT } from '../data/math1/constants';
 import { useAuth } from '../lib/auth-context';
 
 import { LenisProvider, scrollToTop } from '../components/LenisProvider';
@@ -34,6 +35,7 @@ const CalculatorsView = dynamic(() => import('../components/calculators/Calculat
 const PlotterView = dynamic(() => import('../components/PlotterView').then((m) => m.PlotterView), { ssr: false, loading: ViewLoading });
 const QuizView = dynamic(() => import('../components/QuizView').then((m) => m.QuizView), { ssr: false, loading: ViewLoading });
 const NotesView = dynamic(() => import('../components/NotesView').then((m) => m.NotesView), { ssr: false, loading: ViewLoading });
+const Math1View = dynamic(() => import('../components/math1/Math1View').then((m) => m.Math1View), { ssr: false, loading: ViewLoading });
 
 const WhyItWorksModal = dynamic(() => import('../components/WhyItWorksModal').then((m) => m.WhyItWorksModal), {
   ssr: false,
@@ -60,6 +62,7 @@ export default function HomePage() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [currentPage, setCurrentPage] = useState<NavPage>('home');
   const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null);
+  const [selectedLessonId, setSelectedLessonId] = useState<string | undefined>();
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -150,7 +153,7 @@ export default function HomePage() {
 
   const handleToggleProgress = (courseId: string, lessonIndex: number) => {
     const course = COURSES.find((c) => c.id === courseId);
-    const total = course ? course.lessons.length : 10;
+    const total = course ? course.lessons.length : courseId === MATH1_COURSE_ID ? MATH1_LECTURE_COUNT : 10;
     // Decided outside the state updater: updaters must stay pure (StrictMode calls them twice)
     const completed = !state.progress[courseId]?.[lessonIndex];
 
@@ -185,11 +188,13 @@ export default function HomePage() {
   const goTo = (page: NavPage) => {
     setCurrentPage(page);
     setSelectedCourseId(null);
+    setSelectedLessonId(undefined);
     scrollToTop(!reduceMotion);
   };
 
-  const handleOpenCourse = (id: string) => {
+  const handleOpenCourse = (id: string, lessonId?: string) => {
     setSelectedCourseId(id);
+    setSelectedLessonId(lessonId);
     setCurrentPage('courses');
     scrollToTop(!reduceMotion);
   };
@@ -258,6 +263,7 @@ export default function HomePage() {
               <motion.div key={selectedCourse ? `course-${selectedCourse.id}` : 'courses-view'} {...viewMotion}>
                 {selectedCourse ? (
                   <LessonDetailView
+                    initialLessonId={selectedLessonId}
                     course={selectedCourse}
                     lang={state.lang}
                     progress={state.progress[selectedCourse.id] || []}
@@ -340,6 +346,17 @@ export default function HomePage() {
                     )}
                   </div>
                 )}
+              </motion.div>
+            )}
+
+            {currentPage === 'math1' && (
+              <motion.div key="math1-view" {...viewMotion}>
+                <Math1View
+                  lang={state.lang}
+                  progress={state.progress[MATH1_COURSE_ID] || []}
+                  onToggleProgress={(idx) => handleToggleProgress(MATH1_COURSE_ID, idx)}
+                  onOpenCourse={handleOpenCourse}
+                />
               </motion.div>
             )}
 

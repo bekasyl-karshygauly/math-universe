@@ -6,6 +6,7 @@ import { getLeaderboard, getQuizAttempts, xpToLevel, levelProgress, signOut, Pro
 import { ACHIEVEMENTS } from '../data/achievements';
 import { Language } from '../lib/storage';
 import { COURSES } from '../data/courses';
+import { MATH1_LECTURE_COUNT } from '../data/math1/constants';
 import { I18N } from '../data/i18n';
 import { fmt, htmlLang } from '../data/i18n-lab';
 import { Dialog } from './ui/Dialog';
@@ -45,7 +46,7 @@ export function DashboardModal({ onClose, lang, progress }: DashboardModalProps)
 
   const lvl = xpToLevel(profile.xp);
   const pct = levelProgress(profile.xp);
-  const totalLessons = COURSES.reduce((a, c) => a + c.lessons.length, 0);
+  const totalLessons = COURSES.reduce((a, c) => a + c.lessons.length, 0) + MATH1_LECTURE_COUNT;
   const completedLessons = Object.values(progress).reduce((a, arr) => a + (arr || []).filter(Boolean).length, 0);
   const progressPct = totalLessons ? Math.round((completedLessons / totalLessons) * 100) : 0;
 
