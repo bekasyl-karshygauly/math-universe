@@ -15,8 +15,14 @@ export function scrollToTop(smooth: boolean) {
 
 /** Brings an element to the top of the viewport (below the sticky nav) through the same smoother. */
 export function scrollToElement(el: HTMLElement, smooth: boolean, offset = -64) {
-  if (activeLenis) activeLenis.scrollTo(el, { offset, immediate: !smooth, duration: 0.6 });
-  else window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY + offset, behavior: smooth ? 'smooth' : 'auto' });
+  if (activeLenis) {
+    // Switching sections can change the document height and clamp the native
+    // scroll position before Lenis observes the change.
+    activeLenis.resize();
+    activeLenis.scrollTo(el, { offset, immediate: !smooth, duration: 0.6 });
+  } else {
+    window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY + offset, behavior: smooth ? 'smooth' : 'instant' });
+  }
 }
 
 export function LenisProvider({ children }: { children: React.ReactNode }) {

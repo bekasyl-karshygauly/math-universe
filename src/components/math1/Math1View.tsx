@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import { Check, Search } from 'lucide-react';
 import { Language } from '../../lib/storage';
@@ -8,7 +8,6 @@ import { MATH1_GLOSSARY, MATH1_LECTURES, MATH1_META, MATH1_SYLLABUS } from '../.
 import { fmt } from '../../data/i18n-lab';
 import { PageHeader } from '../ui/PageHeader';
 import { SegmentedTabs } from '../ui/SegmentedTabs';
-import { scrollToElement } from '../LenisProvider';
 import { useReduceMotion } from '../../lib/motionPref';
 import { playSmoothSound } from '../../lib/sound';
 import { LectureView } from './LectureView';
@@ -17,14 +16,16 @@ import { Trainer, ALL_TRAINER_GROUPS } from './Trainer';
 import { Tex, useT } from './shared';
 import { TopicSearch } from './TopicSearch';
 import type { StudyTarget } from '../../data/math1/search';
+import { scrollToStudyTarget } from './studyScroll';
 
 type HubTab = 'lectures' | 'variant' | 'trainer' | 'glossary';
 
 function focusLecture(panel: HTMLElement | null, smooth: boolean) {
-  const title = panel?.querySelector<HTMLElement>('.m1-lecture .lesson__title');
-  if (!title) return;
+  const lecture = panel?.querySelector<HTMLElement>('.m1-lecture');
+  const title = lecture?.querySelector<HTMLElement>('.lesson__title');
+  if (!lecture || !title) return;
   title.focus({ preventScroll: true });
-  scrollToElement(title, smooth);
+  scrollToStudyTarget(lecture, smooth);
 }
 
 interface Math1ViewProps {
@@ -104,7 +105,7 @@ export function Math1View({ lang, progress, onToggleProgress, onOpenCourse }: Ma
   const total = MATH1_LECTURES.length;
   const lecture = MATH1_LECTURES[open];
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (tab !== 'lectures' || !jumpToLecture.current) return;
     jumpToLecture.current = false;
     focusLecture(contentRef.current, !reduceMotion);
@@ -113,12 +114,11 @@ export function Math1View({ lang, progress, onToggleProgress, onOpenCourse }: Ma
   const openLecture = (idx: number, fromContent = false) => {
     setStudyJump(undefined);
     playSmoothSound();
-    const jump = fromContent || window.matchMedia('(max-width: 860px)').matches;
     if (idx === open && tab === 'lectures') {
-      if (jump) focusLecture(contentRef.current, !reduceMotion);
+      if (fromContent) focusLecture(contentRef.current, !reduceMotion);
       return;
     }
-    jumpToLecture.current = jump;
+    jumpToLecture.current = true;
     setTab('lectures');
     setOpen(idx);
   };
@@ -161,8 +161,8 @@ export function Math1View({ lang, progress, onToggleProgress, onOpenCourse }: Ma
 
       <div ref={contentRef} id="m1-hub-panel" role="tabpanel" aria-labelledby={`m1-hub-tab-${tab}`}>
         {tab === 'lectures' && (
-          <div className="lesson-grid">
-            <nav className="lesson-outline" aria-label={t('m1_syllabus')}>
+          <div className="lesson-grid m1-study-grid">
+            <nav className="lesson-outline m1-scroll-pane" aria-label={t('m1_syllabus')} tabIndex={0}>
               <ol>
                 {MATH1_LECTURES.map((s, idx) => {
                   const read = !!progress[idx];
@@ -174,8 +174,8 @@ export function Math1View({ lang, progress, onToggleProgress, onOpenCourse }: Ma
                         aria-current={idx === open ? 'true' : undefined}
                         onClick={() => openLecture(idx)}
                       >
-                        <span className="lesson-outline__num mono" aria-hidden="true">
-                          {read ? <Check size={14} /> : String(s.number).padStart(2, '0')}
+                        <span className="lesson-outline__num mono">
+                          {String(s.number).padStart(2, '0')}
                         </span>
                         <span className="lesson-outline__title">
                           {s.title[lang]}
@@ -188,7 +188,12 @@ export function Math1View({ lang, progress, onToggleProgress, onOpenCourse }: Ma
                             aria-hidden="true"
                           />
                         )}
-                        {read && <span className="sr-only">{t('lesson_done_state')}</span>}
+                        {read && (
+                          <span className="m1-outline__status" title={t('lesson_done_state')}>
+                            <Check size={14} aria-hidden="true" />
+                            <span className="sr-only">{t('lesson_done_state')}</span>
+                          </span>
+                        )}
                       </button>
                     </li>
                   );
@@ -201,16 +206,18 @@ export function Math1View({ lang, progress, onToggleProgress, onOpenCourse }: Ma
                 </ol>
               </details>
             </nav>
-            <LectureView
-              key={lecture.id}
-              lecture={lecture}
-              jump={studyJump}
-              lang={lang}
-              isDone={!!progress[open]}
-              onToggleDone={() => onToggleProgress(open)}
-              onOpenRelated={onOpenCourse}
-              onNext={open + 1 < MATH1_LECTURES.length ? () => openLecture(open + 1, true) : undefined}
-            />
+            <div className="m1-reader m1-scroll-pane" role="region" aria-label={lecture.title[lang]} tabIndex={0}>
+              <LectureView
+                key={lecture.id}
+                lecture={lecture}
+                jump={studyJump}
+                lang={lang}
+                isDone={!!progress[open]}
+                onToggleDone={() => onToggleProgress(open)}
+                onOpenRelated={onOpenCourse}
+                onNext={open + 1 < MATH1_LECTURES.length ? () => openLecture(open + 1, true) : undefined}
+              />
+            </div>
           </div>
         )}
 

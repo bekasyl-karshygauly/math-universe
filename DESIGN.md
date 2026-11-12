@@ -100,6 +100,10 @@ explanations and practice. Derivations and worked applications live in
 independently expandable panels, with keyboard controls and reduced-motion
 support. Essential theory remains visible.
 
+On desktop the syllabus and reader scroll independently. At narrow widths
+they share the document scroll in a single column. Lecture numbers stay
+visible after completion, with a separate checkmark for progress.
+
 Course search indexes the eight available lectures, their theory, deeper
 explanations and worked examples in all three languages. Results show the
 lecture, section and a short excerpt and open the matching section.

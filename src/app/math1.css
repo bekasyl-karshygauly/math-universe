@@ -240,6 +240,51 @@
   list-style: decimal;
 }
 
+.m1-study-grid .lesson-outline__item,
+.m1-study-grid .lesson-outline__item[aria-current="true"] {
+  grid-template-columns: 26px minmax(0, 1fr) 14px;
+  padding-inline: 8px;
+}
+
+.m1-outline__status {
+  align-self: center;
+  display: inline-flex;
+}
+
+.m1-reader {
+  min-width: 0;
+}
+
+@media (min-width: 861px) {
+  .m1-study-grid {
+    align-items: stretch;
+    gap: clamp(16px, 3vw, 36px);
+  }
+
+  .m1-study-grid .m1-scroll-pane {
+    max-block-size: calc(100dvh - 88px);
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    scrollbar-gutter: stable;
+    scroll-padding-block: 12px;
+  }
+
+  .m1-study-grid .lesson-outline {
+    position: static;
+    padding-inline: 3px 10px;
+  }
+
+  .m1-reader {
+    border-inline-start: 1px solid var(--border);
+    padding: 4px clamp(14px, 3vw, 32px) 20px;
+  }
+
+  .m1-reader .lesson {
+    padding-left: 0;
+    border-left: 0;
+  }
+}
+
 .m1-syllabus li {
   margin-block: 6px;
 }
@@ -271,6 +316,7 @@
 }
 
 .m1-contents + .m1-study-section > .m1-h:first-child,
+.m1-practice > .m1-h:first-child,
 .m1-check > .m1-h:first-child {
   margin-top: 8px;
 }

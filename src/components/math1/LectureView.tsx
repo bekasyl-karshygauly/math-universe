@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Check, ChevronDown, ArrowRight, BookOpen, RotateCcw, X as XIcon } from 'lucide-react';
 import { Language } from '../../lib/storage';
 import { Block, Example, Lecture, MATH1_SYLLABUS } from '../../data/math1';
@@ -8,7 +8,7 @@ import { COURSES } from '../../data/courses';
 import { fmt } from '../../data/i18n-lab';
 import { SegmentedTabs } from '../ui/SegmentedTabs';
 import { Reveal } from '../ui/Reveal';
-import { scrollToElement } from '../LenisProvider';
+import { scrollToStudyTarget } from './studyScroll';
 import { MathText, TexBlock, shuffledIndices, useT } from './shared';
 import { LectureVisual } from './visuals';
 import { Trainer } from './Trainer';
@@ -160,11 +160,11 @@ function LectureTest({ lecture, lang, isDone, onToggleDone, onNext }: Pick<Lectu
   const progress = fmt(t('m1_test_question'), { current: index + 1, total });
   const reduce = useReduceMotion();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!focusHeading.current || !heading.current) return;
     focusHeading.current = false;
     heading.current.focus({ preventScroll: true });
-    scrollToElement(heading.current, !reduce, -112);
+    scrollToStudyTarget(heading.current.closest<HTMLElement>('.m1-test__card') ?? heading.current, !reduce);
   }, [index, reduce]);
 
   useEffect(() => {
@@ -279,8 +279,8 @@ export function LectureView({ lecture, jump, lang, isDone, onToggleDone, onOpenR
   const [expanded, setExpanded] = useState<string[]>([]);
   const [pendingTarget, setPendingTarget] = useState<StudyTarget>();
   const reduce = useReduceMotion();
-  const panel = useRef<HTMLDivElement>(null);
-  const focusPanel = useRef(false);
+  const startHeading = useRef<HTMLHeadingElement>(null);
+  const focusStart = useRef(false);
   const canOpenQuiz = quizUnlocked || isDone;
   const tabs: { id: Tab; label: string }[] = [
     { id: 'theory', label: t('m1_tab_theory') },
@@ -298,8 +298,8 @@ export function LectureView({ lecture, jump, lang, isDone, onToggleDone, onOpenR
     setTab(next);
   }
 
-  function goTo(next: Tab) {
-    focusPanel.current = true;
+  function goTo(next: 'practice' | 'check') {
+    focusStart.current = true;
     selectTab(next);
   }
 
@@ -321,20 +321,20 @@ export function LectureView({ lecture, jump, lang, isDone, onToggleDone, onOpenR
     setPendingTarget(jump);
   }, [jump, lecture]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!pendingTarget || tab !== pendingTarget.tab) return;
     const target = document.getElementById(`${idPrefix}-${pendingTarget.id}`);
     if (!target) return;
     target.focus({ preventScroll: true });
-    scrollToElement(target, !reduce, -112);
+    scrollToStudyTarget(target, !reduce);
     setPendingTarget(undefined);
   }, [pendingTarget, tab, idPrefix, reduce]);
 
-  useEffect(() => {
-    if (!focusPanel.current || !panel.current) return;
-    focusPanel.current = false;
-    panel.current.focus({ preventScroll: true });
-    scrollToElement(panel.current, !reduce, -112);
+  useLayoutEffect(() => {
+    if (!focusStart.current || !startHeading.current) return;
+    focusStart.current = false;
+    startHeading.current.focus({ preventScroll: true });
+    scrollToStudyTarget(startHeading.current, !reduce);
   }, [tab, reduce]);
 
   return (
@@ -358,7 +358,7 @@ export function LectureView({ lecture, jump, lang, isDone, onToggleDone, onOpenR
         <SegmentedTabs label={t('m1_lecture_parts')} items={tabs} value={tab} onChange={selectTab} idPrefix={idPrefix} />
       </div>
 
-      <div id={`${idPrefix}-panel`} role="tabpanel" aria-labelledby={`${idPrefix}-tab-${tab}`} className="m1-lecture__panel" ref={panel} tabIndex={0}>
+      <div id={`${idPrefix}-panel`} role="tabpanel" aria-labelledby={`${idPrefix}-tab-${tab}`} className="m1-lecture__panel" tabIndex={0}>
         <div className="m1-theory" hidden={tab !== 'theory'}>
           <nav className="m1-contents" aria-label={t('m1_contents')}>
             <p className="eyebrow eyebrow--muted">{t('m1_contents')}</p>
@@ -420,6 +420,9 @@ export function LectureView({ lecture, jump, lang, isDone, onToggleDone, onOpenR
 
         {practiceOpened && (
           <div className="m1-practice" hidden={tab !== 'practice'}>
+            <h3 ref={tab === 'practice' ? startHeading : undefined} tabIndex={-1} className="m1-h">
+              {t('m1_tab_practice')}
+            </h3>
             <p className="eyebrow eyebrow--muted">{fmt(t('m1_practice_sessions'), { s: lecture.practice.sessions })}</p>
             <p className="m1-p">
               <b>{t('m1_goal')}:</b> {lecture.practice.goal[lang]}
@@ -458,7 +461,7 @@ export function LectureView({ lecture, jump, lang, isDone, onToggleDone, onOpenR
 
         {canOpenQuiz && (
           <div className="m1-check" hidden={tab !== 'check'}>
-            <h3 className="m1-h">{t('m1_test')}</h3>
+            <h3 ref={tab === 'check' ? startHeading : undefined} tabIndex={-1} className="m1-h">{t('m1_test')}</h3>
             <LectureTest lecture={lecture} lang={lang} isDone={isDone} onToggleDone={onToggleDone} onNext={onNext} />
           </div>
         )}

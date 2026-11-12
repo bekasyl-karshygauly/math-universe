@@ -4,6 +4,7 @@ import { LECTURE_2 } from './lecture2';
 import { LECTURE_3 } from './lecture3';
 import { LECTURE_4, LECTURE_5, LECTURE_6, LECTURE_7, LECTURE_8 } from './geometry';
 import { MATH1_DEPTH, MATH1_DEPTH_TESTS } from './depth';
+import { ADDITIONAL_DEPTH, UMKD_PRACTICE } from './additionalStudy';
 
 export * from './types';
 export * from './constants';
@@ -22,7 +23,11 @@ export const MATH1_META = {
 export const MATH1_LECTURES: Lecture[] = [LECTURE_1, LECTURE_2, LECTURE_3, LECTURE_4, LECTURE_5, LECTURE_6, LECTURE_7, LECTURE_8]
   .map(lecture => ({
     ...lecture,
-    deepDive: MATH1_DEPTH[lecture.number],
+    deepDive: [...MATH1_DEPTH[lecture.number], ADDITIONAL_DEPTH[lecture.number]],
+    practice: {
+      ...lecture.practice,
+      examples: [...lecture.practice.examples, ...(UMKD_PRACTICE[lecture.number] ?? [])],
+    },
     test: [...lecture.test, MATH1_DEPTH_TESTS[lecture.number]],
   }));
 
