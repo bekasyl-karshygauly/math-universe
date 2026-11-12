@@ -1,36 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Math Universe
 
-## Getting Started
+**Математика — язык Вселенной.** Интерактивная цифровая лаборатория математики: от арифметики до высшей математики. Формулы, объяснения, эксперименты, калькуляторы, тесты и конспекты собраны в одном месте.
 
-First, run the development server:
+🌐 **Сайт:** https://bekasyl-karshygauly.github.io/math-universe/
+
+## Для чего этот сайт
+
+Math Universe помогает школьникам, студентам и всем, кто изучает математику, **понять**, а не просто запомнить. Каждая тема подаётся как единое целое: формула, её объяснение и интерактивный опыт, в котором можно самому менять параметры и видеть результат.
+
+- **Учиться в своём темпе.** У каждого урока три уровня: базовый (интуиция и ключевые формулы), углублённый (теория, вывод формул, эксперименты) и продвинутый (университетский уровень, доказательства, нестандартные задачи).
+- **Проверять себя.** Тесты, математический спринт и тренажёр формул.
+- **Решать задачи.** Калькуляторы, которые показывают решение по шагам.
+- **Видеть математику.** Графики функций, 3D-поверхности, единичная окружность и наглядные доказательства.
+- **Три языка.** Русский, казахский и английский.
+
+## Возможности
+
+| Раздел | Что внутри |
+|---|---|
+| **Курсы** | Основы (числа, функции, тригонометрия, логарифмы), алгебра (квадратные уравнения, системы, неравенства), матанализ (пределы, производные, интегралы, частные производные, дифференциальные уравнения), линейная алгебра, теория вероятностей |
+| **Математика 1** | Университетский курс первого семестра по УМК Мардановой Л.О. (Атырауский университет нефти и газа им. С. Утебаева): 8 лекций от матриц и систем уравнений до векторов и аналитической геометрии, углублённые разборы, поиск по темам, проверка вариантов СРС, бесконечный тренажёр и словарь терминов на трёх языках |
+| **Калькулятор** | Квадратные уравнения, матрицы, численная производная, статистика, комбинаторика, тригонометрия, логарифмы, LaTeX-песочница. Решения показываются по шагам |
+| **Графика & 3D** | Построение графиков по формуле, 3D-визуализация, единичная окружность, геометрическая песочница |
+| **Тест** | Вопросы по темам с подсчётом баллов |
+| **Конспекты** | Личные заметки с формулами: сохраняются в браузере, можно экспортировать в файл |
+| **Лайфхаки** | Короткие приёмы для быстрого счёта и решения задач |
+| **Бонус** | Интересные факты: ряды Тейлора, числа π и e, парадокс дня рождения и др. |
+
+Помимо этого:
+
+- **Аккаунт и прогресс.** Регистрация, опыт (XP), серии занятий (streaks), достижения и прогресс по урокам сохраняются в облаке.
+- **Пошаговый решатель уравнений** для любых линейных и квадратных уравнений.
+- **Помощник-чат**, который отвечает на языке вопроса.
+- **Светлая и тёмная тема**, настройка анимаций (системные / вкл / выкл), адаптивная вёрстка для телефонов.
+
+## Технологии
+
+- [Next.js](https://nextjs.org) 16, React 19, TypeScript
+- [Supabase](https://supabase.com): авторизация и база данных (PostgreSQL с RLS, серверные функции для XP и достижений)
+- [KaTeX](https://katex.org) для формул, [Three.js](https://threejs.org) для 3D, JSXGraph для интерактивной геометрии
+- GSAP, Motion и Lenis для анимаций и плавной прокрутки
+- GitHub Pages для хостинга (статический экспорт через GitHub Actions)
+
+Дизайн-система «Mathematical Laboratory» описана в [DESIGN.md](DESIGN.md).
+
+## Запуск локально
+
+Нужен Node.js 20+.
+
+```bash
+npm install
+```
+
+Создайте файл `.env.local` с данными своего проекта Supabase:
+
+```bash
+NEXT_PUBLIC_SUPABASE_URL=https://<project-ref>.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<publishable-key>
+```
+
+Схема базы данных лежит в [`supabase_schema.sql`](supabase_schema.sql). Её можно выполнить в SQL Editor вашего проекта Supabase.
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Откройте http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Деплой
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Каждый push в `main` автоматически собирает статическую версию сайта и публикует её на GitHub Pages ([`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml)).
 
-## Learn More
+## Структура проекта
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+  app/          страница, глобальные стили, layout
+  components/   разделы сайта, калькуляторы, визуализации, UI-компоненты
+  data/         курсы, тесты, переводы (ru/kz/en), достижения, лайфхаки, курс «Математика 1»
+  lib/          парсер выражений, решатель уравнений, линейная алгебра, Supabase, анимации
+public/
+  legacy.html   первая версия сайта
+supabase_schema.sql  схема базы данных
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Автор
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Разработано **Bekasyl Karshygauly** ([@bekasyl-karshygauly](https://github.com/bekasyl-karshygauly)).
