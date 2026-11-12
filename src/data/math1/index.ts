@@ -94,7 +94,7 @@ export const MATH1_GLOSSARY: GlossaryTerm[] = [
   { term: T('баспалдақты түр', 'ступенчатый вид', 'row echelon form'), lecture: 3 },
   { term: T('Кронекер–Капелли теоремасы', 'теорема Кронекера–Капелли', 'Kronecker–Capelli theorem'), lecture: 3 },
   { term: T('біртекті жүйе', 'однородная система', 'homogeneous system'), lecture: 3 },
-  { term: T('вектор ұзындығы', 'длина вектора', 'vector length'), lecture: 4, tex: r`|mathbf a|` },
+  { term: T('вектор ұзындығы', 'длина вектора', 'vector length'), lecture: 4, tex: r`|\mathbf a|` },
   { term: T('скаляр көбейтінді', 'скалярное произведение', 'dot product'), lecture: 5, tex: r`\mathbf a\cdot\mathbf b` },
   { term: T('бағыттаушы вектор', 'направляющий вектор', 'direction vector'), lecture: 6 },
   { term: T('нормаль вектор', 'нормальный вектор', 'normal vector'), lecture: 7 },
