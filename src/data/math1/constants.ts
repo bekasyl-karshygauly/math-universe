@@ -2,4 +2,4 @@
 export const MATH1_COURSE_ID = 'math1';
 
 /** Available lectures. Keep this in sync with MATH1_LECTURES and course_catalog. */
-export const MATH1_LECTURE_COUNT = 8;
+export const MATH1_LECTURE_COUNT = 15;

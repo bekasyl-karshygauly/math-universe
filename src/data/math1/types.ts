@@ -46,6 +46,8 @@ export interface TestQuestion {
 }
 
 export type GeometryTrainerKind = 'vector-components' | 'vector-products' | 'line-distance' | 'plane-intersection' | 'conic-parameters';
+export type CalculusTrainerKind = 'sequence-term' | 'rational-limit' | 'continuity-parameter' | 'derivative-value'
+  | 'implicit-slope' | 'mean-value-point' | 'quadratic-vertex';
 
 export type TrainerKind =
   | 'mat-add'
@@ -59,7 +61,8 @@ export type TrainerKind =
   | 'rank'
   | 'cramer2'
   | 'system3'
-  | GeometryTrainerKind;
+  | GeometryTrainerKind
+  | CalculusTrainerKind;
 
 export interface Lecture {
   id: string;

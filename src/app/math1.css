@@ -224,22 +224,6 @@
   margin-top: 6px;
 }
 
-.m1-syllabus {
-  margin-top: 12px;
-  color: var(--text-secondary);
-  font-size: 14px;
-}
-
-.m1-syllabus summary {
-  cursor: pointer;
-  padding-block: 8px;
-}
-
-.lesson-outline .m1-syllabus ol {
-  padding-inline-start: 24px;
-  list-style: decimal;
-}
-
 .m1-study-grid .lesson-outline__item,
 .m1-study-grid .lesson-outline__item[aria-current="true"] {
   grid-template-columns: 26px minmax(0, 1fr) 14px;
@@ -283,10 +267,6 @@
     padding-left: 0;
     border-left: 0;
   }
-}
-
-.m1-syllabus li {
-  margin-block: 6px;
 }
 
 /* Lecture */

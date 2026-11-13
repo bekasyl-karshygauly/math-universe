@@ -199,12 +199,6 @@ export function Math1View({ lang, progress, onToggleProgress, onOpenCourse }: Ma
                   );
                 })}
               </ol>
-              <details className="m1-syllabus">
-                <summary>{t('m1_upcoming')}</summary>
-                <ol start={total + 1}>
-                  {MATH1_SYLLABUS.slice(total).map((s) => <li key={s.number}>{s.title[lang]}</li>)}
-                </ol>
-              </details>
             </nav>
             <div className="m1-reader m1-scroll-pane" role="region" aria-label={lecture.title[lang]} tabIndex={0}>
               <LectureView

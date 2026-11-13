@@ -5,6 +5,7 @@ import { Eye, RefreshCw, Check } from 'lucide-react';
 import { Language } from '../../lib/storage';
 import { L, MATH1_LECTURES, T, TrainerKind } from '../../data/math1';
 import { GEOMETRY_TRAINER_LABELS, generateGeometryProblem } from '../../data/math1/geometryPractice';
+import { CALCULUS_TRAINER_LABELS, generateCalculusProblem } from '../../data/math1/calculusPractice';
 import {
   Frac,
   FMatrix,
@@ -52,6 +53,7 @@ export const TRAINER_LABELS: Record<TrainerKind, L> = {
   cramer2: T('Крамер 2×2', 'Крамер 2×2', 'Cramer 2×2'),
   system3: T('Жүйе 3×3 (Гаусс)', 'Система 3×3 (Гаусс)', 'System 3×3 (Gauss)'),
   ...GEOMETRY_TRAINER_LABELS,
+  ...CALCULUS_TRAINER_LABELS,
 };
 
 const p = (x: Frac) => (x.n < 0 ? `(${x.toTex()})` : x.toTex());
@@ -243,8 +245,14 @@ function generate(kind: TrainerKind): Problem {
         ],
       };
     }
-    default:
+    case 'vector-components':
+    case 'vector-products':
+    case 'line-distance':
+    case 'plane-intersection':
+    case 'conic-parameters':
       return generateGeometryProblem(kind);
+    default:
+      return generateCalculusProblem(kind);
   }
 }
 

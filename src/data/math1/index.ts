@@ -5,6 +5,8 @@ import { LECTURE_3 } from './lecture3';
 import { LECTURE_4, LECTURE_5, LECTURE_6, LECTURE_7, LECTURE_8 } from './geometry';
 import { MATH1_DEPTH, MATH1_DEPTH_TESTS } from './depth';
 import { ADDITIONAL_DEPTH, UMKD_PRACTICE } from './additionalStudy';
+import { LECTURE_9, LECTURE_10, LECTURE_11 } from './limits';
+import { LECTURE_12, LECTURE_13, LECTURE_14, LECTURE_15 } from './derivatives';
 
 export * from './types';
 export * from './constants';
@@ -20,7 +22,7 @@ export const MATH1_META = {
   year: '2026–2027',
 };
 
-export const MATH1_LECTURES: Lecture[] = [LECTURE_1, LECTURE_2, LECTURE_3, LECTURE_4, LECTURE_5, LECTURE_6, LECTURE_7, LECTURE_8]
+const foundations = [LECTURE_1, LECTURE_2, LECTURE_3, LECTURE_4, LECTURE_5, LECTURE_6, LECTURE_7, LECTURE_8]
   .map(lecture => ({
     ...lecture,
     deepDive: [...MATH1_DEPTH[lecture.number], ADDITIONAL_DEPTH[lecture.number]],
@@ -31,17 +33,11 @@ export const MATH1_LECTURES: Lecture[] = [LECTURE_1, LECTURE_2, LECTURE_3, LECTU
     test: [...lecture.test, MATH1_DEPTH_TESTS[lecture.number]],
   }));
 
-/** Full syllabus, including upcoming lectures. */
-export const MATH1_SYLLABUS: LectureStub[] = [
-  ...MATH1_LECTURES.map(({ number, title }) => ({ number, title })),
-  { number: 9, title: T('Нақты сандар. Сан тізбегі. Функция. Негізгі элементар функциялар', 'Действительные числа. Числовая последовательность. Функция. Основные элементарные функции', 'Real numbers. Sequences. Functions. Basic elementary functions') },
-  { number: 10, title: T('Шектер теориясы: тізбектің және функцияның шегі', 'Теория пределов: предел последовательности и функции', 'Limits of sequences and functions') },
-  { number: 11, title: T('Тамаша шектер. Шексіз аздарды салыстыру. Үзіліссіздік', 'Замечательные пределы. Сравнение бесконечно малых. Непрерывность', 'Remarkable limits. Infinitesimals. Continuity') },
-  { number: 12, title: T('Функцияның туындысы. Дифференциалдау ережелері', 'Производная функции. Правила дифференцирования', 'The derivative. Differentiation rules') },
-  { number: 13, title: T('Айқындалмаған және параметрлік функциялардың туындылары. Дифференциал', 'Производные неявных и параметрических функций. Дифференциал', 'Implicit and parametric derivatives. The differential') },
-  { number: 14, title: T('Дифференциалданатын функциялар туралы теоремалар', 'Теоремы о дифференцируемых функциях', 'Theorems on differentiable functions') },
-  { number: 15, title: T('Функцияны туынды арқылы зерттеу', 'Исследование функции с помощью производной', 'Investigating a function with derivatives') },
+export const MATH1_LECTURES: Lecture[] = [
+  ...foundations, LECTURE_9, LECTURE_10, LECTURE_11, LECTURE_12, LECTURE_13, LECTURE_14, LECTURE_15,
 ];
+
+export const MATH1_SYLLABUS: LectureStub[] = MATH1_LECTURES.map(({ number, title }) => ({ number, title }));
 
 export interface GlossaryTerm {
   term: L;
@@ -99,4 +95,13 @@ export const MATH1_GLOSSARY: GlossaryTerm[] = [
   { term: T('бағыттаушы вектор', 'направляющий вектор', 'direction vector'), lecture: 6 },
   { term: T('нормаль вектор', 'нормальный вектор', 'normal vector'), lecture: 7 },
   { term: T('фокус', 'фокус', 'focus'), lecture: 8 },
+  { term: T('анықталу облысы', 'область определения', 'domain'), lecture: 9, tex: r`D_f` },
+  { term: T('сан тізбегі', 'числовая последовательность', 'sequence'), lecture: 9, tex: r`(a_n)_{n\ge1}` },
+  { term: T('функция шегі', 'предел функции', 'function limit'), lecture: 10, tex: r`\lim_{x\to a}f(x)` },
+  { term: T('үзіліссіздік', 'непрерывность', 'continuity'), lecture: 11, tex: r`\lim_{x\to a}f(x)=f(a)` },
+  { term: T('туынды', 'производная', 'derivative'), lecture: 12, tex: r`f'(x)` },
+  { term: T('дифференциал', 'дифференциал', 'differential'), lecture: 13, tex: r`dy=f'(x)\,dx` },
+  { term: T('Тейлор көпмүшесі', 'многочлен Тейлора', 'Taylor polynomial'), lecture: 14, tex: r`P_n(x)` },
+  { term: T('иілу нүктесі', 'точка перегиба', 'inflection point'), lecture: 15 },
+  { term: T('көлбеу асимптота', 'наклонная асимптота', 'slant asymptote'), lecture: 15, tex: r`y=kx+b` },
 ];
