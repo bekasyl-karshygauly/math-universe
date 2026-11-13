@@ -32,6 +32,7 @@ import {
   answerMatches,
 } from '../../lib/linalg';
 import { MatrixInput, NumberField, TexBlock, MathText, Verdict, checkGrid, emptyGrid, useT, CellStatus } from './shared';
+import { BoardButton } from '../whiteboard/BoardButton';
 
 interface Problem {
   task: L;
@@ -327,6 +328,14 @@ export function Trainer({ lang, kinds, compact = false }: TrainerProps) {
 
       <MathText as="p" className="m1-trainer__task" text={problem.task[lang]} />
       <TexBlock tex={problem.given} />
+      <div className="m1-visual__controls">
+        <BoardButton key={seed} lang={lang} problem={
+          <>
+            <MathText as="p" text={problem.task[lang]} />
+            <TexBlock tex={problem.given} />
+          </>
+        } />
+      </div>
 
       <form
         className="m1-trainer__answer"

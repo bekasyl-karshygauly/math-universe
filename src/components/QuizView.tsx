@@ -15,6 +15,7 @@ import { SegmentedTabs } from './ui/SegmentedTabs';
 import { playClickSound, playSuccessSound } from '../lib/sound';
 import { labConfetti } from '../lib/celebrate';
 import { useAuth } from '../lib/auth-context';
+import { BoardButton } from './whiteboard/BoardButton';
 
 interface QuizViewProps {
   lang: Language;
@@ -326,6 +327,7 @@ export function QuizView({ lang, onUpdateBestScore }: QuizViewProps) {
         <h2 id="quiz-question" className="quiz-card__q">
           {curQ.q[lang]}
         </h2>
+        <BoardButton lang={lang} problem={<p>{curQ.q[lang]}</p>} />
 
         <div className="quiz-card__options" role="group" aria-labelledby="quiz-question">
           {curQ.a[lang].map((opt, i) => (

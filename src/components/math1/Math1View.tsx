@@ -17,6 +17,7 @@ import { Tex, useT } from './shared';
 import { TopicSearch } from './TopicSearch';
 import type { StudyTarget } from '../../data/math1/search';
 import { scrollToStudyTarget } from './studyScroll';
+import { BoardButton } from '../whiteboard/BoardButton';
 
 type HubTab = 'lectures' | 'variant' | 'trainer' | 'glossary';
 
@@ -157,6 +158,7 @@ export function Math1View({ lang, progress, onToggleProgress, onOpenCourse }: Ma
 
       <div className="m1-hub-tabs">
         <SegmentedTabs label={t('m1_sections')} items={tabs} value={tab} onChange={(id) => setTab(id)} idPrefix="m1-hub" scroll />
+        <div className="m1-visual__controls"><BoardButton lang={lang} /></div>
       </div>
 
       <div ref={contentRef} id="m1-hub-panel" role="tabpanel" aria-labelledby={`m1-hub-tab-${tab}`}>

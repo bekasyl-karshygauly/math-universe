@@ -9,6 +9,7 @@ import { playSuccessSound } from '../../lib/sound';
 import { useReduceMotion } from '../../lib/motionPref';
 import { MathText, shuffledIndices, useT } from './shared';
 import { scrollToStudyTarget } from './studyScroll';
+import { BoardButton } from '../whiteboard/BoardButton';
 
 interface StudyQuizProps {
   id: string;
@@ -86,6 +87,9 @@ export function StudyQuiz({ id, questions, label, lang, resultActions }: StudyQu
       <h4 id={`${id}-question`} ref={heading} tabIndex={-1} className="m1-test__text">
         <MathText text={question.q[lang]} />
       </h4>
+      <div className="m1-visual__controls">
+        <BoardButton lang={lang} problem={<MathText as="p" text={question.q[lang]} />} />
+      </div>
       <div className="m1-test__options" role="group" aria-labelledby={`${id}-question`}>
         {orders[index].map((option, position) => {
           const isPicked = pick === option;

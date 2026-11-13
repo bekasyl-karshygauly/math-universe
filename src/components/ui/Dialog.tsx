@@ -18,6 +18,7 @@ interface DialogProps {
   /** Fixed height for chat-like dialogs whose body manages its own scroll */
   height?: string;
   bodyClassName?: string;
+  onBackdropClose?: boolean;
 }
 
 const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
@@ -38,6 +39,7 @@ export function Dialog({
   maxWidth = 560,
   height,
   bodyClassName = '',
+  onBackdropClose = true,
 }: DialogProps) {
   const titleId = useId();
   const panelRef = useRef<HTMLDivElement>(null);
@@ -96,7 +98,7 @@ export function Dialog({
       exit={{ opacity: 0 }}
       transition={{ duration: reduceMotion ? 0 : 0.22 }}
       onMouseDown={(e) => {
-        if (e.target === e.currentTarget) onClose();
+        if (onBackdropClose && e.target === e.currentTarget) onClose();
       }}
     >
       <motion.div

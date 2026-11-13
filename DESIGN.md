@@ -115,6 +115,13 @@ playlist and a short quiz for each recording. The player loads video on demand
 and pauses when leaving the tab. Video quizzes offer retry and onward
 navigation. Lecture completion is awarded through the final lecture quiz.
 
+The whiteboard opens in the shared dialog from problems, quizzes and the
+course toolbar. The collapsible statement retains the original formula
+formatting. The drawing surface uses theme ink tokens, a 24 px optional
+grid and pointer controls for mouse, touch and pen. Scratch work stays
+with the current exercise while it remains open in the app, including
+when the dialog is closed and reopened. Clearing can be undone.
+
 ## Motion
 
 Precise feedback, calm reveal, a clear link between cause and effect.

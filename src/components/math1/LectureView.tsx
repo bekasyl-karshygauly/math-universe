@@ -18,6 +18,7 @@ import { useReduceMotion } from '../../lib/motionPref';
 import { lectureSections, type StudyTarget } from '../../data/math1/search';
 import { StudyQuiz } from './StudyQuiz';
 import { VideoLesson } from './VideoLesson';
+import { BoardButton } from '../whiteboard/BoardButton';
 
 type Tab = 'theory' | 'video' | 'practice' | 'check';
 
@@ -51,18 +52,24 @@ function ExampleCard({ example, lang }: { example: Example; lang: Language }) {
           {t('m1_answer')}: <MathText text={example.answer[lang]} />
         </p>
       )}
-      {!done && (
-        <div className="m1-visual__controls">
+      <div className="m1-visual__controls">
+        <BoardButton lang={lang} problem={
+          <>
+            <MathText as="p" text={example.task[lang]} />
+            {example.given && <TexBlock tex={example.given} />}
+          </>
+        } />
+        {!done && (
           <button type="button" className="btn btn--secondary btn--sm" onClick={() => setShown(shown + 1)}>
             <ChevronDown size={15} aria-hidden="true" /> {shown === 0 ? t('m1_show_solution') : t('m1_next_step')}
           </button>
-          {total > 1 && (
-            <button type="button" className="btn btn--ghost btn--sm" onClick={() => setShown(total)}>
-              {t('m1_all_steps')}
-            </button>
-          )}
-        </div>
-      )}
+        )}
+        {!done && total > 1 && (
+          <button type="button" className="btn btn--ghost btn--sm" onClick={() => setShown(total)}>
+            {t('m1_all_steps')}
+          </button>
+        )}
+      </div>
     </div>
   );
 }
@@ -130,6 +137,7 @@ function SelfCheck({ lecture, lang }: { lecture: Lecture; lang: Language }) {
       {lecture.selfCheck.map((item, i) => (
         <li key={i} className="m1-selfcheck__item">
           <MathText as="p" className="m1-selfcheck__q" text={item.q[lang]} />
+          <BoardButton lang={lang} problem={<MathText as="p" text={item.q[lang]} />} />
           {open[i] ? (
             <MathText as="div" className="m1-selfcheck__a" text={item.a[lang]} />
           ) : (

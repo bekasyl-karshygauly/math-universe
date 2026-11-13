@@ -7,6 +7,7 @@ import { TASK1, TASK2, TASK3 } from '../../data/math1/variants';
 import { Frac, FMatrix, toF, mul, inverse, identity, det, minor, cofactor, cramer, matTex, systemTex, answerMatches } from '../../lib/linalg';
 import { fmt } from '../../data/i18n-lab';
 import { MatrixInput, NumberField, TexBlock, Tex, Verdict, checkGrid, emptyGrid, useT, CellStatus } from './shared';
+import { BoardButton } from '../whiteboard/BoardButton';
 
 const VARIANTS = TASK1.length;
 const STORAGE_KEY = 'm1_variant';
@@ -176,6 +177,9 @@ export function VariantWork({ lang }: { lang: Language }) {
             {t('m1_task1_title')}
           </h3>
           <TexBlock tex={`A=${matTex(A)},\\qquad B=${matTex(B)}`} />
+          <BoardButton lang={lang} problem={
+            <><p>{t('m1_task1_title')}</p><TexBlock tex={`A=${matTex(A)},\\qquad B=${matTex(B)}`} /></>
+          } />
           <MatrixPart lang={lang} label="1) AB" prefix="AB=" expected={mul(A, B)} />
           <MatrixPart lang={lang} label="2) BA" prefix="BA=" expected={mul(B, A)} />
           {inv ? (
@@ -198,6 +202,13 @@ export function VariantWork({ lang }: { lang: Language }) {
           <p className="field-help">
             {fmt(t('m1_task2_help'), { i, j })} <Tex tex={`a_{${i}2},\\; a_{3${j}}`} />
           </p>
+          <BoardButton lang={lang} problem={
+            <>
+              <p>{t('m1_task2_title')}</p>
+              <TexBlock tex={`\\Delta=${matTex(D, 'vmatrix')},\\qquad i=${i},\\; j=${j}`} />
+              <p>{fmt(t('m1_task2_help'), { i, j })} <Tex tex={`a_{${i}2},\\; a_{3${j}}`} /></p>
+            </>
+          } />
           <FieldsPart
             lang={lang}
             items={[
@@ -218,6 +229,9 @@ export function VariantWork({ lang }: { lang: Language }) {
             {t('m1_task3_title')}
           </h3>
           <TexBlock tex={systemTex(sa, sb)} />
+          <BoardButton lang={lang} problem={
+            <><p>{t('m1_task3_title')}</p><TexBlock tex={systemTex(sa, sb)} /></>
+          } />
           <p className="m1-part__label">{t('m1_task3_dets')}</p>
           <FieldsPart
             lang={lang}
