@@ -1,22 +1,25 @@
 'use client';
 
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { Check, ChevronDown, ArrowRight, BookOpen, RotateCcw, X as XIcon } from 'lucide-react';
+import { Check, ChevronDown, ArrowRight, BookOpen, CirclePlay } from 'lucide-react';
 import { Language } from '../../lib/storage';
 import { Block, Example, Lecture, MATH1_SYLLABUS } from '../../data/math1';
+import { MATH1_VIDEOS } from '../../data/math1/videos';
 import { COURSES } from '../../data/courses';
 import { fmt } from '../../data/i18n-lab';
 import { SegmentedTabs } from '../ui/SegmentedTabs';
 import { Reveal } from '../ui/Reveal';
 import { scrollToStudyTarget } from './studyScroll';
-import { MathText, TexBlock, shuffledIndices, useT } from './shared';
+import { MathText, TexBlock, useT } from './shared';
 import { LectureVisual } from './visuals';
 import { Trainer } from './Trainer';
 import { playSuccessSound } from '../../lib/sound';
 import { useReduceMotion } from '../../lib/motionPref';
 import { lectureSections, type StudyTarget } from '../../data/math1/search';
+import { StudyQuiz } from './StudyQuiz';
+import { VideoLesson } from './VideoLesson';
 
-type Tab = 'theory' | 'practice' | 'check';
+type Tab = 'theory' | 'video' | 'practice' | 'check';
 
 function ExampleCard({ example, lang }: { example: Example; lang: Language }) {
   const t = useT(lang);
@@ -145,122 +148,6 @@ function SelfCheck({ lecture, lang }: { lecture: Lecture; lang: Language }) {
 }
 
 
-function LectureTest({ lecture, lang, isDone, onToggleDone, onNext }: Pick<LectureViewProps, 'lecture' | 'lang' | 'isDone' | 'onToggleDone' | 'onNext'>) {
-  const t = useT(lang);
-  const [orders, setOrders] = useState(() => lecture.test.map(q => shuffledIndices(q.options.length)));
-  const [picked, setPicked] = useState<number[]>([]);
-  const [index, setIndex] = useState(0);
-  const heading = useRef<HTMLHeadingElement>(null);
-  const feedback = useRef<HTMLDivElement>(null);
-  const focusHeading = useRef(false);
-  const total = lecture.test.length;
-  const question = lecture.test[index];
-  const pick = picked[index];
-  const score = picked.filter((option, i) => option === lecture.test[i].correct).length;
-  const progress = fmt(t('m1_test_question'), { current: index + 1, total });
-  const reduce = useReduceMotion();
-
-  useLayoutEffect(() => {
-    if (!focusHeading.current || !heading.current) return;
-    focusHeading.current = false;
-    heading.current.focus({ preventScroll: true });
-    scrollToStudyTarget(heading.current.closest<HTMLElement>('.m1-test__card') ?? heading.current, !reduce);
-  }, [index, reduce]);
-
-  useEffect(() => {
-    if (pick !== undefined) feedback.current?.focus({ preventScroll: true });
-  }, [pick]);
-
-  if (!question) {
-    return (
-      <div className="m1-test__card panel">
-        <h4 ref={heading} tabIndex={-1} className="m1-test__text">{t('m1_test_results')}</h4>
-        <p className="mono">{fmt(t('m1_test_score'), { score, total })}</p>
-        {score < total && (
-          <details className="m1-test__review">
-            <summary>{t('m1_test_review')}</summary>
-            <ol className="m1-selfcheck">
-              {lecture.test.map((q, i) => picked[i] !== q.correct && (
-                <li key={i} className="m1-selfcheck__item">
-                  <MathText as="p" className="m1-selfcheck__q" text={q.q[lang]} />
-                  <MathText as="p" text={q.explain[lang]} />
-                </li>
-              ))}
-            </ol>
-          </details>
-        )}
-        <div className="m1-study-actions">
-          {isDone ? (
-            <span className="chip"><Check size={15} aria-hidden="true" /> {t('lesson_done_state')}</span>
-          ) : (
-            <button type="button" className="btn btn--primary" onClick={() => {
-              playSuccessSound();
-              onToggleDone();
-            }}>{t('m1_mark_complete')}</button>
-          )}
-          {onNext && (
-            <button type="button" className="btn btn--secondary" onClick={onNext}>
-              {t('m1_next_lecture')} <ArrowRight size={16} aria-hidden="true" />
-            </button>
-          )}
-          <button type="button" className="btn btn--ghost" onClick={() => {
-            focusHeading.current = true;
-            setOrders(lecture.test.map(q => shuffledIndices(q.options.length)));
-            setPicked([]);
-            setIndex(0);
-          }}>
-            <RotateCcw size={15} aria-hidden="true" /> {t('m1_retry')}
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div key={index} className="m1-test__card panel">
-      <div className="m1-test__progress">
-        <span className="eyebrow eyebrow--muted">{progress}</span>
-        <progress value={picked.length} max={total} aria-label={t('m1_test')} />
-      </div>
-      <h4 id={`${lecture.id}-question`} ref={heading} tabIndex={-1} className="m1-test__text">
-        <MathText text={question.q[lang]} />
-      </h4>
-      <div className="m1-test__options" role="group" aria-labelledby={`${lecture.id}-question`}>
-        {orders[index].map((option, position) => {
-          const isPicked = pick === option;
-          const isCorrect = option === question.correct;
-          const answered = pick !== undefined;
-          const status = answered && isCorrect ? ' quiz-option--correct' : answered && isPicked ? ' quiz-option--wrong' : '';
-          return (
-            <button key={option} type="button" className={`choice m1-test__option${status}`} aria-pressed={isPicked}
-              disabled={answered} onClick={() => {
-                if (isCorrect) playSuccessSound();
-                setPicked(previous => previous.length === index ? [...previous, option] : previous);
-              }}>
-              <span className="choice__key" aria-hidden="true">{String.fromCharCode(65 + position)}</span>
-              <MathText text={question.options[option][lang]} />
-              {answered && isCorrect && <Check size={16} className="m1-test__mark" aria-label={t('m1_correct_short')} />}
-              {answered && isPicked && !isCorrect && <XIcon size={16} className="m1-test__mark" aria-label={t('m1_wrong_short')} />}
-            </button>
-          );
-        })}
-      </div>
-      {pick !== undefined && (
-        <div className="m1-test__feedback" ref={feedback} tabIndex={-1}>
-          <p><b>{t(pick === question.correct ? 'm1_test_correct' : 'm1_test_incorrect')}</b></p>
-          <MathText as="p" text={question.explain[lang]} />
-          <button type="button" className="btn btn--primary" onClick={() => {
-            focusHeading.current = true;
-            setIndex(index + 1);
-          }}>
-            {t(index + 1 === total ? 'm1_test_show_results' : 'm1_test_next')} <ArrowRight size={16} aria-hidden="true" />
-          </button>
-        </div>
-      )}
-    </div>
-  );
-}
-
 interface LectureViewProps {
   lecture: Lecture;
   jump?: StudyTarget;
@@ -274,6 +161,7 @@ interface LectureViewProps {
 export function LectureView({ lecture, jump, lang, isDone, onToggleDone, onOpenRelated, onNext }: LectureViewProps) {
   const t = useT(lang);
   const [tab, setTab] = useState<Tab>('theory');
+  const [videoOpened, setVideoOpened] = useState(false);
   const [practiceOpened, setPracticeOpened] = useState(false);
   const [quizUnlocked, setQuizUnlocked] = useState(false);
   const [expanded, setExpanded] = useState<string[]>([]);
@@ -282,10 +170,10 @@ export function LectureView({ lecture, jump, lang, isDone, onToggleDone, onOpenR
   const startHeading = useRef<HTMLHeadingElement>(null);
   const focusStart = useRef(false);
   const canOpenQuiz = quizUnlocked || isDone;
-  const tabs: { id: Tab; label: string }[] = [
-    { id: 'theory', label: t('m1_tab_theory') },
-    { id: 'practice', label: t('m1_tab_practice') },
-  ];
+  const videos = MATH1_VIDEOS[lecture.number];
+  const tabs: { id: Tab; label: string }[] = [{ id: 'theory', label: t('m1_tab_theory') }];
+  if (videos) tabs.push({ id: 'video', label: t('m1_tab_video') });
+  tabs.push({ id: 'practice', label: t('m1_tab_practice') });
   if (canOpenQuiz) tabs.push({ id: 'check', label: t('m1_tab_check') });
   const idPrefix = `m1-${lecture.id}`;
   const sections = lectureSections(lecture);
@@ -293,12 +181,13 @@ export function LectureView({ lecture, jump, lang, isDone, onToggleDone, onOpenR
   const targetId = (id: string) => `${idPrefix}-${id}`;
 
   function selectTab(next: Tab) {
+    if (next === 'video') setVideoOpened(true);
     if (next === 'practice') setPracticeOpened(true);
     if (next === 'check') setQuizUnlocked(true);
     setTab(next);
   }
 
-  function goTo(next: 'practice' | 'check') {
+  function goTo(next: 'video' | 'practice' | 'check') {
     focusStart.current = true;
     selectTab(next);
   }
@@ -314,6 +203,11 @@ export function LectureView({ lecture, jump, lang, isDone, onToggleDone, onOpenR
   useEffect(() => {
     if (!jump) return;
     setTab(jump.tab);
+    if (jump.tab === 'video') {
+      setVideoOpened(true);
+      setPendingTarget(undefined);
+      return;
+    }
     if (jump.tab === 'practice') setPracticeOpened(true);
     if (lecture.deepDive?.some(section => section.id === jump.id)) {
       setExpanded(previous => previous.includes(jump.id) ? previous : [...previous, jump.id]);
@@ -411,12 +305,24 @@ export function LectureView({ lecture, jump, lang, isDone, onToggleDone, onOpenR
             </section>
           )}
           <div className="m1-study-actions">
+            {videos && (
+              <button type="button" className="btn btn--secondary" onClick={() => goTo('video')}>
+                <CirclePlay size={16} aria-hidden="true" /> {t('m1_videos')}
+              </button>
+            )}
             <button type="button" className="btn btn--primary" onClick={() => goTo('practice')}>
               {t('m1_go_practice')} <ArrowRight size={16} aria-hidden="true" />
             </button>
             {!canOpenQuiz && <p className="field-help">{t('m1_test_unlock_hint')}</p>}
           </div>
         </div>
+
+        {videos && videoOpened && (
+          <VideoLesson videos={videos} lang={lang} active={tab === 'video'}
+            startHeading={tab === 'video' ? startHeading : undefined}
+            jump={jump?.tab === 'video' ? jump : undefined}
+            onPractice={() => goTo('practice')} onFinalTest={() => goTo('check')} />
+        )}
 
         {practiceOpened && (
           <div className="m1-practice" hidden={tab !== 'practice'}>
@@ -462,7 +368,24 @@ export function LectureView({ lecture, jump, lang, isDone, onToggleDone, onOpenR
         {canOpenQuiz && (
           <div className="m1-check" hidden={tab !== 'check'}>
             <h3 ref={tab === 'check' ? startHeading : undefined} tabIndex={-1} className="m1-h">{t('m1_test')}</h3>
-            <LectureTest lecture={lecture} lang={lang} isDone={isDone} onToggleDone={onToggleDone} onNext={onNext} />
+            <StudyQuiz id={lecture.id} questions={lecture.test} label={t('m1_test')} lang={lang}
+              resultActions={(
+                <>
+                  {isDone ? (
+                    <span className="chip"><Check size={15} aria-hidden="true" /> {t('lesson_done_state')}</span>
+                  ) : (
+                    <button type="button" className="btn btn--primary" onClick={() => {
+                      playSuccessSound();
+                      onToggleDone();
+                    }}>{t('m1_mark_complete')}</button>
+                  )}
+                  {onNext && (
+                    <button type="button" className="btn btn--secondary" onClick={onNext}>
+                      {t('m1_next_lecture')} <ArrowRight size={16} aria-hidden="true" />
+                    </button>
+                  )}
+                </>
+              )} />
           </div>
         )}
       </div>

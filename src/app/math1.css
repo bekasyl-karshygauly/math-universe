@@ -237,6 +237,7 @@
 
 .m1-reader {
   min-width: 0;
+  container: m1-reader / inline-size;
 }
 
 @media (min-width: 861px) {
@@ -789,6 +790,107 @@
 .m1-test__card {
   padding: clamp(12px, 3vw, 24px);
   animation: m1-reveal var(--dur-state, 220ms) var(--ease, ease) both;
+}
+
+.m1-video-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 18px 24px;
+}
+
+.m1-video-main,
+.m1-video-list {
+  min-width: 0;
+}
+
+.m1-video-main > .m1-h {
+  margin-top: 8px;
+  margin-bottom: 4px;
+}
+
+.m1-video-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.m1-video-player {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: var(--surface-secondary);
+  border: 1px solid var(--border);
+}
+
+.m1-video-summary,
+.m1-video-error {
+  margin-top: 12px;
+}
+
+.m1-video-error {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  color: var(--text-secondary);
+}
+
+.m1-video-list {
+  padding: 10px 0 0;
+}
+
+.m1-video-list ol {
+  list-style: none;
+  margin-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
+.m1-video-list__item {
+  display: grid;
+  grid-template-columns: 17px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 44px;
+  padding: 9px 8px;
+  border: 0;
+  border-bottom: 1px solid var(--border);
+  background: transparent;
+  text-align: start;
+  color: var(--text-secondary);
+  font-size: 14px;
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.m1-video-list__item:hover,
+.m1-video-list__item[aria-current="true"] {
+  color: var(--primary);
+  background: var(--surface-secondary);
+}
+
+.m1-video-list__item[aria-current="true"] {
+  box-shadow: inset 2px 0 var(--primary);
+  font-weight: 700;
+}
+
+.m1-video-list__item .mono {
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.m1-video-quiz {
+  max-width: 80ch;
+}
+
+@container m1-reader (min-width: 640px) {
+  .m1-video-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(185px, 28%);
+    align-items: start;
+  }
 }
 
 .m1-test__progress {

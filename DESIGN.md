@@ -104,11 +104,16 @@ On desktop the syllabus and reader scroll independently. At narrow widths
 they share the document scroll in a single column. Lecture numbers stay
 visible after completion, with a separate checkmark for progress.
 
-Course search indexes the eight available lectures, their theory, deeper
-explanations and worked examples in all three languages. Results show the
+Course search indexes lectures, theory, deeper explanations, worked examples
+and video titles in all three languages. Results show the
 lecture, section and a short excerpt and open the matching section.
 Query state stays local to the course coordinator, matching the existing
 single-route navigation. Clearing returns focus to the input.
+
+Lectures with recordings offer a Video tab with a single native player, a
+playlist and a short quiz for each recording. The player loads video on demand
+and pauses when leaving the tab. Video quizzes offer retry and onward
+navigation. Lecture completion is awarded through the final lecture quiz.
 
 ## Motion
 

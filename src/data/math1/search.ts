@@ -1,10 +1,11 @@
 import type { Language } from '../../lib/storage';
 import type { Block, L, Lecture } from './types';
 import { MATH1_LECTURES } from './index';
+import { MATH1_VIDEOS } from './videos';
 
 export interface StudyTarget {
   id: string;
-  tab: 'theory' | 'practice';
+  tab: 'theory' | 'practice' | 'video';
 }
 
 export function lectureSections(lecture: Lecture) {
@@ -57,6 +58,10 @@ const entries: SearchEntry[] = MATH1_LECTURES.flatMap((lecture, lectureIndex) =>
   ...lecture.practice.examples.map((example, i) => ({
     lectureIndex, id: `example-${i}`, tab: 'practice' as const,
     title: example.title, text: localizedText([example.task, example.steps]),
+  })),
+  ...(MATH1_VIDEOS[lecture.number] ?? []).map(video => ({
+    lectureIndex, id: video.id, tab: 'video' as const, title: video.title,
+    text: video.summary,
   })),
 ]);
 

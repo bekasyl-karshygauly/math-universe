@@ -72,7 +72,7 @@ export function TopicSearch({ lang, onOpen }: {
                     onOpen(result.lectureIndex, result);
                   }}>
                     <span className="m1-search-result__context">
-                      {fmt(t('m1_lecture_n'), { n: lecture.number })} · {lecture.title[lang]}
+                      {fmt(t('m1_lecture_n'), { n: lecture.number })} · {result.tab === 'video' ? t('m1_tab_video') + ' · ' : ''}{lecture.title[lang]}
                     </span>
                     <span className="m1-search-result__title">{result.title[lang]} <ArrowUpRight size={16} aria-hidden="true" /></span>
                     <span className="m1-search-result__excerpt" lang={excerpt.language === 'kz' ? 'kk' : excerpt.language}>{excerpt.text}</span>
