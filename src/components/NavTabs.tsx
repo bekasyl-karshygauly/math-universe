@@ -6,7 +6,7 @@ import { Language } from '../lib/storage';
 import { I18N } from '../data/i18n';
 import { playSmoothSound } from '../lib/sound';
 
-export type NavPage = 'home' | 'courses' | 'math1' | 'calc' | 'plot' | 'quiz' | 'notes' | 'hacks' | 'bonus';
+export type NavPage = 'home' | 'courses' | 'math1' | 'calc' | 'plot' | 'quiz' | 'activity' | 'notes' | 'hacks' | 'bonus';
 
 interface NavTabsProps {
   currentPage: NavPage;
@@ -21,6 +21,7 @@ const NAV_ITEMS: { id: NavPage; key: string }[] = [
   { id: 'calc', key: 'nav_calc' },
   { id: 'plot', key: 'nav_plot' },
   { id: 'quiz', key: 'nav_quiz' },
+  { id: 'activity', key: 'nav_activity' },
   { id: 'notes', key: 'nav_notes' },
   { id: 'hacks', key: 'nav_hacks' },
   { id: 'bonus', key: 'nav_bonus' },

@@ -128,11 +128,6 @@ export async function checkAchievements(): Promise<string[]> {
   return data || [];
 }
 
-export async function getLeaderboard(limit = 20): Promise<Profile[]> {
-  const { data } = await supabase.from('profiles').select('*').order('xp', { ascending: false }).limit(limit);
-  return data || [];
-}
-
 export async function getUserAchievements(userId: string): Promise<UserAchievement[]> {
   const { data } = await supabase.from('user_achievements').select('*').eq('user_id', userId);
   return data || [];

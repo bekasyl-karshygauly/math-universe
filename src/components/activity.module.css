@@ -1,0 +1,161 @@
+.view {
+  min-width: 0;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 10px 0 12px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.metric {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: start;
+  gap: 6px;
+  min-width: 0;
+  padding: clamp(14px, 2.5vw, 30px);
+}
+
+.metric + .metric {
+  border-inline-start: 1px solid var(--border);
+}
+
+.metric dt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-secondary);
+  overflow-wrap: anywhere;
+}
+
+.metric dt svg {
+  flex: none;
+  color: var(--primary);
+}
+
+.metric dd {
+  margin: 0;
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: clamp(34px, 5vw, 64px);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+
+.ranking {
+  min-width: 0;
+  padding: clamp(12px, 3vw, 24px);
+  margin-top: 20px;
+}
+
+.heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px 24px;
+  margin-bottom: 16px;
+}
+
+.heading h2 {
+  font-size: 22px;
+}
+
+.sharing,
+.signIn {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.sharing {
+  min-height: 28px;
+  cursor: pointer;
+}
+
+.sharing input {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin-top: 3px;
+  accent-color: var(--primary);
+}
+
+.signIn {
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.table {
+  width: 100%;
+}
+
+.table :is(td, th) {
+  white-space: normal;
+  vertical-align: top;
+}
+
+.table th[scope="row"] {
+  color: var(--text-primary);
+  font-size: 14px;
+  letter-spacing: normal;
+  overflow-wrap: anywhere;
+  text-align: start;
+  text-transform: none;
+}
+
+.table small,
+.name {
+  display: block;
+}
+
+.table small {
+  margin-top: 4px;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: normal;
+}
+
+.rank,
+.xp {
+  width: 1%;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.table :is(td, th):last-child {
+  text-align: end;
+}
+
+.xp {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.me {
+  background: var(--surface-secondary);
+}
+
+@media (max-width: 540px) {
+  .metric {
+    gap: 5px;
+    padding: 12px 8px;
+  }
+
+  .metric dt {
+    display: block;
+    font-size: 12px;
+  }
+
+  .metric dt svg {
+    display: none;
+  }
+
+  .table :is(td, th) {
+    padding-inline: 6px;
+  }
+}

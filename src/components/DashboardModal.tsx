@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Award, Check, LogOut } from 'lucide-react';
 import { useAuth } from '../lib/auth-context';
-import { getLeaderboard, getQuizAttempts, xpToLevel, levelProgress, signOut, Profile, QuizAttempt } from '../lib/supabase';
+import { getQuizAttempts, xpToLevel, levelProgress, signOut, QuizAttempt } from '../lib/supabase';
 import { ACHIEVEMENTS } from '../data/achievements';
 import { Language } from '../lib/storage';
 import { COURSES } from '../data/courses';
@@ -11,6 +11,7 @@ import { I18N } from '../data/i18n';
 import { fmt, htmlLang } from '../data/i18n-lab';
 import { Dialog } from './ui/Dialog';
 import { SegmentedTabs } from './ui/SegmentedTabs';
+import { ActivityView } from './ActivityView';
 
 interface DashboardModalProps {
   onClose: () => void;
@@ -26,7 +27,6 @@ const accuracyTone = (pct: number) => (pct < 60 ? 'var(--accent-rose)' : pct < 8
 export function DashboardModal({ onClose, lang, progress }: DashboardModalProps) {
   const { user, profile, unlockedKeys } = useAuth();
   const [tab, setTab] = useState<Tab>('profile');
-  const [leaders, setLeaders] = useState<Profile[]>([]);
   const [quizHistory, setQuizHistory] = useState<QuizAttempt[]>([]);
   const [loadingData, setLoadingData] = useState(false);
   const t = (k: string) => I18N[lang][k] || k;
@@ -34,8 +34,7 @@ export function DashboardModal({ onClose, lang, progress }: DashboardModalProps)
   const loadData = useCallback(async () => {
     if (!user) return;
     setLoadingData(true);
-    const [lb, qa] = await Promise.all([getLeaderboard(20), getQuizAttempts(user.id)]);
-    setLeaders(lb);
+    const qa = await getQuizAttempts(user.id);
     setQuizHistory(qa);
     setLoadingData(false);
   }, [user]);
@@ -201,36 +200,7 @@ export function DashboardModal({ onClose, lang, progress }: DashboardModalProps)
         )}
 
         {/* LEADERBOARD */}
-        {tab === 'leaderboard' && (
-          <>
-            {loadingData ? (
-              <p className="empty-state" role="status">{t('loading')}</p>
-            ) : leaders.length === 0 ? (
-              <p className="empty-state">{t('dash_empty_leaders')}</p>
-            ) : (
-              <ol className="dash-leaders">
-                {leaders.map((p, i) => {
-                  const isMe = p.id === user.id;
-                  return (
-                    <li key={p.id} className={`dash-leader${isMe ? ' is-me' : ''}`} aria-current={isMe ? 'true' : undefined}>
-                      <span className="dash-leader__rank mono">{String(i + 1).padStart(2, '0')}</span>
-                      <span className="user-hud__avatar" aria-hidden="true">{p.username?.[0]?.toUpperCase()}</span>
-                      <span style={{ flex: 1, minWidth: 0 }}>
-                        <span className="dash-leader__name">
-                          {p.username} {isMe && <span className="chip chip--accent">{t('dash_you')}</span>}
-                        </span>
-                        <span className="field-help">
-                          {fmt(t('dash_level_short'), { n: xpToLevel(p.xp) })} · {fmt(t('dash_days'), { n: p.streak })}
-                        </span>
-                      </span>
-                      <span className="mono dash-leader__xp">{p.xp.toLocaleString(htmlLang(lang))} XP</span>
-                    </li>
-                  );
-                })}
-              </ol>
-            )}
-          </>
-        )}
+        {tab === 'leaderboard' && <ActivityView lang={lang} embedded />}
 
         {/* ANALYTICS */}
         {tab === 'analytics' && (

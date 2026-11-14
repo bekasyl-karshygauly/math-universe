@@ -18,6 +18,9 @@ import { TopicSearch } from './TopicSearch';
 import type { StudyTarget } from '../../data/math1/search';
 import { scrollToStudyTarget } from './studyScroll';
 import { BoardButton } from '../whiteboard/BoardButton';
+import { useAuth } from '../../lib/auth-context';
+import { useStudyActivity } from '../../lib/activity';
+import { MATH1_COURSE_ID } from '../../data/math1/constants';
 
 type HubTab = 'lectures' | 'variant' | 'trainer' | 'glossary';
 
@@ -105,6 +108,8 @@ export function Math1View({ lang, progress, onToggleProgress, onOpenCourse }: Ma
   const done = MATH1_LECTURES.filter((_, i) => progress[i]).length;
   const total = MATH1_LECTURES.length;
   const lecture = MATH1_LECTURES[open];
+  const { user } = useAuth();
+  useStudyActivity(user?.id, MATH1_COURSE_ID, tab === 'lectures' ? open : null);
 
   useLayoutEffect(() => {
     if (tab !== 'lectures' || !jumpToLecture.current) return;

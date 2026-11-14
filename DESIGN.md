@@ -122,6 +122,16 @@ grid and pointer controls for mouse, touch and pen. Scratch work stays
 with the current exercise while it remains open in the app, including
 when the dialog is closed and reopened. Clearing can be undone.
 
+### Community activity
+
+The Activity screen shows account visits, guest browsers and studying accounts
+for the last seven UTC calendar days. Guest visits use a random browser ID
+and are counted separately from signed-in accounts. Study activity includes
+reading a lesson for 12 seconds, completion and quiz attempts. The public
+leaderboard uses stored XP, and its signed-in view includes the learner's own
+rank and last recorded topic. Showing a named topic to other signed-in
+learners is off by default. The profile dialog reuses the same ranking table.
+
 ## Motion
 
 Precise feedback, calm reveal, a clear link between cause and effect.

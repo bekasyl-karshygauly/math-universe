@@ -16,6 +16,8 @@ import { NumberSetsVisualizer } from './visualizations/NumberSetsVisualizer';
 import { SegmentedTabs } from './ui/SegmentedTabs';
 import { scrollToElement } from './LenisProvider';
 import { playSmoothSound, playDynamicSound, playSuccessSound, playModalOpenSound } from '../lib/sound';
+import { useAuth } from '../lib/auth-context';
+import { useStudyActivity } from '../lib/activity';
 
 interface LessonDetailViewProps {
   initialLessonId?: string;
@@ -57,6 +59,8 @@ export function LessonDetailView({
     return firstUnread === -1 ? 0 : firstUnread;
   });
   const contentRef = useRef<HTMLDivElement>(null);
+  const { user } = useAuth();
+  useStudyActivity(user?.id, course.id, openIndex);
 
   const done = course.lessons.filter((_, i) => progress[i]).length;
   const total = course.lessons.length;

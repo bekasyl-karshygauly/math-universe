@@ -11,6 +11,7 @@ import { fmt, htmlLang } from '../data/i18n-lab';
 import { COURSES } from '../data/courses';
 import { MATH1_COURSE_ID, MATH1_LECTURE_COUNT } from '../data/math1/constants';
 import { useAuth } from '../lib/auth-context';
+import { useVisitActivity } from '../lib/activity';
 
 import { LenisProvider, scrollToTop } from '../components/LenisProvider';
 import { Header } from '../components/Header';
@@ -36,6 +37,7 @@ const PlotterView = dynamic(() => import('../components/PlotterView').then((m) =
 const QuizView = dynamic(() => import('../components/QuizView').then((m) => m.QuizView), { ssr: false, loading: ViewLoading });
 const NotesView = dynamic(() => import('../components/NotesView').then((m) => m.NotesView), { ssr: false, loading: ViewLoading });
 const Math1View = dynamic(() => import('../components/math1/Math1View').then((m) => m.Math1View), { ssr: false, loading: ViewLoading });
+const ActivityView = dynamic(() => import('../components/ActivityView').then((m) => m.ActivityView), { ssr: false, loading: ViewLoading });
 
 const WhyItWorksModal = dynamic(() => import('../components/WhyItWorksModal').then((m) => m.WhyItWorksModal), {
   ssr: false,
@@ -48,7 +50,8 @@ const StepSolver = dynamic(() => import('../components/StepSolver').then((m) => 
 const AchievementToast = dynamic(() => import('../components/AchievementToast').then((m) => m.AchievementToast), { ssr: false });
 
 export default function HomePage() {
-  const { user, completeLesson, mergeLessonProgress, achievementQueue, dismissAchievement } = useAuth();
+  const { user, loading, completeLesson, mergeLessonProgress, achievementQueue, dismissAchievement } = useAuth();
+  useVisitActivity(loading, user?.id);
   const reduceMotion = useReduceMotion();
   const [state, setState] = useState<AppState>({
     lang: 'ru',
@@ -385,6 +388,12 @@ export default function HomePage() {
                     }
                   }}
                 />
+              </motion.div>
+            )}
+
+            {currentPage === 'activity' && (
+              <motion.div key="activity-view" {...viewMotion}>
+                <ActivityView lang={state.lang} onSignIn={() => setShowAuth(true)} />
               </motion.div>
             )}
 
