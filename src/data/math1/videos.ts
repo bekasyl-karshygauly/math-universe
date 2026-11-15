@@ -1,4 +1,5 @@
 import { T, type L, type TestQuestion } from './types';
+import { ADDITIONAL_VIDEOS } from './additionalVideos';
 
 export interface LectureVideo {
   id: string;
@@ -9,6 +10,7 @@ export interface LectureVideo {
 }
 
 export const MATH1_VIDEOS: Partial<Record<number, LectureVideo[]>> = {
+  ...ADDITIONAL_VIDEOS,
   1: [
     {
       id: "1-01",
