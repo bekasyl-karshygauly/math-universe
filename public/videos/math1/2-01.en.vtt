@@ -1,0 +1,179 @@
+WEBVTT
+
+1
+00:00:01.300 --> 00:00:04.863
+Welcome to the lesson! The following simple
+linear
+
+2
+00:00:04.863 --> 00:00:07.500
+operations can be applied to vectors:
+
+3
+00:00:07.500 --> 00:00:13.590
+addition, subtraction and multiplication of a
+vector by a number. These operations
+
+4
+00:00:13.590 --> 00:00:17.571
+are directly related to the corresponding
+operations
+
+5
+00:00:17.571 --> 00:00:20.480
+on vector quantities in mechanics. All
+
+6
+00:00:20.480 --> 00:00:24.500
+these operations have a clear geometric
+meaning.
+
+7
+00:00:25.430 --> 00:00:32.140
+Let us consider the first operation, the sum
+of vectors. Two nonzero vectors a and
+
+8
+00:00:32.140 --> 00:00:35.080
+b are given, and we need to find their sum.
+
+9
+00:00:35.520 --> 00:00:42.070
+Let us find the sum of the vectors. The vector
+joining the start of vector a
+
+10
+00:00:42.070 --> 00:00:45.489
+to the end of vector b is called the sum of
+the
+
+11
+00:00:45.489 --> 00:00:48.690
+two vectors. Then the sum of vectors a and b
+
+12
+00:00:48.690 --> 00:00:52.390
+is the vector c.
+
+13
+00:00:52.900 --> 00:00:59.040
+This way of finding the sum of vectors a and b
+is also called the triangle rule.
+
+14
+00:01:00.200 --> 00:01:03.578
+Let us place the starts of vectors a and b at
+a
+
+15
+00:01:03.578 --> 00:01:06.740
+common point and build on them, as on sides,
+
+16
+00:01:06.740 --> 00:01:09.774
+a parallelogram. Then the diagonal of the
+parallelogram
+
+17
+00:01:09.774 --> 00:01:11.540
+coming out of this common point,
+
+18
+00:01:11.540 --> 00:01:18.100
+c = a + b, is the sum of the two vectors.
+
+19
+00:01:18.100 --> 00:01:22.980
+This rule is called the parallelogram rule.
+
+20
+00:01:24.670 --> 00:01:31.660
+Now let us find the difference of vectors. The
+difference of two vectors a and b
+
+21
+00:01:31.660 --> 00:01:38.360
+is the vector c equal to the sum of vector a
+and the vector opposite to b.
+
+22
+00:01:38.360 --> 00:01:45.340
+Let us show it in a drawing: if vectors a and
+b come out of one common point,
+
+23
+00:01:45.340 --> 00:01:52.020
+then the difference of the vectors is the
+vector c joining the end of vector b
+
+24
+00:01:52.020 --> 00:01:54.460
+to the end of vector a.
+
+25
+00:01:56.180 --> 00:02:00.036
+Next, let us consider multiplying a vector by
+a number.
+
+26
+00:02:00.036 --> 00:02:02.980
+When a vector is multiplied by a number λ,
+
+27
+00:02:02.980 --> 00:02:06.587
+the length of the vector is multiplied by the
+absolute
+
+28
+00:02:06.587 --> 00:02:09.660
+value of λ. Here, when λ is greater than zero,
+
+29
+00:02:09.660 --> 00:02:12.468
+the direction of the vector is kept,
+
+30
+00:02:12.468 --> 00:02:16.290
+and when λ is less than zero it becomes
+opposite.
+
+31
+00:02:16.290 --> 00:02:23.200
+In other words, when multiplied by a number, a
+vector is stretched,
+
+32
+00:02:23.200 --> 00:02:27.540
+when divided by a number it shrinks, and when
+multiplied by a negative number
+
+33
+00:02:27.540 --> 00:02:29.880
+it changes direction.
+
+34
+00:02:30.740 --> 00:02:34.013
+Note that all these vectors are collinear:
+
+35
+00:02:34.013 --> 00:02:37.520
+here one vector is expressed through another.
+
+36
+00:02:37.520 --> 00:02:45.200
+Thus, multiplying a vector by a number gives a
+collinear vector.
+
+37
+00:02:46.030 --> 00:02:49.649
+To sum up: in this lesson we learned to
+perform
+
+38
+00:02:49.649 --> 00:02:52.960
+the following simple operations on vectors:
+
+39
+00:02:52.960 --> 00:02:58.040
+adding and subtracting vectors, and
+multiplying a vector by a number.

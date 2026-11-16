@@ -1,0 +1,440 @@
+WEBVTT
+
+1
+00:00:00.410 --> 00:00:04.420
+Today we will look at the determinant of a
+matrix:
+
+2
+00:00:04.420 --> 00:00:08.190
+how it is computed and what its properties
+are.
+
+3
+00:00:10.200 --> 00:00:16.940
+First, let us consider the notion of a
+determinant. Every square matrix A of order n
+
+4
+00:00:16.940 --> 00:00:19.944
+is assigned a number called its determinant.
+
+5
+00:00:19.944 --> 00:00:23.700
+In Latin, "determinant" means "to limit, to
+determine".
+
+6
+00:00:23.700 --> 00:00:31.860
+It is denoted |A| ("the modulus of A"), det A,
+or by the Greek letter Δ (delta).
+
+7
+00:00:33.970 --> 00:00:40.570
+For any square matrix there is a general rule
+for computing its determinant,
+
+8
+00:00:40.570 --> 00:00:47.950
+and in practice special convenient rules are
+used to compute determinants.
+
+9
+00:00:49.800 --> 00:00:53.041
+The way a determinant is computed depends on
+the
+
+10
+00:00:53.041 --> 00:00:56.080
+size of the matrix. Let us look more closely.
+
+11
+00:00:56.080 --> 00:01:02.620
+A first-order determinant is simply the entry
+a₁₁ of the matrix. For example,
+
+12
+00:01:02.620 --> 00:01:04.760
+let a 1×1 matrix be given.
+
+13
+00:01:04.760 --> 00:01:09.000
+Then the determinant of this matrix equals
+eight.
+
+14
+00:01:11.020 --> 00:01:14.252
+The determinant of a second-order matrix,
+
+15
+00:01:14.252 --> 00:01:17.720
+or a second-order determinant, is the number
+
+16
+00:01:17.720 --> 00:01:20.340
+found by the following formula.
+
+17
+00:01:20.340 --> 00:01:26.620
+Here, from the product of the main-diagonal
+entries a₁₁ and a₂₂
+
+18
+00:01:26.620 --> 00:01:35.820
+we subtract the product of the
+secondary-diagonal entries a₂₁ and a₁₂.
+
+19
+00:01:35.950 --> 00:01:42.750
+For example, take a 2×2 matrix. The entries of
+its main diagonal
+
+20
+00:01:42.750 --> 00:01:49.490
+are minus two and five, and the entries of the
+secondary diagonal are one and eight.
+
+21
+00:01:49.620 --> 00:01:56.040
+To find the determinant, we multiply the
+entries of the main and secondary diagonals
+
+22
+00:01:56.040 --> 00:02:02.340
+and subtract the second product from the
+first. As a result,
+
+23
+00:02:02.340 --> 00:02:05.300
+the determinant equals minus eighteen.
+
+24
+00:02:07.220 --> 00:02:14.100
+The determinant of a third-order matrix, or a
+third-order determinant, is the number
+
+25
+00:02:14.100 --> 00:02:17.630
+computed by this formula. The right-hand side
+of
+
+26
+00:02:17.630 --> 00:02:20.940
+the formula is an algebraic sum of six terms,
+
+27
+00:02:20.940 --> 00:02:27.560
+each of which is a product of three entries
+located in different rows
+
+28
+00:02:27.560 --> 00:02:31.560
+and different columns of the matrix.
+
+29
+00:02:33.060 --> 00:02:42.500
+Let us show this in a diagram. This diagram is
+called the triangle rule. First
+
+30
+00:02:42.500 --> 00:02:48.180
+we add the products of the entries on the main
+diagonal, then
+
+31
+00:02:48.180 --> 00:02:51.149
+we subtract the products of the entries on the
+secondary diagonals.
+
+32
+00:02:51.149 --> 00:02:54.250
+Note that the products of entries off the main
+and secondary diagonals
+
+33
+00:02:54.250 --> 00:03:00.570
+form triangles; hence the name of the rule.
+
+34
+00:03:02.270 --> 00:03:05.718
+Let us find the value of a determinant by the
+triangle
+
+35
+00:03:05.718 --> 00:03:08.910
+rule. First we multiply the main-diagonal
+entries:
+
+36
+00:03:08.910 --> 00:03:15.910
+one, zero and five. Then, following the
+triangle rule,
+
+37
+00:03:15.910 --> 00:03:19.380
+we form the products of the other entries:
+
+38
+00:03:19.380 --> 00:03:22.850
+two, one, two, and minus one, four, three.
+
+39
+00:03:22.850 --> 00:03:26.038
+A plus sign is placed between these products.
+
+40
+00:03:26.038 --> 00:03:29.510
+Then, from the entries on the secondary
+diagonal,
+
+41
+00:03:29.510 --> 00:03:32.586
+we form the product two, zero and three.
+
+42
+00:03:32.586 --> 00:03:36.430
+From the remaining entries, following the
+diagram,
+
+43
+00:03:36.430 --> 00:03:43.170
+we form the products minus one, two, five, and
+four, one, one.
+
+44
+00:03:43.170 --> 00:03:49.770
+A minus sign is placed between them.
+Computing, we get the answer: minus two.
+
+45
+00:03:52.520 --> 00:03:56.150
+Let us look at the main properties of
+determinants.
+
+46
+00:03:56.150 --> 00:03:59.140
+Property one: if the rows of a determinant
+
+47
+00:03:59.140 --> 00:04:04.460
+are replaced by the corresponding columns, its
+value does not change.
+
+48
+00:04:06.380 --> 00:04:13.260
+Property two: if two rows or two columns are
+swapped, the sign of the determinant
+
+49
+00:04:13.260 --> 00:04:16.420
+changes to the opposite.
+
+50
+00:04:18.120 --> 00:04:21.533
+Property three: if the corresponding entries
+
+51
+00:04:21.533 --> 00:04:24.790
+of any two rows (columns) of a determinant
+
+52
+00:04:24.790 --> 00:04:29.530
+are equal, the determinant equals zero.
+
+53
+00:04:31.480 --> 00:04:38.120
+Property four: a common factor of the entries
+of any row (column) of a determinant
+
+54
+00:04:38.120 --> 00:04:40.100
+can be taken outside the determinant.
+
+55
+00:04:41.960 --> 00:04:45.243
+Property five: if the corresponding entries
+
+56
+00:04:45.243 --> 00:04:48.450
+of any two rows (columns) of a determinant
+
+57
+00:04:48.450 --> 00:04:54.070
+are proportional, the determinant equals zero.
+
+58
+00:04:55.960 --> 00:04:59.598
+Property six: if the entries of one row
+(column) of
+
+59
+00:04:59.598 --> 00:05:02.950
+a determinant are multiplied by the same
+number
+
+60
+00:05:02.950 --> 00:05:06.052
+and added to the corresponding entries of
+another
+
+61
+00:05:06.052 --> 00:05:08.710
+row (column), the value of the determinant
+
+62
+00:05:08.710 --> 00:05:12.286
+does not change. Let us look at this property
+in
+
+63
+00:05:12.286 --> 00:05:15.490
+an example. Take a second-order determinant
+
+64
+00:05:15.490 --> 00:05:19.256
+equal to four. Now we multiply the entries of
+the second
+
+65
+00:05:19.256 --> 00:05:22.350
+row by three and add them to the corresponding
+
+66
+00:05:22.350 --> 00:05:26.428
+entries of the first row, and then compute the
+resulting
+
+67
+00:05:26.428 --> 00:05:30.360
+determinant. As you can see, the answers are
+the same.
+
+68
+00:05:30.360 --> 00:05:37.360
+To look at the last property of determinants,
+let us introduce two new notions.
+
+69
+00:05:37.360 --> 00:05:40.897
+The minor of an entry aᵢⱼ of a determinant of
+
+70
+00:05:40.897 --> 00:05:44.120
+order n is the determinant of order n − 1
+
+71
+00:05:44.120 --> 00:05:49.488
+obtained from the original one by crossing out
+the
+
+72
+00:05:49.488 --> 00:05:54.320
+row and column that meet at the chosen entry.
+
+73
+00:05:54.320 --> 00:06:00.200
+It is denoted Mᵢⱼ. Let us look at an example.
+
+74
+00:06:00.200 --> 00:06:03.348
+Let a third-order determinant be given.
+
+75
+00:06:03.348 --> 00:06:07.060
+We need to compute the minor of its entry a₁₂.
+
+76
+00:06:07.060 --> 00:06:11.200
+We cross out the first row and the second
+column.
+
+77
+00:06:11.200 --> 00:06:17.720
+We get a second-order determinant made up of
+the entries left after crossing out.
+
+78
+00:06:17.720 --> 00:06:20.820
+Its value equals minus four.
+
+79
+00:06:22.480 --> 00:06:25.865
+The cofactor of an entry aᵢⱼ of a determinant
+is its
+
+80
+00:06:25.865 --> 00:06:29.120
+minor taken with a plus sign if the sum of i
+and j
+
+81
+00:06:29.120 --> 00:06:35.540
+is even, and with a minus sign if this sum is
+odd.
+
+82
+00:06:35.540 --> 00:06:42.240
+It is denoted Aᵢⱼ. For example,
+
+83
+00:06:42.240 --> 00:06:48.680
+in a third-order determinant we need to find
+the cofactor of the entry a₁₂.
+
+84
+00:06:48.680 --> 00:06:55.180
+Then, by the definition of a cofactor, the
+cofactor of a₁₂
+
+85
+00:06:55.180 --> 00:07:01.920
+equals minus one to an odd power times the
+corresponding minor M₁₂.
+
+86
+00:07:01.920 --> 00:07:09.580
+As a result, we take the second-order
+determinant with a minus sign and get four.
+
+87
+00:07:11.240 --> 00:07:17.690
+Now that we know what a cofactor is, let us
+look at the last property, number seven.
+
+88
+00:07:17.690 --> 00:07:24.690
+The sum of the products of the entries of any
+row (column) and their corresponding
+
+89
+00:07:24.690 --> 00:07:31.200
+cofactors equals the value of the determinant.
+
+90
+00:07:31.200 --> 00:07:36.346
+Let us look at this property in an example.
+
+91
+00:07:36.346 --> 00:07:42.570
+Take a determinant. As the row we use the
+first one.
+
+92
+00:07:42.570 --> 00:07:48.760
+We multiply the entries of the first row by
+their cofactors.
+
+93
+00:07:48.760 --> 00:07:54.960
+Computing the cofactors and doing the
+remaining operations, we get the number three.
+
+94
+00:07:57.800 --> 00:08:04.650
+To sum up: in this lesson we learned what a
+determinant is, how it is computed
+
+95
+00:08:04.650 --> 00:08:12.270
+depending on its order, and how its properties
+help to compute determinants quickly.

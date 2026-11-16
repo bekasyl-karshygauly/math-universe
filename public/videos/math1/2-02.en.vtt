@@ -1,0 +1,526 @@
+WEBVTT
+
+1
+00:00:00.660 --> 00:00:07.480
+Welcome to the lesson! We already know the
+notion of a vector and can perform simple
+
+2
+00:00:07.480 --> 00:00:14.760
+linear operations on vectors. Now let us look
+at vectors in three-dimensional space.
+
+3
+00:00:14.760 --> 00:00:20.320
+It is very convenient to work with vectors in
+a rectangular coordinate system.
+
+4
+00:00:23.140 --> 00:00:29.500
+First, let us consider the rectangular
+Cartesian coordinate system Oxyz in space.
+
+5
+00:00:29.500 --> 00:00:36.380
+We label the coordinate axes Ox, Oy and Oz and
+also show
+
+6
+00:00:36.380 --> 00:00:40.940
+the unit vectors i, j and k, the basis
+vectors.
+
+7
+00:00:40.940 --> 00:00:47.690
+Take any point M in three-dimensional space.
+We choose any vector a
+
+8
+00:00:47.690 --> 00:00:54.210
+in space and place it at the starting point,
+so that vector a
+
+9
+00:00:54.210 --> 00:01:00.670
+equals vector OM. Let us find the projections
+of vector a onto the coordinate axes.
+
+10
+00:01:00.670 --> 00:01:07.040
+Through the end of vector OM we draw planes
+parallel to the coordinate planes.
+
+11
+00:01:07.040 --> 00:01:12.440
+We label the points where these planes meet
+the axes M₁, M₂
+
+12
+00:01:12.440 --> 00:01:18.740
+and M₃ respectively. By the rule for adding
+vectors,
+
+13
+00:01:18.740 --> 00:01:25.580
+the vector a itself equals the sum of the
+vectors OM₁, OM₂ and OM₃.
+
+14
+00:01:25.580 --> 00:01:32.480
+The vectors obtained as products have the
+following form:
+
+15
+00:01:32.480 --> 00:01:38.180
+each of them equals the product of the
+corresponding unit vector and the length
+
+16
+00:01:38.180 --> 00:01:42.385
+of the corresponding vector. If we denote the
+projections
+
+17
+00:01:42.385 --> 00:01:45.040
+of vector a onto the coordinate axes
+
+18
+00:01:45.040 --> 00:01:51.740
+by aₓ, a_y and a_z respectively, these
+equalities give the following formula.
+
+19
+00:01:51.740 --> 00:01:56.390
+This is called the expansion of the vector
+
+20
+00:01:56.390 --> 00:02:02.730
+in terms of the unit vectors of the coordinate
+axes. The numbers aₓ, a_y and a_z
+
+21
+00:02:02.730 --> 00:02:05.659
+are called the coordinates of the vector,
+
+22
+00:02:05.659 --> 00:02:09.230
+so the coordinates of a vector are its
+projections
+
+23
+00:02:09.230 --> 00:02:12.547
+onto the coordinate axes. In coordinate form,
+
+24
+00:02:12.547 --> 00:02:15.570
+the vector equation is written like this.
+
+25
+00:02:17.070 --> 00:02:22.360
+If we know the coordinates of a vector, it is
+easy to find its length.
+
+26
+00:02:22.360 --> 00:02:25.553
+The length of a vector is the square root of
+the
+
+27
+00:02:25.553 --> 00:02:28.680
+sum of the squares of its coordinates, that
+is,
+
+28
+00:02:28.680 --> 00:02:31.754
+the magnitude of a vector equals the square
+root of the
+
+29
+00:02:31.754 --> 00:02:34.660
+sum of the squares of its projections onto the
+axes.
+
+30
+00:02:34.660 --> 00:02:40.950
+Knowing the coordinates of the start and end
+of a vector, we can
+
+31
+00:02:40.950 --> 00:02:44.630
+determine the coordinates of the vector
+itself.
+
+32
+00:02:44.630 --> 00:02:48.570
+We subtract the corresponding coordinates of
+
+33
+00:02:48.570 --> 00:02:52.330
+its start from the coordinates of its end.
+
+34
+00:02:53.800 --> 00:02:57.662
+Let us look at an example. Two points are
+given:
+
+35
+00:02:57.662 --> 00:03:00.720
+A with coordinates five, six and minus
+
+36
+00:03:00.720 --> 00:03:07.060
+eight, and point B with coordinates three,
+five, nine.
+
+37
+00:03:07.060 --> 00:03:13.780
+We need to find the length of vector AB. First
+let us find the coordinates of AB.
+
+38
+00:03:13.780 --> 00:03:17.843
+To do this, we subtract the corresponding
+coordinates
+
+39
+00:03:17.843 --> 00:03:20.220
+of A from the coordinates of B.
+
+40
+00:03:20.220 --> 00:03:26.360
+As a result, we get the coordinates minus two,
+minus one, seventeen.
+
+41
+00:03:26.560 --> 00:03:33.200
+Now let us find the length: we square each
+coordinate, add them up and take
+
+42
+00:03:33.200 --> 00:03:35.320
+the square root of the result.
+
+43
+00:03:35.320 --> 00:03:39.700
+In our case we got the square root of two
+hundred ninety-four,
+
+44
+00:03:39.700 --> 00:03:44.940
+which equals seven times the square root of
+six.
+
+45
+00:03:46.220 --> 00:03:51.160
+Let us again consider vector a in a
+rectangular coordinate system.
+
+46
+00:03:51.370 --> 00:03:58.150
+We denote the angles between vector a and the
+axes Ox, Oy and Oz by α,
+
+47
+00:03:58.150 --> 00:04:04.520
+β and γ respectively. The cosines of these
+angles are called direction cosines.
+
+48
+00:04:04.520 --> 00:04:11.520
+The direction cosines of vector a are the
+cosines of the angles α, β, γ
+
+49
+00:04:11.520 --> 00:04:20.660
+between vector a and the positive directions
+of the axes Ox, Oy, Oz respectively.
+
+50
+00:04:20.660 --> 00:04:26.670
+The direction cosines give the direction of
+the vector. By the property
+
+51
+00:04:26.670 --> 00:04:28.850
+of projecting a vector onto an axis,
+
+52
+00:04:28.850 --> 00:04:33.270
+the projection of the vector equals the cosine
+of its angle with the axis
+
+53
+00:04:33.270 --> 00:04:38.350
+times the length of the vector.
+
+54
+00:04:38.380 --> 00:04:41.853
+In other words, to find the direction cosines
+of vector
+
+55
+00:04:41.853 --> 00:04:45.200
+a, divide the corresponding coordinates of the
+vector
+
+56
+00:04:45.200 --> 00:04:51.480
+by its magnitude. This gives a property of
+direction cosines:
+
+57
+00:04:51.480 --> 00:04:56.880
+the sum of the squares of the direction
+cosines equals one.
+
+58
+00:04:58.410 --> 00:05:04.910
+Let us look at an example. Let vector a have
+coordinates four, minus six and three.
+
+59
+00:05:04.910 --> 00:05:08.596
+Let us find the direction cosines of this
+vector.
+
+60
+00:05:08.596 --> 00:05:11.380
+First we find the length of vector a:
+
+61
+00:05:11.380 --> 00:05:16.030
+it equals the square root of sixty-one.
+
+62
+00:05:16.030 --> 00:05:19.547
+Now we substitute the coordinates of the
+vector and
+
+63
+00:05:19.547 --> 00:05:22.650
+its length into the direction cosine formula.
+
+64
+00:05:22.650 --> 00:05:26.710
+We obtained the following results.
+
+65
+00:05:27.260 --> 00:05:33.900
+Operations on vectors given in a rectangular
+coordinate system are easier
+
+66
+00:05:33.900 --> 00:05:39.880
+than with their geometric picture. Later in
+this lesson we will show how
+
+67
+00:05:39.880 --> 00:05:45.901
+to add vectors with known coordinates and
+multiply a vector by
+
+68
+00:05:45.901 --> 00:05:51.340
+a number, and we will go through the examples
+in detail.
+
+69
+00:05:52.090 --> 00:05:55.941
+Let vectors a and b be given by their
+projections
+
+70
+00:05:55.941 --> 00:05:58.770
+onto the coordinate axes Ox, Oy, Oz,
+
+71
+00:05:58.770 --> 00:06:09.750
+that is, their expansions in the unit vectors
+of the axes are written in this form.
+
+72
+00:06:11.190 --> 00:06:17.610
+Linear operations on vectors reduce to the
+corresponding linear operations
+
+73
+00:06:17.610 --> 00:06:24.150
+on their projections. For example, the sum or
+difference of vectors can be written
+
+74
+00:06:24.150 --> 00:06:27.643
+as the sum or difference of their coordinates.
+
+75
+00:06:27.643 --> 00:06:30.680
+When a vector is multiplied by a scalar,
+
+76
+00:06:30.680 --> 00:06:35.020
+its coordinates are also multiplied by that
+scalar.
+
+77
+00:06:36.580 --> 00:06:38.573
+Let us look at an example.
+
+78
+00:06:38.573 --> 00:06:43.020
+Two vectors are given: vector a with
+coordinates five, six
+
+79
+00:06:43.020 --> 00:06:49.720
+and minus eight, and vector b with coordinates
+three, five and nine.
+
+80
+00:06:49.720 --> 00:06:56.540
+We need to find the vector c = 2a + b.
+
+81
+00:06:56.540 --> 00:07:02.960
+First let us find the vector 2a: to do this,
+we multiply the coordinates of vector a
+
+82
+00:07:02.960 --> 00:07:09.220
+by two. We get a vector with coordinates ten,
+twelve and minus sixteen.
+
+83
+00:07:09.220 --> 00:07:15.570
+Now let us find the coordinates of vector c.
+Vector c
+
+84
+00:07:15.570 --> 00:07:22.250
+equals the sum of 2a and b; to find it, we add
+the coordinates
+
+85
+00:07:22.250 --> 00:07:26.570
+in the same positions. The calculation gives
+
+86
+00:07:26.570 --> 00:07:33.790
+vector c with coordinates thirteen, seventeen
+and minus seven.
+
+87
+00:07:35.330 --> 00:07:41.650
+Using the coordinates of vectors, we can
+determine whether vectors are equal.
+
+88
+00:07:41.700 --> 00:07:47.730
+Vectors are called equal if their
+corresponding coordinates are equal.
+
+89
+00:07:47.730 --> 00:07:49.870
+Also, without drawing the vectors,
+
+90
+00:07:49.870 --> 00:07:54.150
+we can check whether they are collinear using
+the following formula:
+
+91
+00:07:54.150 --> 00:08:00.970
+two vectors are collinear if the ratios of
+their coordinates are equal.
+
+92
+00:08:00.970 --> 00:08:04.035
+Vectors a with coordinates three,
+
+93
+00:08:04.035 --> 00:08:09.980
+two and m, and b with coordinates nine, n and
+twelve, are given.
+
+94
+00:08:09.980 --> 00:08:16.600
+Find the values of the parameters n and m for
+which these vectors are collinear.
+
+95
+00:08:16.600 --> 00:08:23.410
+First, using the collinearity condition, we
+set up a proportion
+
+96
+00:08:23.410 --> 00:08:25.772
+of the coordinates of the vectors.
+
+97
+00:08:25.772 --> 00:08:29.870
+This ratio gives two equations, from which we
+find n and m.
+
+98
+00:08:29.870 --> 00:08:36.330
+So we get the following result: when n equals
+six and m
+
+99
+00:08:36.330 --> 00:08:41.690
+equals four, vectors a and b are collinear.
+
+100
+00:08:42.840 --> 00:08:49.720
+To sum up: vectors are one of the powerful
+tools of mathematics and physics.
+
+101
+00:08:49.720 --> 00:08:53.447
+The basic laws of mechanics and
+electrodynamics are stated
+
+102
+00:08:53.447 --> 00:08:56.660
+in the language of vectors. To understand
+physics,
+
+103
+00:08:56.660 --> 00:09:00.540
+you need to learn to work with vectors.
+
+104
+00:09:00.830 --> 00:09:04.057
+In physics and mathematics, a vector is a
+quantity
+
+105
+00:09:04.057 --> 00:09:07.090
+described by a numerical value and a
+direction.
+
+106
+00:09:07.090 --> 00:09:13.010
+Many important quantities in physics are
+vectors.
+
+107
+00:09:13.010 --> 00:09:18.690
+For example, force, position, velocity,
+acceleration, torque,
+
+108
+00:09:18.690 --> 00:09:22.470
+momentum, and electric and magnetic fields.
+
+109
+00:09:22.470 --> 00:09:28.630
+They can be compared with other quantities:
+for example, mass, volume, pressure,
+
+110
+00:09:28.630 --> 00:09:33.032
+temperature and density can be described by
+
+111
+00:09:33.032 --> 00:09:37.230
+a single number; they are called scalars.

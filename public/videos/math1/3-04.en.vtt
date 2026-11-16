@@ -1,0 +1,203 @@
+WEBVTT
+
+1
+00:00:00.860 --> 00:00:04.551
+In this lesson we will see how to find the
+angle
+
+2
+00:00:04.551 --> 00:00:07.320
+between a line and a plane, and also
+
+3
+00:00:07.320 --> 00:00:14.200
+how to determine whether a line and a plane in
+space are parallel or perpendicular.
+
+4
+00:00:15.250 --> 00:00:22.040
+Let a plane Q and a line L intersect in space.
+The plane is described by its normal
+
+5
+00:00:22.040 --> 00:00:28.380
+vector n, and s is the direction vector of the
+line. To find
+
+6
+00:00:28.380 --> 00:00:30.718
+the angle between the line and the plane,
+
+7
+00:00:30.718 --> 00:00:34.140
+the sine of the angle between the normal
+vector of the plane
+
+8
+00:00:34.140 --> 00:00:40.400
+and the direction vector of the line is found
+by this formula.
+
+9
+00:00:41.240 --> 00:00:44.631
+Let us look at an example. Let the equation of
+a plane
+
+10
+00:00:44.631 --> 00:00:47.520
+and the canonical equation of a line be given.
+
+11
+00:00:47.520 --> 00:00:50.940
+We write the coordinates of the plane's normal
+
+12
+00:00:50.940 --> 00:00:53.840
+vector and the line's direction vector.
+
+13
+00:00:53.840 --> 00:00:57.570
+Now let us find the angle between the line and
+the plane.
+
+14
+00:00:57.570 --> 00:01:01.042
+We substitute the given data into the formula
+and do
+
+15
+00:01:01.042 --> 00:01:04.380
+the calculations in the numerator and
+denominator,
+
+16
+00:01:04.380 --> 00:01:07.859
+and after cancelling we get that the sine of
+the
+
+17
+00:01:07.859 --> 00:01:11.120
+angle equals three divided by the square root
+
+18
+00:01:11.120 --> 00:01:13.980
+of one hundred seventy-eight.
+
+19
+00:01:17.660 --> 00:01:20.769
+To determine whether a line and a plane are
+parallel
+
+20
+00:01:20.769 --> 00:01:23.160
+or perpendicular, we use their essential
+
+21
+00:01:23.160 --> 00:01:29.680
+components: the normal vector n and the
+direction vector s.
+
+22
+00:01:29.710 --> 00:01:36.710
+Let us draw a plane Q and a line L parallel to
+it. Now we draw the normal vector n
+
+23
+00:01:36.710 --> 00:01:43.300
+and the direction vector s. If the line L is
+parallel to the plane Q,
+
+24
+00:01:43.300 --> 00:01:49.940
+then vectors n and s are perpendicular, that
+is,
+
+25
+00:01:49.940 --> 00:01:52.780
+the dot product of the vectors is zero.
+
+26
+00:01:55.120 --> 00:01:58.455
+Let us look at an example: from the given
+equations we need
+
+27
+00:01:58.455 --> 00:02:01.450
+to check whether the plane and the line are
+parallel.
+
+28
+00:02:01.450 --> 00:02:08.280
+We write the coordinates of the normal and
+direction vectors
+
+29
+00:02:08.280 --> 00:02:14.620
+and substitute them into the perpendicularity
+condition for the vectors, getting
+
+30
+00:02:14.620 --> 00:02:18.440
+zero, so the line and the plane are parallel.
+
+31
+00:02:20.580 --> 00:02:27.160
+Let us draw a plane Q and a line L. Now we
+draw the normal vector n
+
+32
+00:02:27.160 --> 00:02:33.830
+and the direction vector s. If vectors n and s
+
+33
+00:02:33.830 --> 00:02:40.530
+are parallel, the line L is perpendicular to
+the plane Q,
+
+34
+00:02:40.530 --> 00:02:45.030
+that is, the coordinates of the vectors are
+proportional to each other.
+
+35
+00:02:46.980 --> 00:02:53.340
+Let us look at an example: from the given
+equations we need to check
+
+36
+00:02:53.340 --> 00:02:55.984
+whether the plane and the line are
+perpendicular.
+
+37
+00:02:55.984 --> 00:02:58.790
+We write the coordinates of the normal and
+direction
+
+38
+00:02:58.790 --> 00:03:05.450
+vectors and substitute them into the
+parallelism condition for the vectors.
+
+39
+00:03:05.450 --> 00:03:12.030
+We check that the coordinates are proportional:
+all the fractions equal one third,
+
+40
+00:03:12.030 --> 00:03:15.790
+so the plane and the line are perpendicular.
+
+41
+00:03:16.650 --> 00:03:23.600
+To sum up: to determine the relative position
+of a line and a plane in space,
+
+42
+00:03:23.600 --> 00:03:29.880
+we use the components of these objects: the
+normal vector of the plane
+
+43
+00:03:29.880 --> 00:03:33.680
+and the direction vector of the line.

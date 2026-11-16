@@ -1,0 +1,148 @@
+WEBVTT
+
+1
+00:00:01.050 --> 00:00:04.409
+In this lesson we will see how to find the
+unknowns
+
+2
+00:00:04.409 --> 00:00:07.110
+by Cramer's rule and derive the formulas.
+
+3
+00:00:07.110 --> 00:00:10.348
+Then we will move on to examples and describe
+in detail
+
+4
+00:00:10.348 --> 00:00:13.350
+how to solve a system of linear algebraic
+equations
+
+5
+00:00:13.350 --> 00:00:16.310
+by Cramer's rule.
+
+6
+00:00:17.880 --> 00:00:24.860
+Cramer's rule is used to solve systems of
+linear algebraic equations in which
+
+7
+00:00:24.860 --> 00:00:27.651
+the number of unknowns equals the number of
+equations
+
+8
+00:00:27.651 --> 00:00:30.020
+and the determinant of the coefficient matrix
+
+9
+00:00:30.020 --> 00:00:36.610
+is nonzero. Let a system of three linear
+equations in three unknowns be given.
+
+10
+00:00:37.890 --> 00:00:44.620
+The coefficient matrix of such a system is
+square. The determinant of this matrix
+
+11
+00:00:44.620 --> 00:00:47.551
+is called the determinant of the system.
+
+12
+00:00:47.551 --> 00:00:51.580
+If the determinant of the system is nonzero,
+the system
+
+13
+00:00:51.580 --> 00:00:53.660
+is called nonsingular.
+
+14
+00:00:55.350 --> 00:00:59.057
+If Δ is not zero, we find the solution of this
+
+15
+00:00:59.057 --> 00:01:02.120
+system of equations. We form auxiliary
+
+16
+00:01:02.120 --> 00:01:05.709
+determinants: these are the determinants of
+the matrices obtained
+
+17
+00:01:05.709 --> 00:01:08.580
+by replacing each column of matrix A with the
+column
+
+18
+00:01:08.580 --> 00:01:13.800
+of constant terms.
+
+19
+00:01:14.570 --> 00:01:16.930
+Cramer's formulas look like this.
+
+20
+00:01:20.000 --> 00:01:24.295
+Let us look at an example: take a system of
+three linear equations
+
+21
+00:01:24.295 --> 00:01:27.940
+in three unknowns, which we will solve by
+Cramer's rule.
+
+22
+00:01:28.450 --> 00:01:35.420
+We form the determinant of the matrix and find
+its value. Δ is not zero,
+
+23
+00:01:35.420 --> 00:01:39.460
+so the system has a unique solution.
+
+24
+00:01:41.250 --> 00:01:47.920
+Now we find the values of the auxiliary
+determinants: first Δx₁,
+
+25
+00:01:47.920 --> 00:01:50.120
+then Δx₂,
+
+26
+00:01:50.990 --> 00:01:53.930
+and finally Δx₃.
+
+27
+00:01:57.480 --> 00:02:02.720
+Now we substitute them into the final formulas
+and find the values of the variables.
+
+28
+00:02:05.180 --> 00:02:08.817
+To sum up: Cramer's rule lets us find the
+solution
+
+29
+00:02:08.817 --> 00:02:11.800
+of a system of linear algebraic equations
+
+30
+00:02:11.800 --> 00:02:17.980
+if the determinant of the coefficient matrix
+is nonzero.
+
+31
+00:02:17.980 --> 00:02:24.220
+In essence, the method relies on computing
+determinants of n×n matrices
+
+32
+00:02:24.220 --> 00:02:31.080
+and applying the corresponding formulas to
+find the unknowns.

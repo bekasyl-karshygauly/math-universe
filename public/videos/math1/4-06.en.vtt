@@ -1,0 +1,231 @@
+WEBVTT
+
+1
+00:00:01.180 --> 00:00:04.858
+For differentiable functions we can find not
+just one
+
+2
+00:00:04.858 --> 00:00:08.120
+derivative but derivatives of the second,
+third
+
+3
+00:00:08.120 --> 00:00:11.780
+and higher orders.
+
+4
+00:00:13.980 --> 00:00:20.720
+The derivative of a function, y′ = f′(x), is
+called
+
+5
+00:00:20.720 --> 00:00:27.570
+the first-order derivative. If the function y′
+is differentiable,
+
+6
+00:00:27.570 --> 00:00:34.230
+its derivative is called the second-order
+derivative and is denoted by two primes
+
+7
+00:00:34.230 --> 00:00:41.140
+or d²y/dx². So the second
+
+8
+00:00:41.140 --> 00:00:44.840
+derivative is the derivative of the first
+derivative.
+
+9
+00:00:46.760 --> 00:00:50.009
+The derivative of the second-order derivative,
+
+10
+00:00:50.009 --> 00:00:53.540
+if it exists, is called the third-order
+derivative
+
+11
+00:00:53.540 --> 00:01:01.970
+and is denoted by three primes or d³y/dx³.
+
+12
+00:01:01.970 --> 00:01:05.313
+So the third-order derivative is the
+derivative of
+
+13
+00:01:05.313 --> 00:01:08.590
+the second derivative. The derivative of order
+n,
+
+14
+00:01:08.590 --> 00:01:14.930
+or the nth derivative, is the derivative of
+the derivative of order n − 1.
+
+15
+00:01:14.930 --> 00:01:18.461
+Note that, so as not to confuse it with the
+
+16
+00:01:18.461 --> 00:01:21.910
+nth power, the order of higher derivatives
+
+17
+00:01:21.910 --> 00:01:26.250
+is written in parentheses. Derivatives of
+order higher than the first
+
+18
+00:01:26.250 --> 00:01:30.270
+are called higher-order derivatives.
+
+19
+00:01:31.960 --> 00:01:39.180
+Let us find the second- and third-order
+derivatives of the function y = x⁵.
+
+20
+00:01:39.180 --> 00:01:45.720
+First, by the rules of differentiation, we
+find the first derivative: it equals five
+
+21
+00:01:45.720 --> 00:01:52.230
+times x to the fourth power. Now we
+differentiate the derivative we found: y″
+
+22
+00:01:52.230 --> 00:01:56.310
+equals 20x³.
+
+23
+00:01:56.320 --> 00:01:58.880
+Now let us find the third derivative:
+
+24
+00:01:58.880 --> 00:02:02.340
+to do this, we differentiate the second
+derivative
+
+25
+00:02:02.340 --> 00:02:06.060
+and the answer is 60x².
+
+26
+00:02:07.950 --> 00:02:11.638
+Let us look at another example of finding
+higher-order
+
+27
+00:02:11.638 --> 00:02:14.370
+derivatives: we find all the derivatives
+
+28
+00:02:14.370 --> 00:02:20.630
+of sin x. First we find the first derivative:
+it equals cos x.
+
+29
+00:02:20.630 --> 00:02:25.008
+In addition, to find the pattern between the
+derivative
+
+30
+00:02:25.008 --> 00:02:28.590
+and its value, we use the reduction formulas.
+
+31
+00:02:29.230 --> 00:02:36.180
+Now we find the second-order derivative: it
+equals −sin x, and
+
+32
+00:02:36.180 --> 00:02:43.130
+then the third-order derivative: it equals
+−cos x. Clearly,
+
+33
+00:02:43.130 --> 00:02:48.650
+the nth derivative of the sine is expressed by
+the following formula.
+
+34
+00:02:51.400 --> 00:02:55.425
+Higher-order derivatives can also be found for
+parametrically
+
+35
+00:02:55.425 --> 00:02:57.800
+defined functions. Let the functions
+
+36
+00:02:57.800 --> 00:03:03.390
+be given by parametric equations. As we know,
+the first derivative
+
+37
+00:03:03.390 --> 00:03:10.130
+is found by the formula y′ₓ = y′ₜ /
+
+38
+00:03:10.130 --> 00:03:12.410
+x′ₜ.
+
+39
+00:03:12.410 --> 00:03:15.949
+The second derivative is found by the formula:
+
+40
+00:03:15.949 --> 00:03:18.950
+the derivative of y′ₓ with respect to t
+
+41
+00:03:18.950 --> 00:03:25.720
+divided by x′ₜ. In the same way, we write the
+formula for the third-order derivative
+
+42
+00:03:25.720 --> 00:03:30.400
+and the formula for the fourth-order
+derivative.
+
+43
+00:03:33.540 --> 00:03:37.611
+Let us find the second derivative of a
+parametrically
+
+44
+00:03:37.611 --> 00:03:40.300
+defined function. First we find x′ₜ
+
+45
+00:03:40.300 --> 00:03:47.260
+and y′ₜ and write down the first derivative of
+the function.
+
+46
+00:03:47.260 --> 00:03:54.080
+Now we find the second-order y″ₜ.
+
+47
+00:03:54.080 --> 00:04:01.020
+We get the value 16t³. Substituting the values
+we obtained
+
+48
+00:04:01.020 --> 00:04:07.940
+into the formula, we get 16t⁴ as the answer.
+
+49
+00:04:09.760 --> 00:04:14.347
+So, in this lesson we studied the technique of
+finding
+
+50
+00:04:14.347 --> 00:04:18.340
+higher-order derivatives for various
+functions.

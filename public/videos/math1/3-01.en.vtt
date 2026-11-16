@@ -1,0 +1,532 @@
+WEBVTT
+
+1
+00:00:00.150 --> 00:00:03.030
+Analytic geometry is one of the main branches
+of
+
+2
+00:00:03.030 --> 00:00:05.850
+higher mathematics, in which geometric
+problems
+
+3
+00:00:05.850 --> 00:00:08.810
+are solved by algebraic methods.
+
+4
+00:00:10.800 --> 00:00:14.539
+The basic notions of analytic geometry are
+points,
+
+5
+00:00:14.539 --> 00:00:17.380
+lines, planes, and curves and surfaces
+
+6
+00:00:17.380 --> 00:00:19.480
+of the second order.
+
+7
+00:00:22.260 --> 00:00:28.720
+The main method of analytic geometry is the
+coordinate method: here
+
+8
+00:00:28.720 --> 00:00:31.460
+the properties of geometric objects are
+studied by algebraic methods
+
+9
+00:00:31.460 --> 00:00:38.120
+using their equations. In this lesson
+
+10
+00:00:38.120 --> 00:00:41.100
+we will look at the kinds of lines in the
+plane.
+
+11
+00:00:42.800 --> 00:00:46.717
+The equation F(x, y) = 0 is called the
+equation
+
+12
+00:00:46.717 --> 00:00:49.800
+of a line, or curve, in the Oxy plane
+
+13
+00:00:49.800 --> 00:00:56.120
+if the coordinates x and y of every point M on
+this line
+
+14
+00:00:56.120 --> 00:01:02.720
+satisfy the equation, and the coordinates of
+any point not on the line
+
+15
+00:01:02.720 --> 00:01:05.910
+do not satisfy it.
+
+16
+00:01:05.910 --> 00:01:12.430
+A point M(x, y) moving along the line is
+called the current point, and
+
+17
+00:01:12.430 --> 00:01:17.930
+its coordinates x and y are called the current
+coordinates.
+
+18
+00:01:20.810 --> 00:01:24.213
+A straight line is a geometric figure made of
+
+19
+00:01:24.213 --> 00:01:27.390
+points. Each point has its own coordinates
+
+20
+00:01:27.390 --> 00:01:34.360
+along the x- and y-axes. The equation
+describing how the coordinates of each
+
+21
+00:01:34.360 --> 00:01:37.249
+point of a line in a Cartesian system are
+related
+
+22
+00:01:37.249 --> 00:01:40.080
+is called the equation of the line in the
+plane.
+
+23
+00:01:40.080 --> 00:01:49.340
+The equation Ax + By + C = 0 is the general
+equation of a line.
+
+24
+00:01:49.470 --> 00:01:56.150
+Here A and B do not vanish at the same time,
+that is,
+
+25
+00:01:56.300 --> 00:02:02.860
+A² + B² ≠ 0. The coefficients A and B
+
+26
+00:02:02.860 --> 00:02:09.940
+give the coordinates of the normal vector, a
+vector perpendicular to the line.
+
+27
+00:02:10.870 --> 00:02:17.640
+Look at the picture: the line in the picture
+is given by the equation
+
+28
+00:02:17.640 --> 00:02:23.290
+x + 2y − 2 = 0. The coordinates of every point
+that makes up the line
+
+29
+00:02:23.290 --> 00:02:27.910
+satisfy this equation. Here
+
+30
+00:02:27.910 --> 00:02:36.090
+the set of points given by the equation forms
+a straight line, as the picture shows.
+
+31
+00:02:37.530 --> 00:02:41.062
+The general equation of a line can be complete
+
+32
+00:02:41.062 --> 00:02:44.210
+or incomplete. In a complete equation all
+
+33
+00:02:44.210 --> 00:02:51.130
+the numbers A, B and C are nonzero; in all
+other cases the equation
+
+34
+00:02:51.130 --> 00:02:58.080
+is considered incomplete. An equation of the
+form Ax + By = 0 defines a line
+
+35
+00:02:58.080 --> 00:03:01.580
+passing through the origin.
+
+36
+00:03:03.280 --> 00:03:09.980
+If only A = 0, the line given by By + C = 0
+
+37
+00:03:09.980 --> 00:03:18.660
+is parallel to the Ox axis, or y = b, where b
+= −C/B.
+
+38
+00:03:20.450 --> 00:03:27.250
+If only B = 0, the line given by Ax + C = 0
+
+39
+00:03:27.250 --> 00:03:36.090
+is parallel to the Oy axis, or x = a, where a
+= −C/A.
+
+40
+00:03:38.430 --> 00:03:44.930
+If a line is given by Ax = 0, or x = 0, then
+
+41
+00:03:44.930 --> 00:03:51.890
+it coincides with the Oy axis. If a line is
+given by By = 0, or
+
+42
+00:03:51.890 --> 00:03:57.690
+y = 0, it coincides with the Ox axis.
+
+43
+00:03:59.440 --> 00:04:02.786
+All the equations of a line considered below
+
+44
+00:04:02.786 --> 00:04:05.980
+can be obtained from the general equation,
+
+45
+00:04:05.980 --> 00:04:12.420
+and the reverse is also possible: any of these
+equations of a line
+
+46
+00:04:12.420 --> 00:04:15.860
+can be brought to the general equation.
+
+47
+00:04:18.100 --> 00:04:25.060
+In a rectangular coordinate system, let a
+point M₀ with coordinates x₀, y₀ and
+
+48
+00:04:25.060 --> 00:04:28.760
+a vector n with coordinates A, B be given.
+
+49
+00:04:28.760 --> 00:04:35.040
+Through this point we draw a line
+perpendicular to the normal vector n.
+
+50
+00:04:35.360 --> 00:04:41.720
+We mark any point M on the line. This gives
+another equation of the line:
+
+51
+00:04:41.720 --> 00:04:48.060
+from the condition that vectors n and M₀M are
+perpendicular,
+
+52
+00:04:48.060 --> 00:04:54.750
+we get the equation of a line given by a
+normal vector. Expanding the brackets,
+
+53
+00:04:54.750 --> 00:04:56.910
+we obtain the general equation of the line.
+
+54
+00:04:58.930 --> 00:05:01.070
+Let us write one more equation of a line.
+
+55
+00:05:01.070 --> 00:05:07.740
+To do this, we again draw a line in the
+coordinate plane. It cuts off on the Oy axis
+
+56
+00:05:07.740 --> 00:05:11.500
+a segment equal to b and makes with the Ox
+axis
+
+57
+00:05:11.500 --> 00:05:14.620
+an angle φ not equal to ninety degrees.
+
+58
+00:05:14.620 --> 00:05:21.220
+This angle is called the angle of inclination,
+and the tangent of this angle
+
+59
+00:05:21.220 --> 00:05:24.830
+is called the slope of the line and is denoted
+
+60
+00:05:24.830 --> 00:05:27.970
+by the letter k. Using these quantities,
+
+61
+00:05:27.970 --> 00:05:34.670
+we can write the equation of a line with
+slope: y = kx + b.
+
+62
+00:05:34.670 --> 00:05:41.270
+If we express y in terms of x in the general
+equation of a line,
+
+63
+00:05:41.270 --> 00:05:48.250
+it can be written as an equation with slope.
+Hence k equals
+
+64
+00:05:48.250 --> 00:05:50.230
+−A/B.
+
+65
+00:05:54.100 --> 00:05:56.080
+Let us work through an example.
+
+66
+00:05:56.080 --> 00:06:06.863
+We need to write the equation of a line that
+cuts off a segment of five on the Oy
+
+67
+00:06:06.863 --> 00:06:16.980
+axis and makes an angle of one hundred
+thirty-five degrees with the Ox axis.
+
+68
+00:06:16.980 --> 00:06:28.620
+We have the formula y = kx + b; by the
+conditions b = 5, and the angle φ equals
+
+69
+00:06:28.620 --> 00:06:30.762
+one hundred thirty-five degrees.
+
+70
+00:06:30.762 --> 00:06:35.580
+By definition k = tan φ, that is, the tangent
+of one hundred thirty-five
+
+71
+00:06:35.580 --> 00:06:38.980
+degrees, which equals minus one.
+
+72
+00:06:41.450 --> 00:06:44.112
+Let us look at one more equation of a line.
+
+73
+00:06:44.112 --> 00:06:47.640
+To do this, we again draw a line in the
+coordinate plane,
+
+74
+00:06:47.640 --> 00:06:54.510
+inclined to the Ox axis at an angle φ, and
+mark on it a point M₀ with coordinates x₀
+
+75
+00:06:54.510 --> 00:07:01.350
+and y₀. Using these quantities,
+
+76
+00:07:01.350 --> 00:07:04.861
+we can write the equation of a line through
+
+77
+00:07:04.861 --> 00:07:08.290
+a given point in a given direction: y − y₀
+
+78
+00:07:08.290 --> 00:07:13.570
+equals k times the difference of x and x₀.
+
+79
+00:07:16.740 --> 00:07:20.220
+Let us write the equation of the line through
+the point M₀
+
+80
+00:07:20.220 --> 00:07:23.520
+with coordinates two, three that makes with
+the Ox axis
+
+81
+00:07:23.520 --> 00:07:29.940
+an angle of inclination of sixty degrees. We
+find the
+
+82
+00:07:29.940 --> 00:07:35.500
+slope: the tangent of sixty degrees equals the
+square root of three.
+
+83
+00:07:36.330 --> 00:07:39.068
+Now we substitute into the formula,
+
+84
+00:07:39.068 --> 00:07:42.900
+expand the brackets and finally get the
+following
+
+85
+00:07:42.900 --> 00:07:44.500
+equation of the line.
+
+86
+00:07:47.440 --> 00:07:54.250
+Now let us write the equation of a line
+through two given points. Let the line pass
+
+87
+00:07:54.250 --> 00:08:00.930
+through two given points M₁ and M₂, where x₁ ≠
+x₂
+
+88
+00:08:00.930 --> 00:08:05.730
+and y₁ ≠ y₂.
+
+89
+00:08:06.440 --> 00:08:13.020
+M is any point of this line. Then the equation
+of the line through two points
+
+90
+00:08:13.020 --> 00:08:16.380
+has the following form.
+
+91
+00:08:18.180 --> 00:08:21.546
+Let us write the equation of the line through
+the points M₁ with
+
+92
+00:08:21.546 --> 00:08:24.860
+coordinates two, three and M₂ with coordinates
+six, minus four.
+
+93
+00:08:24.860 --> 00:08:31.380
+We substitute the given numbers into the
+formula
+
+94
+00:08:31.380 --> 00:08:34.560
+and get the following relation.
+
+95
+00:08:35.550 --> 00:08:39.150
+The problem does not say which equation to
+write,
+
+96
+00:08:39.150 --> 00:08:45.150
+so we find the general equation. To do this,
+we set up a proportion.
+
+97
+00:08:45.790 --> 00:08:52.280
+Now we expand the brackets and move all the
+terms to the left-hand side.
+
+98
+00:08:52.280 --> 00:09:02.100
+Finally we get the general equation of the
+line: 7x + 4y − 26 = 0.
+
+99
+00:09:04.690 --> 00:09:09.950
+Let a line cut off segments equal to a and b
+on the coordinate axes,
+
+100
+00:09:10.910 --> 00:09:17.490
+that is, pass through the points with
+coordinates (a; 0) and (0; b).
+
+101
+00:09:18.070 --> 00:09:22.008
+Then we can write the intercept form of the
+line's
+
+102
+00:09:22.008 --> 00:09:25.000
+equation, but in this equation a and b
+
+103
+00:09:25.000 --> 00:09:28.388
+are nonzero. From this equation we can derive
+the
+
+104
+00:09:28.388 --> 00:09:31.500
+general equation of the line and the equation
+
+105
+00:09:31.500 --> 00:09:35.100
+with slope.
+
+106
+00:09:38.240 --> 00:09:41.961
+Look at the picture: the line cuts off a
+segment
+
+107
+00:09:41.961 --> 00:09:45.140
+of four on the Ox axis and on the Oy axis
+
+108
+00:09:45.140 --> 00:09:50.640
+a segment of three.
+
+109
+00:09:50.640 --> 00:09:56.880
+We get x/4 + y/3 = 1.
+
+110
+00:09:57.240 --> 00:10:01.114
+From this equation we derive the general
+equation
+
+111
+00:10:01.114 --> 00:10:03.960
+of the line. To do this, we multiply
+
+112
+00:10:03.960 --> 00:10:06.620
+both sides of the equation by twelve and,
+
+113
+00:10:06.620 --> 00:10:11.420
+after the necessary transformations, get the
+general equation of the line.
+
+114
+00:10:15.740 --> 00:10:21.620
+As you can see, there are different ways to
+write the equation of a line. This
+
+115
+00:10:21.620 --> 00:10:25.682
+is explained by the nature of the problems
+being solved
+
+116
+00:10:25.682 --> 00:10:29.080
+and the ways a line can be given in the plane.

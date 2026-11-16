@@ -1,0 +1,294 @@
+WEBVTT
+
+1
+00:00:00.630 --> 00:00:07.110
+In this lesson we will see how a line in space
+is given and which
+
+2
+00:00:07.110 --> 00:00:10.890
+equations can describe it.
+
+3
+00:00:12.910 --> 00:00:18.950
+A line in space can be given as the
+intersection of two nonparallel planes.
+
+4
+00:00:18.950 --> 00:00:25.740
+If the planes are not parallel, the general
+equation of a line in space
+
+5
+00:00:25.740 --> 00:00:34.680
+can be viewed as a system of general equations
+of planes; that is, the line is
+
+6
+00:00:34.680 --> 00:00:41.360
+the locus of points in space whose coordinates
+satisfy each equation of the system.
+
+7
+00:00:43.950 --> 00:00:47.624
+It should be said that there are various ways
+
+8
+00:00:47.624 --> 00:00:50.890
+to give a line in space, and in practice
+
+9
+00:00:50.890 --> 00:00:56.730
+a line is more often given not by two
+intersecting planes but by a direction vector
+
+10
+00:00:56.730 --> 00:01:03.370
+s parallel to the line and a point M₀ lying on
+the line.
+
+11
+00:01:03.500 --> 00:01:10.360
+We mark any point M on the line with
+coordinates x, y, z.
+
+12
+00:01:10.360 --> 00:01:17.330
+We find the coordinates of vector M₀M. Since
+the vectors M₀M
+
+13
+00:01:17.330 --> 00:01:24.070
+and s are parallel, the collinearity condition
+for vectors
+
+14
+00:01:24.070 --> 00:01:26.450
+lets us write the canonical equation of the
+line.
+
+15
+00:01:29.300 --> 00:01:35.920
+Setting each part of the canonical equation
+equal to a parameter t,
+
+16
+00:01:35.920 --> 00:01:39.980
+we get the parametric equations of the line in
+space.
+
+17
+00:01:41.040 --> 00:01:44.725
+Let us write the canonical and parametric
+equations of
+
+18
+00:01:44.725 --> 00:01:48.000
+a line in space if it passes through the point
+A
+
+19
+00:01:48.000 --> 00:01:54.700
+with coordinates two, three, minus five and is
+parallel to the vector s
+
+20
+00:01:54.700 --> 00:01:56.960
+with coordinates three, four, minus eight.
+
+21
+00:01:56.990 --> 00:02:03.520
+We substitute the given data into the formula
+of the canonical equation and
+
+22
+00:02:03.520 --> 00:02:06.560
+get the parametric equations of the line in
+space.
+
+23
+00:02:10.340 --> 00:02:16.900
+Let a line pass through points M₁ and M₂. As
+the direction
+
+24
+00:02:16.900 --> 00:02:23.660
+vector s we can take the vector M₁M₂, and the
+coordinates of the direction vector
+
+25
+00:02:23.660 --> 00:02:26.510
+are as follows.
+
+26
+00:02:26.510 --> 00:02:30.552
+Substituting the coordinates of M₁ and the
+resulting
+
+27
+00:02:30.552 --> 00:02:33.350
+vector s into the canonical equation
+
+28
+00:02:33.350 --> 00:02:39.150
+of the line, we get the equation of the line
+through two points.
+
+29
+00:02:40.430 --> 00:02:46.890
+Let us look at an example: we write the
+equation of the line through these points.
+
+30
+00:02:46.890 --> 00:02:53.330
+To do this, we substitute the given data into
+the formula, compute the denominators
+
+31
+00:02:53.330 --> 00:02:56.410
+and get the following equation.
+
+32
+00:02:58.170 --> 00:03:05.040
+Let lines L₁ and L₂ be given by equations and
+intersect at an angle φ.
+
+33
+00:03:05.040 --> 00:03:08.458
+The angle between these lines is understood as
+the
+
+34
+00:03:08.458 --> 00:03:11.740
+angle between their direction vectors s₁ and
+s₂,
+
+35
+00:03:11.740 --> 00:03:18.510
+so for the cosine of the angle between the
+vectors
+
+36
+00:03:18.510 --> 00:03:23.090
+we use the known formula and get, or…
+
+37
+00:03:25.680 --> 00:03:30.750
+Let us look at an example: we need to find the
+angle between the lines.
+
+38
+00:03:30.750 --> 00:03:37.290
+We write the coordinates of vectors s₁ and s₂
+and substitute them
+
+39
+00:03:37.290 --> 00:03:43.880
+into the formula for the cosine of the angle.
+Carrying out the calculations,
+
+40
+00:03:43.910 --> 00:03:48.200
+we get that the angle φ equals the arccosine
+of fifty divided
+
+41
+00:03:48.200 --> 00:03:52.350
+by the square root of two thousand five
+hundred eighty-one.
+
+42
+00:03:53.720 --> 00:03:56.907
+Whether lines in space are parallel or
+perpendicular
+
+43
+00:03:56.907 --> 00:03:59.420
+is determined by their direction vectors:
+
+44
+00:03:59.420 --> 00:04:06.120
+two lines are parallel if their direction
+vectors s₁ and s₂
+
+45
+00:04:06.120 --> 00:04:11.700
+are parallel, which means the coordinates of
+these vectors
+
+46
+00:04:11.700 --> 00:04:15.305
+are proportional. The lines are perpendicular
+if
+
+47
+00:04:15.305 --> 00:04:18.460
+their direction vectors are perpendicular,
+
+48
+00:04:18.460 --> 00:04:23.880
+that is, the dot product of these vectors is
+zero.
+
+49
+00:04:26.670 --> 00:04:30.626
+Let us look at this condition in examples.
+
+50
+00:04:30.626 --> 00:04:35.900
+Let the canonical equations of lines L₁ and L₂
+be given.
+
+51
+00:04:36.380 --> 00:04:42.950
+We write the coordinates of the direction
+vectors s₁ and s₂ and
+
+52
+00:04:42.950 --> 00:04:49.590
+check the parallelism condition. As we can
+see, all the fractions are equal.
+
+53
+00:04:50.260 --> 00:04:56.730
+Now let us determine whether the following
+lines L₁ and L₂ are perpendicular.
+
+54
+00:04:56.730 --> 00:04:59.910
+We write the direction vectors s₁ and s₂ of
+the lines
+
+55
+00:04:59.910 --> 00:05:05.760
+and check the perpendicularity condition.
+
+56
+00:05:05.760 --> 00:05:10.754
+Substituting the coordinates of the vectors
+into the formula,
+
+57
+00:05:10.754 --> 00:05:14.520
+we get zero, so these lines are perpendicular.
+
+58
+00:05:15.390 --> 00:05:18.787
+To sum up: a line in space can be given by
+different
+
+59
+00:05:18.787 --> 00:05:21.400
+equations depending on the initial data.
+
+60
+00:05:21.400 --> 00:05:27.140
+Also, using the direction vectors of lines,
+
+61
+00:05:27.140 --> 00:05:31.112
+we can find angles and determine whether lines
+
+62
+00:05:31.112 --> 00:05:34.480
+in space are parallel or perpendicular.

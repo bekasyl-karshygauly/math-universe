@@ -1,0 +1,344 @@
+WEBVTT
+
+1
+00:00:00.500 --> 00:00:03.782
+In this lesson we will look at the notion of
+continuity of a
+
+2
+00:00:03.782 --> 00:00:06.900
+function, the classification of discontinuity
+points, and
+
+3
+00:00:06.900 --> 00:00:12.520
+the common practical task of studying a
+function for continuity.
+
+4
+00:00:12.520 --> 00:00:19.500
+The notion of continuity of a function, like
+the notion of a limit,
+
+5
+00:00:19.500 --> 00:00:22.620
+is one of the basic notions of mathematical
+analysis.
+
+6
+00:00:23.580 --> 00:00:29.720
+But what is continuity of a function?
+
+7
+00:00:29.720 --> 00:00:33.112
+It is easy to imagine a line that can be drawn
+without
+
+8
+00:00:33.112 --> 00:00:36.190
+lifting the pencil from the paper. If such a
+line
+
+9
+00:00:36.190 --> 00:00:42.440
+is drawn, it is continuous. This line is the
+graph of a continuous function.
+
+10
+00:00:42.440 --> 00:00:46.067
+Graphically, a function is continuous at a
+point
+
+11
+00:00:46.067 --> 00:00:49.240
+if its graph does not break at that point.
+
+12
+00:00:52.720 --> 00:00:59.560
+A function f(x) defined in a neighborhood of a
+point x₀ is called continuous at x₀
+
+13
+00:00:59.560 --> 00:01:06.220
+if the limit of the function at that point
+equals its value,
+
+14
+00:01:06.220 --> 00:01:13.060
+that is, the limit of f(x) as x approaches x₀
+equals the value
+
+15
+00:01:13.060 --> 00:01:15.580
+of the function at that point.
+
+16
+00:01:16.100 --> 00:01:22.360
+If a function f(x) is defined in some
+neighborhood of a point x₀
+
+17
+00:01:22.360 --> 00:01:28.860
+but is not continuous at x₀ itself, it is
+called
+
+18
+00:01:28.860 --> 00:01:35.140
+discontinuous, and x₀ is called a point of
+discontinuity.
+
+19
+00:01:36.580 --> 00:01:39.679
+Let us look at the notion of a continuous
+function
+
+20
+00:01:39.679 --> 00:01:42.220
+and points of discontinuity in a drawing.
+
+21
+00:01:42.220 --> 00:01:49.160
+The picture shows schematic graphs of four
+functions: two of them
+
+22
+00:01:49.160 --> 00:01:55.440
+are continuous at x = a, and two have a
+discontinuity at x = a.
+
+23
+00:01:57.170 --> 00:02:03.830
+Continuity can also be one-sided. Let us
+explain what this means.
+
+24
+00:02:03.830 --> 00:02:10.780
+Look at this drawing: if the right-hand limit
+at the point x₀
+
+25
+00:02:10.780 --> 00:02:17.050
+equals the value of the function, the function
+is called right-continuous.
+
+26
+00:02:17.050 --> 00:02:23.590
+If the left-hand limit at the point x₀ equals
+the value of the function,
+
+27
+00:02:23.590 --> 00:02:28.090
+the function is called left-continuous.
+
+28
+00:02:29.980 --> 00:02:34.780
+All points of discontinuity are divided into
+discontinuities
+
+29
+00:02:34.780 --> 00:02:37.100
+of the first and second kind.
+
+30
+00:02:37.160 --> 00:02:44.140
+If at this point f(x) has finite but unequal
+left and right
+
+31
+00:02:44.140 --> 00:02:50.680
+limits, the point x₀ is called a discontinuity
+of the first kind.
+
+32
+00:02:51.100 --> 00:02:57.540
+This definition does not require the function
+to be defined at the point x₀ itself:
+
+33
+00:02:57.540 --> 00:03:04.540
+it is enough that it is defined to the left
+and right of it. The point x₀
+
+34
+00:03:04.540 --> 00:03:11.400
+is called a discontinuity of the second kind
+if at this point the function f(x)
+
+35
+00:03:11.400 --> 00:03:18.320
+lacks at least one of the one-sided limits, or
+at least one of them
+
+36
+00:03:18.320 --> 00:03:20.180
+is infinite.
+
+37
+00:03:21.740 --> 00:03:23.800
+Let us look at an example.
+
+38
+00:03:24.320 --> 00:03:27.405
+We need to study the function for continuity
+and,
+
+39
+00:03:27.405 --> 00:03:31.120
+if there are points of discontinuity,
+determine their type.
+
+40
+00:03:31.120 --> 00:03:37.660
+This function exists for all x, but it is made
+up of three different
+
+41
+00:03:37.660 --> 00:03:40.235
+functions, so it is not elementary.
+
+42
+00:03:40.235 --> 00:03:44.060
+Let us study its behavior near the points x =
+−1 and
+
+43
+00:03:44.060 --> 00:03:51.100
+x = 1, where its analytic expression changes.
+
+44
+00:03:51.100 --> 00:03:53.900
+First we find the values of the one-sided
+limits
+
+45
+00:03:53.900 --> 00:03:57.696
+at the point minus one. The one-sided limits
+are
+
+46
+00:03:57.696 --> 00:04:00.860
+equal, the function exists at this point
+
+47
+00:04:00.860 --> 00:04:04.525
+and equals three, so the function is
+continuous
+
+48
+00:04:04.525 --> 00:04:07.800
+at this point. Now let us study continuity
+
+49
+00:04:07.800 --> 00:04:14.640
+at the point x = 1. The values of the
+one-sided limits are finite and
+
+50
+00:04:14.640 --> 00:04:21.640
+not equal to each other, so the point x = 1 is
+a discontinuity of the first kind.
+
+51
+00:04:22.690 --> 00:04:25.850
+Let us look at the graph of this function.
+
+52
+00:04:25.850 --> 00:04:29.705
+Note that at this point the function jumps:
+
+53
+00:04:29.705 --> 00:04:33.470
+this is a discontinuity of the first kind.
+
+54
+00:04:37.690 --> 00:04:43.960
+Let us look at an example: the function f(x) =
+1/x is given.
+
+55
+00:04:44.150 --> 00:04:47.523
+We need to study this function for continuity,
+
+56
+00:04:47.523 --> 00:04:50.530
+determine the type of its discontinuities
+
+57
+00:04:50.530 --> 00:04:52.700
+and make a drawing.
+
+58
+00:04:52.700 --> 00:04:59.640
+This function is continuous on the whole
+number line except at the point x = 0.
+
+59
+00:04:59.740 --> 00:05:03.498
+We study continuity following the standard
+scheme.
+
+60
+00:05:03.498 --> 00:05:06.580
+The function is not defined at this point
+
+61
+00:05:06.580 --> 00:05:13.350
+because the denominator becomes zero. We
+compute the one-sided limits. Recall that
+
+62
+00:05:13.350 --> 00:05:16.719
+the notation minus zero means an infinitely
+
+63
+00:05:16.719 --> 00:05:20.010
+small negative number, and plus zero means
+
+64
+00:05:20.010 --> 00:05:26.600
+an infinitely small positive number. The
+one-sided limits are infinite, so zero
+
+65
+00:05:26.600 --> 00:05:30.622
+is a discontinuity of the second kind. The
+graph of this function with
+
+66
+00:05:30.622 --> 00:05:34.300
+its point of discontinuity can be drawn in the
+coordinate plane.
+
+67
+00:05:38.780 --> 00:05:42.278
+Let us sum up the lesson. Studying a function
+
+68
+00:05:42.278 --> 00:05:45.620
+for continuity means answering the question
+
+69
+00:05:45.620 --> 00:05:49.052
+of whether it has points of discontinuity and,
+
+70
+00:05:49.052 --> 00:05:52.260
+if so, determining the nature of each point
+
+71
+00:05:52.260 --> 00:05:55.600
+and assigning it to the corresponding class.
+
+72
+00:05:55.600 --> 00:06:02.200
+Studying the continuity of a function at
+points helps solve many problems.
+
+73
+00:06:02.200 --> 00:06:04.773
+To solve a whole range of problems,
+
+74
+00:06:04.773 --> 00:06:10.360
+it is useful to master the skill of studying a
+function for discontinuities.

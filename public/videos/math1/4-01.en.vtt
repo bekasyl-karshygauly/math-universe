@@ -1,0 +1,678 @@
+WEBVTT
+
+1
+00:00:00.920 --> 00:00:04.376
+The theory of limits is one of the branches of
+mathematical
+
+2
+00:00:04.376 --> 00:00:07.540
+analysis. The topic of computing limits is
+very broad,
+
+3
+00:00:07.540 --> 00:00:14.140
+because there are many ways to find different
+limits.
+
+4
+00:00:14.140 --> 00:00:20.660
+The limit of a function at a given point is
+the value that the function approaches
+
+5
+00:00:20.660 --> 00:00:27.580
+as its argument approaches that point. It is
+one of the
+
+6
+00:00:27.580 --> 00:00:30.260
+basic notions of mathematical analysis.
+
+7
+00:00:31.510 --> 00:00:38.050
+Consider the function y = f(x) in the
+coordinate plane Oxy. Let
+
+8
+00:00:38.050 --> 00:00:44.750
+the function y = f(x) be defined in a
+neighborhood of the point a, except
+
+9
+00:00:44.750 --> 00:00:50.840
+possibly at a itself. We are interested in how
+this function behaves
+
+10
+00:00:50.840 --> 00:00:53.890
+as x approaches a.
+
+11
+00:00:53.890 --> 00:01:00.870
+If for any given arbitrarily small positive
+number ε
+
+12
+00:01:00.870 --> 00:01:04.350
+there is a positive number δ depending on ε
+
+13
+00:01:04.350 --> 00:01:07.750
+such that for all x satisfying |x − a| &lt; δ
+
+14
+00:01:07.750 --> 00:01:13.990
+the inequality |f(x) − A|
+
+15
+00:01:13.990 --> 00:01:20.570
+&lt; ε holds, then the number A is called the
+limit of f(x)
+
+16
+00:01:20.570 --> 00:01:30.510
+as x approaches a, and it is written like
+this:
+
+17
+00:01:30.510 --> 00:01:32.340
+the limit of f(x) as x → a equals A.
+
+18
+00:01:32.340 --> 00:01:38.657
+In the coordinate plane Oxy, consider the
+function y = f(x).
+
+19
+00:01:38.657 --> 00:01:45.500
+The number A is called the limit of f(x) as x
+approaches infinity
+
+20
+00:01:45.500 --> 00:01:51.177
+if for any positive number ε there is a number
+N
+
+21
+00:01:51.177 --> 00:01:56.380
+such that for all x &gt; N we have |f(x) − A| &lt;
+
+22
+00:01:56.380 --> 00:02:02.920
+ε. Then we say that the limit
+
+23
+00:02:02.920 --> 00:02:06.320
+of f(x) as x approaches infinity equals A.
+
+24
+00:02:06.320 --> 00:02:13.100
+This is how it is written. When computing
+limits, we use the following
+
+25
+00:02:13.100 --> 00:02:17.995
+limit theorems: the limit of a constant equals
+the constant;
+
+26
+00:02:17.995 --> 00:02:22.400
+a constant factor can be taken outside the
+limit sign.
+
+27
+00:02:34.000 --> 00:02:36.686
+If the limit of the denominator is not zero,
+
+28
+00:02:36.686 --> 00:02:41.080
+the limit of a fraction equals the ratio of
+the limits of the functions.
+
+29
+00:02:42.770 --> 00:02:49.310
+If the function f(x) is defined at the point
+a, then
+
+30
+00:02:49.310 --> 00:02:55.620
+the limit of f(x) equals f(a). To compute
+
+31
+00:02:55.620 --> 00:03:02.480
+the limit of an expression, substitute the
+limiting value for the variable
+
+32
+00:03:02.480 --> 00:03:04.680
+and apply the limit theorems.
+
+33
+00:03:04.680 --> 00:03:11.230
+Let us look at an example: the limit of the
+function 3/(2x − 3)
+
+34
+00:03:11.230 --> 00:03:18.320
+as x → 4. We substitute four and find the
+value of the function.
+
+35
+00:03:18.320 --> 00:03:21.120
+We get the answer: three fifths.
+
+36
+00:03:22.750 --> 00:03:26.233
+To find limits of functions, you need to know
+the notions
+
+37
+00:03:26.233 --> 00:03:29.410
+of infinitely small and infinitely large
+quantities.
+
+38
+00:03:29.410 --> 00:03:36.020
+If the limit of a function f(x) as x → a is
+zero,
+
+39
+00:03:36.020 --> 00:03:38.800
+the function is called infinitely small (an
+infinitesimal).
+
+40
+00:03:38.800 --> 00:03:42.640
+Here are the properties of infinitesimal
+functions.
+
+41
+00:03:42.710 --> 00:03:48.830
+First, the sum, difference and product of
+infinitesimals
+
+42
+00:03:48.830 --> 00:03:51.690
+are infinitesimal functions.
+
+43
+00:03:51.690 --> 00:03:58.440
+Second, the product of infinitesimal
+quantities is an infinitesimal function.
+
+44
+00:03:58.440 --> 00:04:04.760
+Third, the product of an infinitesimal and a
+bounded function
+
+45
+00:04:04.760 --> 00:04:08.240
+is an infinitesimal.
+
+46
+00:04:08.580 --> 00:04:15.200
+Let the functions α(x) and β(x) be
+infinitesimal as x → a,
+
+47
+00:04:15.200 --> 00:04:21.400
+that is, the limits of α(x) and β(x) are zero.
+
+48
+00:04:21.400 --> 00:04:28.320
+If the limit of α(x)/β(x) equals one,
+
+49
+00:04:28.320 --> 00:04:33.400
+the functions are called equivalent
+infinitesimals.
+
+50
+00:04:34.720 --> 00:04:40.920
+If the limit of a given function is infinity,
+the function y = f(x)
+
+51
+00:04:40.920 --> 00:04:47.860
+is called infinitely large as x → a. If, as x
+→ a,
+
+52
+00:04:47.860 --> 00:04:54.860
+the limit of the ratio of two infinitely large
+functions equals one, the infinitely
+
+53
+00:04:54.860 --> 00:04:59.800
+large functions are called equivalent as x →
+a.
+
+54
+00:05:01.110 --> 00:05:04.264
+Very often, substituting the limiting value of
+
+55
+00:05:04.264 --> 00:05:07.350
+the variable into an expression gives various
+
+56
+00:05:07.350 --> 00:05:10.138
+indeterminate forms: zero over zero,
+
+57
+00:05:10.138 --> 00:05:14.010
+infinity over infinity, one to the power
+infinity,
+
+58
+00:05:14.010 --> 00:05:20.270
+and others. In these cases, before
+substituting the limit of the variable,
+
+59
+00:05:20.270 --> 00:05:23.676
+we must transform the expression so that the
+
+60
+00:05:23.676 --> 00:05:26.850
+indeterminacy disappears, then substitute
+
+61
+00:05:26.850 --> 00:05:30.932
+the limit for the variable and apply the limit
+
+62
+00:05:30.932 --> 00:05:34.570
+theorems. Computing limits in these cases
+
+63
+00:05:34.570 --> 00:05:37.890
+is called resolving the indeterminacy.
+
+64
+00:05:39.260 --> 00:05:42.641
+An indeterminate form of the type infinity
+over infinity
+
+65
+00:05:42.641 --> 00:05:45.780
+arises when finding the limit of a rational
+function
+
+66
+00:05:45.780 --> 00:05:52.590
+as x approaches infinity; here P(x)
+
+67
+00:05:52.590 --> 00:05:59.590
+and Q(x) are polynomials of degrees n and m
+respectively. Such
+
+68
+00:05:59.590 --> 00:06:03.159
+limits follow a pattern: if the degree of the
+numerator is
+
+69
+00:06:03.159 --> 00:06:06.420
+less than the degree of the denominator, the
+limit is
+
+70
+00:06:06.420 --> 00:06:13.090
+zero; if the degrees are equal, the
+coefficients at these degrees
+
+71
+00:06:13.090 --> 00:06:15.911
+are divided by each other; if the degree of
+the numerator
+
+72
+00:06:15.911 --> 00:06:17.890
+is greater than that of the denominator,
+
+73
+00:06:17.890 --> 00:06:20.690
+the limit is infinity.
+
+74
+00:06:21.860 --> 00:06:28.360
+Let us look at an example. We are given the
+limit of the function (3x − 4)/(x − 2)
+
+75
+00:06:28.360 --> 00:06:31.980
+as x approaches infinity.
+
+76
+00:06:32.070 --> 00:06:36.710
+Here we have an indeterminate form of the type
+infinity over infinity.
+
+77
+00:06:36.860 --> 00:06:42.600
+We factor out x to the highest power and
+cancel the fraction.
+
+78
+00:06:42.600 --> 00:06:49.020
+Using the limit theorems, we get the following
+expression.
+
+79
+00:06:49.020 --> 00:06:55.580
+A number divided by infinity gives zero, and
+the final answer is three.
+
+80
+00:06:56.830 --> 00:07:03.550
+Let the limit of a function f(x) again be a
+rational fraction. If we get
+
+81
+00:07:03.550 --> 00:07:06.270
+the indeterminate form zero over zero,
+
+82
+00:07:06.270 --> 00:07:09.850
+then the numerator and denominator of the
+fraction
+
+83
+00:07:09.850 --> 00:07:14.820
+are factored. Let us look at an example. To
+find this limit,
+
+84
+00:07:14.820 --> 00:07:20.930
+we factor the numerator and denominator of the
+fraction. We factor the numerator;
+
+85
+00:07:20.930 --> 00:07:27.460
+for this we use the theorem on factoring a
+quadratic trinomial.
+
+86
+00:07:27.460 --> 00:07:34.100
+We cancel x − 2 in the numerator and
+denominator and, substituting two,
+
+87
+00:07:34.100 --> 00:07:40.100
+obtain the limit. As a result, the limit of
+the function equals one half.
+
+88
+00:07:41.670 --> 00:07:46.250
+One of the main techniques used to compute
+limits involving irrational expressions,
+
+89
+00:07:46.250 --> 00:07:52.370
+when the quotient limit theorem cannot be
+applied, is to move the irrationality
+
+90
+00:07:52.370 --> 00:07:59.380
+from the numerator to the denominator or vice
+versa. Let us discuss an example.
+
+91
+00:07:59.480 --> 00:08:03.329
+Let the limit of a fraction be given. We need
+to remove the irrationality
+
+92
+00:08:03.329 --> 00:08:06.440
+in the numerator: we multiply the numerator
+and denominator
+
+93
+00:08:06.440 --> 00:08:10.059
+by the sum of the square root of x − 2 and the
+number
+
+94
+00:08:10.059 --> 00:08:13.200
+two. After the transformations, cancelling x −
+
+95
+00:08:13.200 --> 00:08:19.560
+6, we get the limit of the fraction and,
+substituting six for x,
+
+96
+00:08:19.560 --> 00:08:24.120
+get the answer: one quarter.
+
+97
+00:08:25.500 --> 00:08:29.041
+To compute limits of expressions with
+trigonometric
+
+98
+00:08:29.041 --> 00:08:31.680
+functions, we use the first remarkable
+
+99
+00:08:31.680 --> 00:08:38.960
+limit: the limit of sin x / x as x approaches
+zero equals one.
+
+100
+00:08:39.120 --> 00:08:44.340
+We can also use the corollaries of the first
+remarkable limit.
+
+101
+00:08:45.680 --> 00:08:49.271
+Let us look at an example. Let the limit of
+tan x /
+
+102
+00:08:49.271 --> 00:08:52.580
+x be given. To resolve the zero-over-zero
+form,
+
+103
+00:08:52.580 --> 00:08:59.380
+we use the formula of the first remarkable
+limit. To do this,
+
+104
+00:08:59.380 --> 00:09:02.800
+we write tan x as the ratio of sin x to cos
+
+105
+00:09:02.800 --> 00:09:06.060
+x. We single out the formula of the first
+
+106
+00:09:06.060 --> 00:09:12.380
+remarkable limit. Since the cosine of zero
+equals one,
+
+107
+00:09:12.380 --> 00:09:14.820
+we get that the result equals one.
+
+108
+00:09:16.900 --> 00:09:20.165
+To resolve the one-to-the-power-infinity form,
+
+109
+00:09:20.165 --> 00:09:23.360
+it is convenient to use the second remarkable
+
+110
+00:09:23.360 --> 00:09:30.320
+limit. As x approaches infinity, the limit has
+the following form,
+
+111
+00:09:30.320 --> 00:09:37.300
+and α tends to zero. As x approaches infinity,
+the limit has the following form,
+
+112
+00:09:37.300 --> 00:09:44.100
+and α tends to zero. Both formulas give e;
+
+113
+00:09:44.100 --> 00:09:47.341
+approximately, e ≈ 2.7, Euler's number.
+
+114
+00:09:47.341 --> 00:09:53.740
+When solving examples, it is useful to keep in
+mind the following equalities.
+
+115
+00:09:54.800 --> 00:09:58.384
+Let us look at an example. Let the limit of
+the
+
+116
+00:09:58.384 --> 00:10:01.740
+function (1 + 1/x) to the power 7x be given.
+
+117
+00:10:01.740 --> 00:10:05.575
+We single out the formula of the second
+remarkable
+
+118
+00:10:05.575 --> 00:10:08.720
+limit in brackets, and as a result we get
+
+119
+00:10:08.720 --> 00:10:10.780
+e to the seventh power.
+
+120
+00:10:12.020 --> 00:10:17.440
+When finding limits of functions, we can
+compare infinitesimals.
+
+121
+00:10:17.440 --> 00:10:26.200
+Let α(x) and β(x) be infinitesimals as x → a,
+and let m be the limit of their ratio.
+
+122
+00:10:26.200 --> 00:10:30.892
+Then, first, if m is a finite nonzero number,
+
+123
+00:10:30.892 --> 00:10:36.940
+the functions are called infinitesimals of the
+same order.
+
+124
+00:10:36.940 --> 00:10:42.770
+Second, if m equals zero, the function α(x)
+
+125
+00:10:42.770 --> 00:10:48.560
+is called an infinitesimal of higher order
+than β(x).
+
+126
+00:10:48.560 --> 00:10:55.380
+Third, if m is infinity, then β(x), compared
+with α(x),
+
+127
+00:10:55.380 --> 00:10:59.960
+is called an infinitesimal of higher order.
+
+128
+00:10:59.960 --> 00:11:06.860
+If m equals one, the functions α(x) and β(x)
+are called equivalent
+
+129
+00:11:06.860 --> 00:11:10.240
+infinitesimals.
+
+130
+00:11:11.910 --> 00:11:15.532
+If α tends to zero, it is useful to keep in
+mind
+
+131
+00:11:15.532 --> 00:11:18.550
+the following equivalent infinitesimals.
+
+132
+00:11:18.550 --> 00:11:23.050
+We write it like this: equivalence is denoted
+by the tilde sign.
+
+133
+00:11:24.230 --> 00:11:30.900
+A very important conclusion follows from the
+above: if two infinitesimal
+
+134
+00:11:30.900 --> 00:11:37.840
+functions are equivalent, one of them can be
+replaced by the other. This
+
+135
+00:11:37.840 --> 00:11:42.640
+technique is widely used in practice, and now
+we will look at it in an example.
+
+136
+00:11:42.640 --> 00:11:45.332
+Let us find the limit of this function.
+
+137
+00:11:45.332 --> 00:11:49.060
+We replace the infinitesimal function in the
+numerator
+
+138
+00:11:49.060 --> 00:11:55.460
+by an equivalent one, where α equals 4x. Then
+
+139
+00:11:55.460 --> 00:11:59.146
+the original limit takes the following form.
+
+140
+00:11:59.146 --> 00:12:02.580
+We cancel x and get the following result.
+
+141
+00:12:02.580 --> 00:12:09.220
+Here the numerator is of higher order than the
+denominator, so the limit is zero.
+
+142
+00:12:10.720 --> 00:12:14.660
+So, in this lesson we studied one of the most
+important
+
+143
+00:12:14.660 --> 00:12:17.024
+notions of mathematical analysis,
+
+144
+00:12:17.024 --> 00:12:21.680
+the limit of a function, and ways of finding
+limits of functions.
+
+145
+00:12:21.680 --> 00:12:28.640
+We also learned what infinitely large and
+infinitely small quantities are and how
+
+146
+00:12:28.640 --> 00:12:34.400
+they help to find limits of various functions
+efficiently.

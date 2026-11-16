@@ -1,0 +1,339 @@
+WEBVTT
+
+1
+00:00:01.020 --> 00:00:04.302
+The Kronecker–Capelli method and solving
+systems of
+
+2
+00:00:04.302 --> 00:00:07.390
+linear equations. In this lesson we will look
+at
+
+3
+00:00:07.390 --> 00:00:10.319
+methods for solving systems of linear
+equations.
+
+4
+00:00:10.319 --> 00:00:13.920
+In a higher mathematics course, systems of
+linear equations
+
+5
+00:00:13.920 --> 00:00:20.060
+can be studied both as separate tasks and as
+part of solving complex problems.
+
+6
+00:00:20.060 --> 00:00:26.520
+Systems of linear equations are used in all
+branches of higher mathematics.
+
+7
+00:00:27.960 --> 00:00:34.500
+A system of linear algebraic equations is a
+system of m equations in n unknowns.
+
+8
+00:00:34.500 --> 00:00:41.100
+The numbers aᵢⱼ are called the coefficients of
+the system,
+
+9
+00:00:41.100 --> 00:00:48.180
+the numbers bⱼ are its constant terms, and x₁,
+…, xₙ are the unknowns to be found.
+
+10
+00:00:49.970 --> 00:00:53.490
+It is convenient to write this system in
+matrix form.
+
+11
+00:00:53.970 --> 00:00:56.740
+Here A is called the coefficient matrix:
+
+12
+00:00:56.740 --> 00:01:00.410
+the matrix made up of the coefficients of the
+system.
+
+13
+00:01:00.410 --> 00:01:04.159
+X is the column vector of the unknowns,
+
+14
+00:01:04.159 --> 00:01:08.870
+and B is the column vector of the constant
+terms.
+
+15
+00:01:10.470 --> 00:01:14.205
+The augmented matrix of the system is the
+system matrix
+
+16
+00:01:14.205 --> 00:01:16.990
+extended by the column of constant terms.
+
+17
+00:01:16.990 --> 00:01:23.560
+A solution of the system is a set of n values
+of the unknowns that
+
+18
+00:01:23.560 --> 00:01:27.000
+turn every equation of the system into a true
+equality.
+
+19
+00:01:27.700 --> 00:01:32.780
+Any solution of the system can be written as a
+column matrix.
+
+20
+00:01:34.800 --> 00:01:41.360
+A system is called consistent if it has at
+least one solution, and
+
+21
+00:01:41.360 --> 00:01:45.600
+inconsistent if it has no solutions at all.
+
+22
+00:01:46.110 --> 00:01:50.225
+To solve a system means to determine whether
+it is consistent
+
+23
+00:01:50.225 --> 00:01:52.990
+or inconsistent and, if it is consistent,
+
+24
+00:01:52.990 --> 00:01:56.370
+to find its general solution.
+
+25
+00:01:58.550 --> 00:02:02.023
+Before looking for a solution of a system of
+linear equations,
+
+26
+00:02:02.023 --> 00:02:04.600
+we need to establish whether it is consistent.
+
+27
+00:02:04.600 --> 00:02:06.520
+The question of whether a system of linear
+equations
+
+28
+00:02:06.520 --> 00:02:13.100
+is consistent or inconsistent is answered by
+the Kronecker–Capelli theorem.
+
+29
+00:02:13.100 --> 00:02:19.810
+Let us state it. For a system of m equations
+in n unknowns (m and n may be equal)
+
+30
+00:02:19.810 --> 00:02:23.264
+to be consistent, it is necessary and
+sufficient
+
+31
+00:02:23.264 --> 00:02:26.070
+that the rank of the coefficient matrix
+
+32
+00:02:26.070 --> 00:02:32.750
+equals the rank of the augmented matrix, that
+is,
+
+33
+00:02:32.750 --> 00:02:37.190
+the rank of the coefficient matrix equals the
+rank of the augmented one.
+
+34
+00:02:39.140 --> 00:02:43.156
+The Kronecker–Capelli theorem has the
+following corollaries.
+
+35
+00:02:43.156 --> 00:02:45.700
+A system of linear algebraic equations
+
+36
+00:02:45.700 --> 00:02:49.460
+is consistent only when the rank of its
+augmented matrix
+
+37
+00:02:49.460 --> 00:02:52.280
+equals the rank of its coefficient matrix.
+
+38
+00:02:52.280 --> 00:02:58.620
+If the rank of a consistent system equals the
+number of unknowns,
+
+39
+00:02:58.620 --> 00:03:01.680
+the system has a unique solution.
+
+40
+00:03:02.480 --> 00:03:08.660
+If the rank of a consistent system is less
+than the number of unknowns, the system
+
+41
+00:03:08.660 --> 00:03:10.840
+has infinitely many solutions.
+
+42
+00:03:13.240 --> 00:03:19.120
+Let us see in an example how the
+Kronecker–Capelli theorem is used
+
+43
+00:03:19.120 --> 00:03:21.622
+to determine whether a system is consistent.
+
+44
+00:03:21.622 --> 00:03:25.490
+Take a system of linear equations; we need to
+study its consistency.
+
+45
+00:03:25.490 --> 00:03:31.530
+If the system is consistent, we must state the
+number of solutions.
+
+46
+00:03:31.690 --> 00:03:38.474
+Let us form the augmented matrix. To determine
+the solutions of the system,
+
+47
+00:03:38.474 --> 00:03:45.710
+we need its coefficient matrix and its
+augmented matrix. Let us write them down.
+
+48
+00:03:49.040 --> 00:03:52.096
+We compute the rank of the augmented matrix.
+
+49
+00:03:52.096 --> 00:03:55.360
+Since matrix A is part of the augmented
+matrix,
+
+50
+00:03:55.360 --> 00:04:02.070
+we will find the rank of A at the same time.
+For convenience,
+
+51
+00:04:02.070 --> 00:04:08.320
+we swap the first and second rows. We multiply
+the entries of the first row
+
+52
+00:04:08.320 --> 00:04:12.380
+by minus three and add them to the
+corresponding entries of the second row.
+
+53
+00:04:12.380 --> 00:04:15.601
+Next, we multiply the entries of the first row
+by
+
+54
+00:04:15.601 --> 00:04:18.560
+four and add them to the entries of the third
+
+55
+00:04:18.560 --> 00:04:20.820
+row.
+
+56
+00:04:22.650 --> 00:04:25.894
+We multiply the entries of the second row by
+minus two and
+
+57
+00:04:25.894 --> 00:04:28.970
+add them to the corresponding entries of the
+third row.
+
+58
+00:04:28.970 --> 00:04:35.760
+We have brought the augmented matrix to
+echelon form. The resulting echelon matrix
+
+59
+00:04:35.760 --> 00:04:38.581
+has three nonzero rows, so its rank is three.
+
+60
+00:04:38.581 --> 00:04:41.840
+By transforming the entries of the augmented
+matrix,
+
+61
+00:04:41.840 --> 00:04:48.720
+we simultaneously transformed the entries of
+matrix A to the left of the bar,
+
+62
+00:04:48.720 --> 00:04:55.710
+so the rank of A is also three.
+
+63
+00:04:55.710 --> 00:04:59.128
+By the Kronecker–Capelli theorem the system is
+consistent,
+
+64
+00:04:59.128 --> 00:05:02.370
+so a solution exists. To state the number of
+solutions,
+
+65
+00:05:02.370 --> 00:05:09.030
+note that our system has three unknowns. Since
+the number of unknowns
+
+66
+00:05:09.030 --> 00:05:11.909
+n is three and the rank is three,
+
+67
+00:05:11.909 --> 00:05:17.230
+the system is determinate, that is, it has a
+unique solution.
+
+68
+00:05:18.860 --> 00:05:25.830
+To sum up. To solve a general system of linear
+algebraic equations,
+
+69
+00:05:25.830 --> 00:05:32.290
+we first use the Kronecker–Capelli theorem to
+establish whether it is consistent.
+
+70
+00:05:32.290 --> 00:05:35.810
+If the rank of the coefficient matrix is not
+
+71
+00:05:35.810 --> 00:05:39.170
+equal to the rank of the augmented matrix,
+
+72
+00:05:39.170 --> 00:05:43.543
+we conclude that the system is inconsistent.

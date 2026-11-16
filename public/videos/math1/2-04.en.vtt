@@ -1,0 +1,375 @@
+WEBVTT
+
+1
+00:00:00.700 --> 00:00:03.679
+In this lesson we will look at another kind
+
+2
+00:00:03.679 --> 00:00:06.520
+of product of vectors: the cross product.
+
+3
+00:00:06.520 --> 00:00:12.720
+The result of the cross product of vectors is
+a vector.
+
+4
+00:00:12.720 --> 00:00:19.140
+Before defining the cross product, we need to
+understand the orientation
+
+5
+00:00:19.140 --> 00:00:21.445
+of an ordered triple of vectors a,
+
+6
+00:00:21.445 --> 00:00:25.920
+b and c in three-dimensional space. For this
+we need a new notion.
+
+7
+00:00:25.920 --> 00:00:33.330
+Vectors lying in one plane or in parallel
+planes are called coplanar.
+
+8
+00:00:35.150 --> 00:00:41.510
+Let us draw the noncoplanar vectors a, b and c
+from one point.
+
+9
+00:00:41.510 --> 00:00:44.623
+Depending on the directions of the vectors,
+
+10
+00:00:44.623 --> 00:00:48.460
+they form a right-handed or a left-handed
+triple. If,
+
+11
+00:00:48.460 --> 00:00:51.403
+looking from the end of the third vector c,
+
+12
+00:00:51.403 --> 00:00:55.440
+we watch the first vector a turn toward the
+second vector b
+
+13
+00:00:55.440 --> 00:01:02.130
+along the shortest way, and this turn is
+counterclockwise,
+
+14
+00:01:02.130 --> 00:01:07.436
+then the vectors a, b, c form a right-handed
+
+15
+00:01:07.436 --> 00:01:12.380
+triple. If instead the turn is clockwise,
+
+16
+00:01:12.380 --> 00:01:19.180
+the vectors a, b, c are called a left-handed
+triple. In other words,
+
+17
+00:01:19.180 --> 00:01:26.180
+noncoplanar ordered vectors a, b and c with a
+common starting point
+
+18
+00:01:26.180 --> 00:01:33.000
+form a triple. If, looking from the end of the
+third vector,
+
+19
+00:01:33.000 --> 00:01:38.270
+we see the shortest turn of the first vector
+toward the second
+
+20
+00:01:38.270 --> 00:01:43.200
+going counterclockwise, the triple is called
+right-handed,
+
+21
+00:01:43.200 --> 00:01:47.340
+and if it goes clockwise, left-handed.
+
+22
+00:01:47.850 --> 00:01:54.560
+Now let us define the cross product. The cross
+product of two noncollinear vectors a
+
+23
+00:01:54.560 --> 00:02:00.880
+and b is a third vector c
+
+24
+00:02:00.880 --> 00:02:03.990
+that satisfies these conditions. Condition
+one:
+
+25
+00:02:03.990 --> 00:02:09.310
+vector c is orthogonal to each of the vectors
+a and b,
+
+26
+00:02:09.310 --> 00:02:14.260
+that is, it is perpendicular to the plane
+through a and b.
+
+27
+00:02:14.260 --> 00:02:17.547
+Condition two: the length of vector c equals
+the area
+
+28
+00:02:17.547 --> 00:02:20.400
+of the parallelogram built on vectors a and b,
+
+29
+00:02:20.400 --> 00:02:28.074
+that is, the magnitude of c equals the product
+of the
+
+30
+00:02:28.074 --> 00:02:34.880
+magnitudes of a and b and the sine of the
+angle
+
+31
+00:02:34.880 --> 00:02:37.330
+between them.
+
+32
+00:02:37.330 --> 00:02:44.530
+Condition three: the vectors a, b and c form
+an ordered right-handed triple.
+
+33
+00:02:44.530 --> 00:02:48.910
+The cross product is written like this.
+Remember:
+
+34
+00:02:48.910 --> 00:02:52.830
+the sign of the cross product is a cross.
+
+35
+00:02:52.830 --> 00:02:58.430
+Do not confuse it with the dot product sign:
+these are different operations.
+
+36
+00:02:58.430 --> 00:03:03.780
+Now let us look at the properties of the cross
+product.
+
+37
+00:03:03.780 --> 00:03:10.320
+Property one: the cross product is not
+commutative.
+
+38
+00:03:10.560 --> 00:03:16.940
+Property two: if the cross product of vectors
+equals the zero vector,
+
+39
+00:03:16.940 --> 00:03:21.920
+then vectors a and b are collinear.
+
+40
+00:03:22.180 --> 00:03:28.680
+Property three: it is associative with respect
+to a scalar factor.
+
+41
+00:03:28.840 --> 00:03:36.060
+Property four: the cross product is also
+distributive.
+
+42
+00:03:38.560 --> 00:03:44.120
+Since any vector has definite coordinates in a
+coordinate system,
+
+43
+00:03:44.120 --> 00:03:48.975
+we can introduce a second definition of the
+cross product,
+
+44
+00:03:48.975 --> 00:03:55.420
+which lets us find its coordinates from the
+given coordinates of the vectors.
+
+45
+00:03:55.420 --> 00:04:02.979
+The cross product can be viewed as the
+determinant of a third-order
+
+46
+00:04:02.979 --> 00:04:08.620
+square matrix. In a rectangular coordinate
+system,
+
+47
+00:04:08.620 --> 00:04:12.188
+the first row holds the unit vectors i,
+
+48
+00:04:12.188 --> 00:04:20.240
+j, k, the second the coordinates of vector a,
+and the third the coordinates of vector b.
+
+49
+00:04:24.000 --> 00:04:26.790
+Computing the determinant by expansion,
+
+50
+00:04:26.790 --> 00:04:30.810
+we get the cross product expressed in
+coordinates.
+
+51
+00:04:31.680 --> 00:04:35.468
+Now let us look at an example with the cross
+product.
+
+52
+00:04:35.468 --> 00:04:37.970
+In a rectangular coordinate system,
+
+53
+00:04:37.970 --> 00:04:40.248
+vector a has coordinates three,
+
+54
+00:04:40.248 --> 00:04:44.950
+four, five and vector b has coordinates four,
+five, minus three.
+
+55
+00:04:44.950 --> 00:04:51.570
+We need to find the cross product of vectors a
+and b.
+
+56
+00:04:51.570 --> 00:04:58.460
+To do this, we form a third-order determinant
+and expand it along the first row.
+
+57
+00:04:58.460 --> 00:05:07.570
+We get the sum of the products of the
+first-row entries and their cofactors.
+
+58
+00:05:07.570 --> 00:05:14.270
+Let us find the values of the second-order
+determinants. So the cross product
+
+59
+00:05:14.270 --> 00:05:17.977
+of vectors a and b is the vector with
+coordinates
+
+60
+00:05:17.977 --> 00:05:21.230
+minus thirty-seven, twenty-nine, minus one.
+
+61
+00:05:21.770 --> 00:05:25.299
+Using the cross product, we can find the area
+
+62
+00:05:25.299 --> 00:05:28.750
+of the parallelogram built on these vectors,
+
+63
+00:05:28.750 --> 00:05:34.420
+and therefore the area of a triangle too.
+
+64
+00:05:35.860 --> 00:05:39.660
+Let us look at an example of finding the area
+of a triangle
+
+65
+00:05:39.660 --> 00:05:42.300
+using the cross product. In a rectangular
+
+66
+00:05:42.300 --> 00:05:49.080
+Cartesian coordinate system, a triangle ABC is
+given. Using the cross product,
+
+67
+00:05:49.080 --> 00:05:51.860
+let us find the area of triangle ABC.
+
+68
+00:05:51.860 --> 00:05:58.440
+To do this, we find the coordinates of vectors
+AB and AC. For that
+
+69
+00:05:58.440 --> 00:06:02.304
+we compute the differences of the
+corresponding coordinates
+
+70
+00:06:02.304 --> 00:06:05.120
+of the end and start points of each vector.
+
+71
+00:06:05.440 --> 00:06:11.820
+Now we form a third-order determinant from
+their coordinates and find
+
+72
+00:06:11.820 --> 00:06:18.550
+the cross product. We get a vector with
+coordinates six, minus four, minus six.
+
+73
+00:06:18.550 --> 00:06:24.930
+We compute the length of the cross product
+from its coordinates and get
+
+74
+00:06:24.930 --> 00:06:27.568
+the square root of eighty-eight.
+
+75
+00:06:27.568 --> 00:06:32.020
+The result is two times the square root of
+twenty-two.
+
+76
+00:06:32.060 --> 00:06:38.100
+Now we can find the area of the triangle.
+Substituting the results into the formula,
+
+77
+00:06:38.100 --> 00:06:41.886
+after simplifying we get that the area of the
+triangle
+
+78
+00:06:41.886 --> 00:06:44.480
+equals the square root of twenty-two.
+
+79
+00:06:45.340 --> 00:06:49.720
+In this lesson we learned what the cross
+product is,
+
+80
+00:06:49.720 --> 00:06:57.400
+listed its properties and learned how to find
+the cross product.
