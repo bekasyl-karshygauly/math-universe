@@ -1,0 +1,292 @@
+WEBVTT
+
+1
+00:00:01.140 --> 00:00:07.420
+In this lesson we will look at another kind of
+product of vectors: the scalar triple
+
+2
+00:00:07.420 --> 00:00:18.030
+product. The scalar triple product of vectors
+a, b and c is
+
+3
+00:00:18.030 --> 00:00:24.760
+the dot product of the cross product of a and
+b with vector c. Property one:
+
+4
+00:00:24.760 --> 00:00:31.420
+if we swap the cross and dot product signs,
+the value of the triple
+
+5
+00:00:31.420 --> 00:00:38.260
+product does not change. Property two: if we
+multiply the vectors in cyclic order,
+
+6
+00:00:38.260 --> 00:00:44.990
+the triple product does not change. Property
+three:
+
+7
+00:00:44.990 --> 00:00:51.350
+swapping any two vectors changes the sign of
+the triple product.
+
+8
+00:00:51.860 --> 00:00:58.270
+Property four: if the triple product of three
+vectors equals zero,
+
+9
+00:00:58.270 --> 00:01:04.239
+then one of the factors is zero or two of the
+vectors
+
+10
+00:01:04.239 --> 00:01:09.420
+are collinear; and if the vectors are nonzero,
+
+11
+00:01:09.420 --> 00:01:12.640
+they are coplanar.
+
+12
+00:01:13.400 --> 00:01:20.240
+The triple product can be set equal to the
+determinant of a matrix whose rows
+
+13
+00:01:20.240 --> 00:01:24.250
+are the coordinates of the vectors. It looks
+like this.
+
+14
+00:01:24.250 --> 00:01:27.539
+The first row holds the coordinates of the
+first vector,
+
+15
+00:01:27.539 --> 00:01:30.300
+then come the coordinates of the second
+vector,
+
+16
+00:01:30.300 --> 00:01:35.680
+and the third row contains the coordinates of
+the third vector.
+
+17
+00:01:36.670 --> 00:01:40.437
+Now let us look at an example of finding a
+triple product.
+
+18
+00:01:40.437 --> 00:01:43.230
+Three vectors are given: a with coordinates
+
+19
+00:01:43.230 --> 00:01:49.820
+three, four, five, b with coordinates four,
+five and minus three,
+
+20
+00:01:49.820 --> 00:01:55.830
+and c with coordinates two, three, six.
+
+21
+00:01:55.830 --> 00:02:02.520
+We need to find the triple product of vectors
+a, b and c. To do this,
+
+22
+00:02:02.520 --> 00:02:06.540
+we form a third-order determinant.
+
+23
+00:02:06.580 --> 00:02:10.780
+We find the value of the determinant by the
+triangle rule.
+
+24
+00:02:10.780 --> 00:02:15.084
+Following the rule, we compute the sum and
+difference of
+
+25
+00:02:15.084 --> 00:02:19.080
+the products of the entries. We do the
+calculations.
+
+26
+00:02:19.080 --> 00:02:24.340
+So the triple product of the vectors equals
+seven.
+
+27
+00:02:26.770 --> 00:02:33.720
+What can we determine using the triple
+product? First,
+
+28
+00:02:33.720 --> 00:02:40.620
+the mutual orientation of vectors a, b and c,
+based on the following reasoning.
+
+29
+00:02:40.620 --> 00:02:47.760
+If the triple product is greater than zero,
+the vectors form a right-handed triple,
+
+30
+00:02:47.760 --> 00:02:52.290
+and otherwise a left-handed triple.
+
+31
+00:02:52.290 --> 00:02:58.750
+The triple product lets us determine whether
+vectors are coplanar.
+
+32
+00:02:58.780 --> 00:03:05.720
+Let us write the coplanarity condition: for
+nonzero vectors a, b and c
+
+33
+00:03:05.720 --> 00:03:13.400
+to be coplanar, it is necessary and sufficient
+that their triple product is zero.
+
+34
+00:03:16.030 --> 00:03:19.550
+Let us look at an example. Three vectors are
+
+35
+00:03:19.550 --> 00:03:22.990
+given: a with coordinates one, one, zero, b
+
+36
+00:03:22.990 --> 00:03:26.440
+with coordinates one, one and minus one,
+
+37
+00:03:26.440 --> 00:03:33.160
+and c with coordinates one, one, two.
+
+38
+00:03:33.160 --> 00:03:36.589
+We need to determine whether these vectors are
+coplanar.
+
+39
+00:03:36.589 --> 00:03:39.590
+Let us form, from the coordinates of the
+vectors,
+
+40
+00:03:39.590 --> 00:03:46.400
+a third-order determinant. We find its value
+by the triangle rule:
+
+41
+00:03:46.400 --> 00:03:50.577
+following the rule, we compute the sum and
+difference
+
+42
+00:03:50.577 --> 00:03:53.020
+of the products of the entries.
+
+43
+00:03:53.020 --> 00:03:56.620
+The calculation gives zero.
+
+44
+00:03:56.620 --> 00:04:01.600
+So vectors a, b and c are coplanar.
+
+45
+00:04:04.850 --> 00:04:10.821
+The triple product lets us find the volume of
+the parallelepiped built on these
+
+46
+00:04:10.821 --> 00:04:15.960
+vectors: the volume equals the absolute value
+of the triple product.
+
+47
+00:04:15.960 --> 00:04:23.481
+We can also find the volume of the triangular
+pyramid built on these vectors:
+
+48
+00:04:23.481 --> 00:04:31.100
+it equals one sixth of the absolute value of
+the triple product of a, b and c.
+
+49
+00:04:31.940 --> 00:04:35.882
+Let us look at an example of finding the
+volume
+
+50
+00:04:35.882 --> 00:04:39.320
+of a solid. Let the points A (0; 1; 0), B
+
+51
+00:04:39.430 --> 00:04:45.560
+(3; −1; 5), C (1; 0; 3), D
+
+52
+00:04:45.560 --> 00:04:51.470
+(−2; 3; 1) be given in a coordinate system.
+
+53
+00:04:51.470 --> 00:04:54.983
+We need to find the volume of the triangular
+pyramid
+
+54
+00:04:54.983 --> 00:04:57.820
+with vertices at these points. To do this,
+
+55
+00:04:57.820 --> 00:05:04.340
+we first find the coordinates of vectors AB,
+AC and AD.
+
+56
+00:05:07.130 --> 00:05:13.010
+Now we find the triple product: to do this, we
+form a third-order determinant.
+
+57
+00:05:13.010 --> 00:05:15.811
+We find the value of the determinant:
+
+58
+00:05:15.811 --> 00:05:19.520
+it is minus seven. Then the volume of the
+pyramid
+
+59
+00:05:19.520 --> 00:05:24.000
+equals seven sixths of a cubic unit.
+
+60
+00:05:25.800 --> 00:05:32.580
+So, in this lesson we studied another kind of
+product of vectors: the scalar triple
+
+61
+00:05:32.580 --> 00:05:38.830
+product. It can be used to find the volumes of
+solids
+
+62
+00:05:38.830 --> 00:05:42.576
+and to determine the orientation of vectors in
+space.

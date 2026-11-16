@@ -1,0 +1,433 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.607
+Second-order curves have been studied since
+ancient
+
+2
+00:00:03.607 --> 00:00:06.860
+Greece, based on the paths of reflected light,
+
+3
+00:00:06.860 --> 00:00:12.580
+the structure of plants and other natural
+phenomena.
+
+4
+00:00:12.580 --> 00:00:16.193
+If you take two intersecting lines and start
+
+5
+00:00:16.193 --> 00:00:19.560
+rotating them around the angle they form,
+
+6
+00:00:19.560 --> 00:00:26.161
+then, where this meets another plane, various
+geometric figures appear:
+
+7
+00:00:26.161 --> 00:00:31.460
+an ellipse, a circle, a parabola, a hyperbola
+and others.
+
+8
+00:00:31.460 --> 00:00:33.688
+It was believed that this produces a
+cone-shaped
+
+9
+00:00:33.688 --> 00:00:35.870
+surface whose cross-sections give these
+curves.
+
+10
+00:00:35.870 --> 00:00:42.200
+A long time passed before people began to use
+this knowledge in practice.
+
+11
+00:00:42.200 --> 00:00:45.460
+These theories began to be applied in the
+seventeenth century.
+
+12
+00:00:45.460 --> 00:00:52.280
+People studied astronomy intensively and found
+that the planets move
+
+13
+00:00:52.280 --> 00:00:54.730
+along elliptical paths.
+
+14
+00:00:54.730 --> 00:00:58.221
+First we will study the first curve of the
+second order,
+
+15
+00:00:58.221 --> 00:01:01.650
+the ellipse. We will look at the equation of
+an ellipse
+
+16
+00:01:01.650 --> 00:01:05.930
+and work through various examples.
+
+17
+00:01:08.910 --> 00:01:15.050
+Let us define an ellipse. An ellipse is the
+locus of points in the plane
+
+18
+00:01:15.050 --> 00:01:18.910
+for which the sum of the distances to two
+points called foci is always constant
+
+19
+00:01:19.390 --> 00:01:25.910
+and equals 2a, where a
+
+20
+00:01:25.910 --> 00:01:30.660
+is greater than zero. The canonical equation
+of an ellipse is
+
+21
+00:01:31.140 --> 00:01:37.500
+x²/a² + y²/b² = 1,
+
+22
+00:01:37.500 --> 00:01:39.460
+where a is the semi-major
+
+23
+00:01:39.460 --> 00:01:46.080
+axis, b is the semi-minor axis, and c is half
+the distance between the foci.
+
+24
+00:01:46.690 --> 00:01:53.530
+The numbers a, b and c are related by a² − b²
+
+25
+00:01:53.530 --> 00:01:56.030
+= c².
+
+26
+00:01:57.170 --> 00:02:00.767
+The next feature of an ellipse is the
+eccentricity.
+
+27
+00:02:00.767 --> 00:02:03.940
+It describes how elongated the ellipse is and
+
+28
+00:02:03.940 --> 00:02:07.404
+is defined as the ratio of the focal distance
+c to
+
+29
+00:02:07.404 --> 00:02:10.660
+the semi-major axis. It is denoted by the
+Greek
+
+30
+00:02:10.660 --> 00:02:13.040
+letter ε (epsilon).
+
+31
+00:02:14.570 --> 00:02:17.194
+Let us look at the formulas in an example.
+
+32
+00:02:17.194 --> 00:02:20.880
+We need to write the canonical equation of an
+ellipse whose
+
+33
+00:02:20.880 --> 00:02:27.690
+semi-axes are five and four, and find the foci
+and the eccentricity of the ellipse.
+
+34
+00:02:27.690 --> 00:02:34.190
+We substitute into the formula of the
+canonical equation. Now we find c. So
+
+35
+00:02:34.190 --> 00:02:39.910
+the foci have the following coordinates. The
+eccentricity equals three fifths.
+
+36
+00:02:42.020 --> 00:02:47.240
+Now let us look at another curve of the second
+order, the hyperbola.
+
+37
+00:02:49.060 --> 00:02:52.687
+A hyperbola is the locus of points in the
+plane for which the difference
+
+38
+00:02:52.687 --> 00:02:55.760
+of the distances to two points called foci is
+always constant
+
+39
+00:02:55.760 --> 00:03:02.060
+and equals 2a.
+
+40
+00:03:02.220 --> 00:03:09.180
+This difference is taken in absolute value.
+The canonical equation of a hyperbola is
+
+41
+00:03:09.180 --> 00:03:16.140
+x²/a² − y²/b² = 1,
+
+42
+00:03:16.140 --> 00:03:20.180
+where a is the real semi-axis, b is the
+imaginary semi-axis,
+
+43
+00:03:20.180 --> 00:03:26.800
+and c is half the distance between the foci.
+The numbers a, b and c
+
+44
+00:03:26.800 --> 00:03:33.260
+are related by c² − a² = b².
+
+45
+00:03:33.260 --> 00:03:39.520
+A hyperbola also has an eccentricity ε, as
+well as
+
+46
+00:03:39.520 --> 00:03:45.550
+asymptotes, lines through the center of the
+hyperbola. The hyperbola
+
+47
+00:03:45.550 --> 00:03:49.970
+approaches its asymptotes but never crosses
+them.
+
+48
+00:03:52.150 --> 00:03:58.770
+If the real and imaginary semi-axes of a
+hyperbola are equal, the hyperbola
+
+49
+00:03:58.770 --> 00:04:05.770
+is called equilateral, or rectangular. Its
+equation is x² minus
+
+50
+00:04:05.770 --> 00:04:09.390
+y² equals a².
+
+51
+00:04:11.150 --> 00:04:14.596
+Let us look at a hyperbola whose foci lie on
+the
+
+52
+00:04:14.596 --> 00:04:17.970
+Oy axis. Then the equation of the hyperbola
+has
+
+53
+00:04:17.970 --> 00:04:21.379
+this form. The eccentricity is computed by the
+
+54
+00:04:21.379 --> 00:04:24.640
+formula, and the equations of the asymptotes
+
+55
+00:04:24.640 --> 00:04:27.380
+are these. Let us look at an example.
+
+56
+00:04:29.170 --> 00:04:35.980
+Write the canonical equation of a hyperbola if
+the distance between the foci is ten
+
+57
+00:04:35.980 --> 00:04:39.180
+and the real axis is eight.
+
+58
+00:04:39.180 --> 00:04:45.740
+If the real axis is eight, half of it is four.
+If the distance
+
+59
+00:04:45.740 --> 00:04:49.545
+between the foci is ten, then from the
+coordinates
+
+60
+00:04:49.545 --> 00:04:52.360
+of the foci the number c equals five.
+
+61
+00:04:52.740 --> 00:04:55.573
+To write the equation of the hyperbola,
+
+62
+00:04:55.573 --> 00:04:59.860
+we need to compute the square of the imaginary
+semi-axis b.
+
+63
+00:05:00.090 --> 00:05:05.310
+From the conditions of the problem we get the
+canonical equation of the hyperbola.
+
+64
+00:05:08.350 --> 00:05:11.830
+The next curve of the second order is the
+parabola.
+
+65
+00:05:13.840 --> 00:05:17.484
+A parabola is the locus of points each of
+which
+
+66
+00:05:17.484 --> 00:05:20.740
+is as far from a fixed point of the plane,
+
+67
+00:05:20.740 --> 00:05:26.460
+called the focus, as from a given line,
+
+68
+00:05:26.460 --> 00:05:32.600
+called the directrix. The canonical equation
+of a parabola has this form,
+
+69
+00:05:32.600 --> 00:05:38.940
+where the positive number p equals the
+distance from the focus to the directrix.
+
+70
+00:05:38.940 --> 00:05:45.340
+The focus of the parabola has coordinates p/2
+and 0,
+
+71
+00:05:45.340 --> 00:05:47.750
+and the point (0; 0) is the vertex of the
+parabola.
+
+72
+00:05:47.750 --> 00:05:50.694
+The equation of the directrix is this,
+
+73
+00:05:50.694 --> 00:05:54.490
+and the focal radius is computed by this
+formula.
+
+74
+00:05:56.660 --> 00:05:59.488
+Unlike the other curves of the second order,
+
+75
+00:05:59.488 --> 00:06:03.280
+depending on the focus and the axis of
+symmetry, a parabola
+
+76
+00:06:03.280 --> 00:06:05.880
+can be given by three more equations.
+
+77
+00:06:06.010 --> 00:06:12.990
+If a parabola is given by x² = 2py, its focus
+
+78
+00:06:12.990 --> 00:06:17.850
+lies on the Oy axis, and its branches point
+upward.
+
+79
+00:06:19.000 --> 00:06:22.560
+This is the equation of the directrix of this
+parabola.
+
+80
+00:06:24.710 --> 00:06:31.810
+The equation y² = −2px defines a parabola with
+branches pointing left,
+
+81
+00:06:31.870 --> 00:06:37.990
+with its vertex at the origin, symmetric about
+the Ox axis.
+
+82
+00:06:38.540 --> 00:06:45.190
+The parabola x² = −2py has branches pointing
+down
+
+83
+00:06:45.190 --> 00:06:49.670
+and is symmetric about the Oy axis.
+
+84
+00:06:50.020 --> 00:06:56.540
+So the equation x² = −2py defines a parabola
+symmetric about the Oy axis
+
+85
+00:06:56.540 --> 00:07:01.840
+with branches pointing down.
+
+86
+00:07:04.050 --> 00:07:10.890
+Let us work through an example. Find the
+coordinates of the focus of the parabola y²
+
+87
+00:07:10.890 --> 00:07:17.350
+= 4x. The number p is the distance from the
+focus of the parabola to its directrix.
+
+88
+00:07:17.350 --> 00:07:23.950
+We find p: it equals two. From the equation we
+see that the focus
+
+89
+00:07:23.950 --> 00:07:29.490
+lies on the Ox axis and its coordinates are
+one, zero.
+
+90
+00:07:31.280 --> 00:07:33.704
+In a higher mathematics course,
+
+91
+00:07:33.704 --> 00:07:38.160
+the study of second-order curves has not only
+theoretical
+
+92
+00:07:38.160 --> 00:07:44.240
+but also practical value. Second-order curves
+are used in ballistics,
+
+93
+00:07:44.240 --> 00:07:48.060
+astronomy and physics.

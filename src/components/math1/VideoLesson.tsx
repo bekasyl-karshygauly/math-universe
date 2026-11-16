@@ -43,6 +43,29 @@ export function VideoLesson({ videos, lang, active, startHeading, jump, onPracti
     if (!active) player.current?.pause();
   }, [active]);
 
+  // The narration is Kazakh: Russian and English pages show their own subtitles,
+  // the Kazakh page starts without them. Viewers can still switch in the player's CC menu.
+  // Browsers add <track> elements asynchronously and may switch one on from their own
+  // language settings, so the choice is applied again as tracks arrive, and two tracks
+  // showing at once (never a viewer's choice) falls back to the page language.
+  useEffect(() => {
+    const tracks = player.current?.textTracks;
+    if (!tracks) return;
+    const choose = () => {
+      for (const track of Array.from(tracks)) track.mode = track.language === lang ? 'showing' : 'disabled';
+    };
+    const keepOne = () => {
+      if (Array.from(tracks).filter(track => track.mode === 'showing').length > 1) choose();
+    };
+    choose();
+    tracks.addEventListener('addtrack', choose);
+    tracks.addEventListener('change', keepOne);
+    return () => {
+      tracks.removeEventListener('addtrack', choose);
+      tracks.removeEventListener('change', keepOne);
+    };
+  }, [lang, index]);
+
   useLayoutEffect(() => {
     if (!active || !jump || appliedJump.current === jump) return;
     appliedJump.current = jump;
@@ -97,9 +120,12 @@ export function VideoLesson({ videos, lang, active, startHeading, jump, onPracti
       <div className="m1-video-layout">
         <div className="m1-video-main">
           <h3 ref={videoHeading} tabIndex={-1} className="m1-h">{video.title[lang]}</h3>
-          <p className="m1-video-meta">{t('m1_video_language')} <span aria-hidden="true">·</span> <span className="mono">{duration(video.seconds)}</span></p>
+          <p className="m1-video-meta">{t('m1_video_language')} <span aria-hidden="true">·</span> {t('m1_video_captions')} <span aria-hidden="true">·</span> <span className="mono">{duration(video.seconds)}</span></p>
           <video key={video.id} ref={player} className="m1-video-player" src={base + '.mp4'} poster={base + '.jpg'}
-            controls playsInline preload="none" aria-label={video.title[lang]} onError={() => setFailed(true)} />
+            controls playsInline preload="none" aria-label={video.title[lang]} onError={() => setFailed(true)}>
+            <track kind="subtitles" src={base + '.ru.vtt'} srcLang="ru" label="Русский" default={lang === 'ru'} />
+            <track kind="subtitles" src={base + '.en.vtt'} srcLang="en" label="English" default={lang === 'en'} />
+          </video>
           {failed && (
             <div className="m1-video-error">
               <p role="status">{t('m1_video_error')}</p>

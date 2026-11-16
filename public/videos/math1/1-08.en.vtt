@@ -1,0 +1,122 @@
+WEBVTT
+
+1
+00:00:00.820 --> 00:00:04.715
+Today we will look at the matrix method for
+solving
+
+2
+00:00:04.715 --> 00:00:07.770
+systems of linear equations. This method
+
+3
+00:00:07.770 --> 00:00:11.779
+is convenient for systems of low order and is
+based
+
+4
+00:00:11.779 --> 00:00:15.160
+on the properties of matrix multiplication.
+
+5
+00:00:17.240 --> 00:00:20.833
+If the number of equations in the system
+equals the number
+
+6
+00:00:20.833 --> 00:00:23.620
+of unknowns and the determinant of the matrix
+
+7
+00:00:23.620 --> 00:00:28.610
+is not zero, the matrix method is used.
+
+8
+00:00:28.610 --> 00:00:35.500
+In matrix form, we write the system like this:
+here A is the coefficient matrix
+
+9
+00:00:35.500 --> 00:00:41.960
+of the system, B is the matrix of constant
+terms, and X is the column matrix
+
+10
+00:00:41.960 --> 00:00:46.570
+of the unknowns. The solution of the system
+has the following form.
+
+11
+00:00:48.330 --> 00:00:51.647
+Let us solve a system of linear equations by
+the
+
+12
+00:00:51.647 --> 00:00:54.480
+matrix method. We compute the determinant
+
+13
+00:00:54.480 --> 00:01:01.880
+of the coefficient matrix. Since Δ is not
+zero, the system has a unique solution.
+
+14
+00:01:03.510 --> 00:01:10.060
+We solve the system of linear equations by the
+matrix method. To continue,
+
+15
+00:01:10.060 --> 00:01:13.500
+we form the matrices A, B and X.
+
+16
+00:01:15.520 --> 00:01:21.920
+We find the inverse matrix A⁻¹. We compute the
+determinant of A,
+
+17
+00:01:21.920 --> 00:01:28.350
+using cofactor expansion along the first row.
+Now we find the
+
+18
+00:01:28.350 --> 00:01:30.310
+cofactors.
+
+19
+00:01:33.190 --> 00:01:38.650
+Using the cofactors we have found, we build
+the inverse matrix.
+
+20
+00:01:40.160 --> 00:01:44.885
+Now the matrix X: we find the product of the
+
+21
+00:01:44.885 --> 00:01:49.180
+inverse matrix and matrix B. As a result
+
+22
+00:01:49.180 --> 00:01:51.840
+we get the solution matrix of the system of
+equations.
+
+23
+00:01:53.440 --> 00:01:59.850
+To sum up: the matrix method is convenient for
+solving systems of linear equations
+
+24
+00:01:59.850 --> 00:02:06.790
+in which the number of equations matches the
+number of unknowns and the determinant
+
+25
+00:02:06.790 --> 00:02:13.550
+of the coefficient matrix is nonzero. If the
+system has more than three equations,
+
+26
+00:02:13.550 --> 00:02:19.090
+finding the inverse matrix requires laborious
+calculations.

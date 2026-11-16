@@ -1,0 +1,121 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:03.329
+The inverse matrix. In this lesson you will
+
+2
+00:00:03.329 --> 00:00:06.580
+learn how to find the inverse of a matrix.
+
+3
+00:00:06.580 --> 00:00:11.540
+What is an inverse matrix? Here we can draw an
+analogy with reciprocal numbers.
+
+4
+00:00:12.600 --> 00:00:14.954
+Every number a has a reciprocal,
+
+5
+00:00:14.954 --> 00:00:19.220
+a to the power minus one, and the product of
+these numbers
+
+6
+00:00:19.220 --> 00:00:23.920
+equals one. A similar notion is introduced for
+square matrices.
+
+7
+00:00:25.640 --> 00:00:31.480
+First, let us introduce some key notions. If
+the determinant of a square matrix
+
+8
+00:00:31.480 --> 00:00:34.756
+is zero, the matrix is called singular;
+
+9
+00:00:34.756 --> 00:00:39.040
+if it is nonzero, the matrix is called
+nonsingular.
+
+10
+00:00:40.900 --> 00:00:47.860
+The matrix A to the power minus one is called
+the inverse of A
+
+11
+00:00:47.860 --> 00:00:50.278
+if the following condition holds.
+
+12
+00:00:50.278 --> 00:00:54.820
+Here E is the identity matrix of the same
+order as A, that is,
+
+13
+00:00:54.820 --> 00:00:56.540
+the matrix analogue of the number one.
+
+14
+00:00:58.110 --> 00:01:01.798
+The formula for the inverse matrix is as
+follows.
+
+15
+00:01:01.798 --> 00:01:05.110
+Here the entries of the inverse matrix, A₁₁,
+
+16
+00:01:05.110 --> 00:01:11.250
+A₂₂ and so on, are cofactors.
+
+17
+00:01:12.820 --> 00:01:16.417
+Let us look at an example: we need to find the
+
+18
+00:01:16.417 --> 00:01:19.780
+inverse of this matrix. First we must check
+
+19
+00:01:19.780 --> 00:01:26.510
+that A is nonsingular. The determinant is not
+zero, so the inverse matrix exists.
+
+20
+00:01:28.040 --> 00:01:31.004
+We compute the cofactors of the matrix.
+
+21
+00:01:31.004 --> 00:01:34.500
+Substituting the cofactors and the determinant
+
+22
+00:01:34.500 --> 00:01:38.120
+into the formula, we find the inverse matrix.
+
+23
+00:01:39.720 --> 00:01:46.680
+Let us look at one more example of finding an
+inverse matrix. Take a square matrix.
+
+24
+00:01:46.680 --> 00:01:53.540
+We find its determinant. It equals zero, so
+the matrix A is singular and has no
+
+25
+00:01:53.540 --> 00:01:55.040
+inverse matrix.
+
+26
+00:01:56.720 --> 00:02:03.620
+To sum up: in this lesson we learned what an
+inverse matrix is and in which cases
+
+27
+00:02:03.620 --> 00:02:06.080
+it can be found.

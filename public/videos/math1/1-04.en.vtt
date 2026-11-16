@@ -1,0 +1,189 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:06.660
+The rank of a matrix. Today we will look at
+the rank of a matrix and also
+
+2
+00:00:06.660 --> 00:00:09.380
+go through ways of finding it.
+
+3
+00:00:10.400 --> 00:00:16.300
+The rank of a matrix equals the largest order
+of a nonzero minor of the matrix.
+
+4
+00:00:16.300 --> 00:00:22.840
+It is denoted rang A. For a given square
+matrix A, we need to find its rank.
+
+5
+00:00:22.840 --> 00:00:26.197
+We find the values of all determinants of this
+matrix,
+
+6
+00:00:26.197 --> 00:00:29.740
+starting with the third-order determinant,
+which is zero,
+
+7
+00:00:29.740 --> 00:00:36.160
+and then move on to the second-order
+determinants. By the definition of the rank,
+
+8
+00:00:36.160 --> 00:00:42.080
+in our case the rank of the original matrix
+equals two.
+
+9
+00:00:42.980 --> 00:00:47.640
+I would like to point out that every matrix
+has a rank.
+
+10
+00:00:48.600 --> 00:00:50.771
+To compute the rank of a matrix,
+
+11
+00:00:50.771 --> 00:00:55.180
+Gaussian elimination is used. It relies on the
+fact that the rank
+
+12
+00:00:55.180 --> 00:01:01.800
+does not change under the following
+transformations. First, swapping rows. Second,
+
+13
+00:01:01.800 --> 00:01:08.420
+multiplying the entries of a row by a nonzero
+number. Third,
+
+14
+00:01:08.420 --> 00:01:11.820
+deleting a row whose entries are all zero.
+Fourth,
+
+15
+00:01:11.820 --> 00:01:18.660
+dividing the entries by a nonzero number.
+Fifth, adding to the entries of any row
+
+16
+00:01:18.660 --> 00:01:23.120
+the corresponding entries of another row
+multiplied by the same number.
+
+17
+00:01:24.430 --> 00:01:31.130
+The idea of Gaussian elimination is to bring
+the matrix to row echelon form. Then
+
+18
+00:01:31.130 --> 00:01:36.330
+the rank of the matrix equals the number of
+nonzero rows of the echelon matrix.
+
+19
+00:01:37.520 --> 00:01:40.962
+Let us look at an example: we need to find the
+
+20
+00:01:40.962 --> 00:01:44.180
+rank of matrix A. To check the calculations
+
+21
+00:01:44.180 --> 00:01:49.700
+during elementary transformations, we add to
+the matrix
+
+22
+00:01:49.700 --> 00:01:56.560
+a column of check sums, each equal to the sum
+of the entries in its row.
+
+23
+00:01:56.560 --> 00:02:00.324
+We perform elementary transformations on the
+new
+
+24
+00:02:00.324 --> 00:02:03.460
+matrix. If the calculations are correct,
+
+25
+00:02:03.460 --> 00:02:08.051
+then after each transformation the sum of the
+entries in every
+
+26
+00:02:08.051 --> 00:02:12.420
+row must equal the corresponding entry of the
+extra column.
+
+27
+00:02:12.420 --> 00:02:18.860
+Swapping the first and third rows of the
+matrix, we get the following matrix.
+
+28
+00:02:18.860 --> 00:02:22.339
+Next, add to the entries of the second row the
+corresponding
+
+29
+00:02:22.339 --> 00:02:25.180
+entries of the first row multiplied by minus
+one,
+
+30
+00:02:25.180 --> 00:02:30.731
+and to the entries of the third row the
+entries
+
+31
+00:02:30.731 --> 00:02:35.810
+of the first row multiplied by minus three.
+
+32
+00:02:35.810 --> 00:02:37.790
+Checking each step, we get this.
+
+33
+00:02:39.010 --> 00:02:45.280
+Add the second row of the last matrix to the
+corresponding entries of the third row.
+
+34
+00:02:45.280 --> 00:02:51.600
+We get the following matrix. Thus the original
+matrix A
+
+35
+00:02:51.600 --> 00:02:54.952
+is equivalent to the matrix reduced to echelon
+form,
+
+36
+00:02:54.952 --> 00:02:58.240
+and the rank of the last matrix is three.
+Therefore
+
+37
+00:02:58.240 --> 00:03:02.380
+the rank of the original matrix equals the
+same number.
+
+38
+00:03:03.590 --> 00:03:08.768
+To sum up: in this lesson we learned the
+definition of
+
+39
+00:03:08.768 --> 00:03:13.370
+the rank of a matrix and how it can be
+computed.

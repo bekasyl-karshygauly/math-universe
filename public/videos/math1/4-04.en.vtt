@@ -1,0 +1,277 @@
+WEBVTT
+
+1
+00:00:00.630 --> 00:00:04.408
+In this lesson we will learn to find the
+derivative of a composite
+
+2
+00:00:04.408 --> 00:00:07.500
+function. This is a logical continuation of
+the lesson
+
+3
+00:00:07.500 --> 00:00:10.682
+where we studied simple tools for finding
+derivatives.
+
+4
+00:00:10.682 --> 00:00:14.040
+We will also get to know the rules of
+differentiation and
+
+5
+00:00:14.040 --> 00:00:18.160
+some techniques for finding derivatives.
+
+6
+00:00:19.030 --> 00:00:26.030
+A composite function is given as a chain of
+two links: y = f(u) and u
+
+7
+00:00:26.030 --> 00:00:30.700
+= u(x). The composite function can be written
+like this.
+
+8
+00:00:30.700 --> 00:00:37.430
+Each of them is a differentiable function. So,
+if the functions
+
+9
+00:00:37.430 --> 00:00:39.569
+are differentiable in their variables,
+
+10
+00:00:39.569 --> 00:00:44.130
+then y′ with respect to x equals y′ with
+respect to u times u′ with respect to x:
+
+11
+00:00:44.130 --> 00:00:50.820
+the derivative of the composite function
+
+12
+00:00:50.820 --> 00:00:54.220
+exists and is found by this formula.
+
+13
+00:00:55.250 --> 00:00:57.970
+Let us look at the first example.
+
+14
+00:00:58.100 --> 00:01:03.130
+Let us find the derivative of sin(3x − 5).
+
+15
+00:01:03.130 --> 00:01:06.872
+This function is composite. To find the
+derivative,
+
+16
+00:01:06.872 --> 00:01:09.880
+we first differentiate the sine function,
+
+17
+00:01:09.880 --> 00:01:16.460
+and then the argument of the function, 3x − 5.
+
+18
+00:01:16.460 --> 00:01:23.120
+The answer is 3·cos(3x − 5).
+
+19
+00:01:24.850 --> 00:01:28.357
+Let us look at another example: we find the
+derivative
+
+20
+00:01:28.357 --> 00:01:31.670
+of the power function (2x + 5) to the fourth
+power.
+
+21
+00:01:31.670 --> 00:01:36.590
+Since the outer function is a power function,
+
+22
+00:01:36.590 --> 00:01:43.210
+we first differentiate the power and then look
+for the derivative of 2x +
+
+23
+00:01:43.210 --> 00:01:49.730
+5. As a result we get 8·(2x + 5)
+
+24
+00:01:49.730 --> 00:01:52.070
+to the third power.
+
+25
+00:01:54.000 --> 00:02:00.080
+Now let us find the derivative of y = 1/cos x.
+
+26
+00:02:00.080 --> 00:02:09.380
+We could use the quotient rule here, but the
+chain rule is more convenient.
+
+27
+00:02:09.380 --> 00:02:15.460
+The cosine is the inner function, and raising
+to a power is the outer one.
+
+28
+00:02:15.460 --> 00:02:19.489
+By the formula for the derivative of one over
+x,
+
+29
+00:02:19.489 --> 00:02:24.860
+we get minus one over cos² x times the
+derivative of the cosine,
+
+30
+00:02:25.130 --> 00:02:32.060
+and the derivative of cos x is −sin x. The
+ratio of the sine to the cosine squared
+
+31
+00:02:32.060 --> 00:02:35.840
+gives us the final answer.
+
+32
+00:02:38.110 --> 00:02:44.900
+Now let us look at a harder example: we find
+the derivative of y = ln²(4x
+
+33
+00:02:44.900 --> 00:02:51.490
+− 3). This function is composite: here
+
+34
+00:02:51.490 --> 00:02:56.120
+the first, outer function is a second-degree
+function,
+
+35
+00:02:56.120 --> 00:03:02.880
+the second function is the natural logarithm,
+and 4x − 3
+
+36
+00:03:02.880 --> 00:03:05.398
+is the argument of the function.
+
+37
+00:03:05.398 --> 00:03:09.490
+First we take the derivative of the second
+power, or
+
+38
+00:03:09.490 --> 00:03:16.170
+the square, whose base is the natural
+logarithm of 4x − 3.
+
+39
+00:03:16.170 --> 00:03:19.848
+Then we find the derivative of the natural
+logarithm
+
+40
+00:03:19.848 --> 00:03:22.890
+itself, and after that the derivative of 4x
+
+41
+00:03:22.890 --> 00:03:25.550
+− 3.
+
+42
+00:03:25.550 --> 00:03:28.870
+As a result, we get the following answer.
+
+43
+00:03:31.300 --> 00:03:34.703
+Now let us find the derivative of the product
+of
+
+44
+00:03:34.703 --> 00:03:37.680
+the functions x² and e to the power sin x.
+
+45
+00:03:37.680 --> 00:03:44.090
+We apply the product rule: we find the
+derivative of each
+
+46
+00:03:44.090 --> 00:03:46.060
+factor.
+
+47
+00:03:46.060 --> 00:03:52.000
+Note that the exponential function here is
+composite,
+
+48
+00:03:52.000 --> 00:03:59.620
+so we also differentiate its exponent. In the
+end we get the answer:
+
+49
+00:03:59.620 --> 00:04:08.540
+2x·e^(sin x) + x²·e^(sin x)·cos x.
+
+50
+00:04:09.820 --> 00:04:14.385
+Now let us find the derivative of a quotient
+of two functions:
+
+51
+00:04:14.385 --> 00:04:18.730
+arctan 4x divided by x + 2. We need to find
+the derivative.
+
+52
+00:04:18.730 --> 00:04:25.000
+We apply the quotient rule: first
+
+53
+00:04:25.000 --> 00:04:28.304
+we find the derivatives of each part by the
+formula.
+
+54
+00:04:28.304 --> 00:04:31.480
+Since the arctangent here is a composite
+function,
+
+55
+00:04:31.480 --> 00:04:33.873
+the numerator of the fraction came out as
+four.
+
+56
+00:04:33.873 --> 00:04:38.200
+Bringing the numerator to a common denominator,
+we get the derivative of the function
+
+57
+00:04:38.200 --> 00:04:40.040
+in the following form.
+
+58
+00:04:40.940 --> 00:04:44.233
+In this lesson we studied the notion of a
+composite function and
+
+59
+00:04:44.233 --> 00:04:47.320
+learned how to identify it in terms of
+elementary functions,
+
+60
+00:04:47.320 --> 00:04:54.880
+and we also worked through the related
+examples in detail.

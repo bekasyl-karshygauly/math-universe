@@ -1,0 +1,383 @@
+WEBVTT
+
+1
+00:00:01.770 --> 00:00:08.120
+There are many problems that differ in
+meaning, and yet
+
+2
+00:00:08.120 --> 00:00:13.900
+there are mathematical models that let us
+solve them in the same way.
+
+3
+00:00:13.900 --> 00:00:20.720
+For example, there is a bank account that
+changes every few days,
+
+4
+00:00:20.720 --> 00:00:27.820
+and its balance keeps growing. You need to
+find how fast the account grows.
+
+5
+00:00:27.820 --> 00:00:30.340
+If the position of a car is known
+
+6
+00:00:30.340 --> 00:00:37.140
+and it moves along a straight line, we need to
+find its speed at a certain moment t.
+
+7
+00:00:37.140 --> 00:00:43.720
+We are given the graph of a function, and
+
+8
+00:00:43.720 --> 00:00:46.508
+tangent lines are drawn to it at some points;
+
+9
+00:00:46.508 --> 00:00:50.660
+we need to find the tangent of the slope angle
+of the tangent line.
+
+10
+00:00:50.920 --> 00:00:57.680
+Our problems are stated quite differently, and
+it seems they must be solved
+
+11
+00:00:57.680 --> 00:00:59.840
+in completely different ways, but
+mathematicians
+
+12
+00:00:59.840 --> 00:01:07.060
+figured out exactly how to solve all of them
+using the derivative.
+
+13
+00:01:08.820 --> 00:01:15.780
+Let a function y = f(x) be given in some
+region, together with a point M
+
+14
+00:01:15.780 --> 00:01:22.460
+in its domain. We give the argument an
+increment Δx and
+
+15
+00:01:22.460 --> 00:01:28.980
+find the corresponding value of the function
+f(x + Δx). We find Δy,
+
+16
+00:01:28.980 --> 00:01:32.260
+the increment of the function.
+
+17
+00:01:32.260 --> 00:01:36.820
+We find the ratio of the increment of the
+function to the increment of the argument.
+
+18
+00:01:38.800 --> 00:01:42.219
+The limit of the ratio of the increment of the
+function to
+
+19
+00:01:42.219 --> 00:01:45.580
+the increment of the argument as the latter
+tends to zero
+
+20
+00:01:45.580 --> 00:01:53.580
+is called the derivative of the function and
+is denoted y′ or dy/dx.
+
+21
+00:01:57.210 --> 00:02:00.714
+Finding a derivative is called
+differentiation.
+
+22
+00:02:00.714 --> 00:02:03.770
+Geometrically, the derivative of y = f(x)
+
+23
+00:02:03.770 --> 00:02:10.510
+is the slope of the tangent to the graph of
+this function.
+
+24
+00:02:10.570 --> 00:02:12.804
+From the point of view of mechanics,
+
+25
+00:02:12.804 --> 00:02:16.900
+the derivative is the speed of straight-line
+motion at any moment.
+
+26
+00:02:16.900 --> 00:02:20.603
+In general, the derivative of any function
+expresses
+
+27
+00:02:20.603 --> 00:02:23.380
+the rate of change of that function. If
+
+28
+00:02:23.380 --> 00:02:25.860
+the function itself describes some process,
+
+29
+00:02:25.860 --> 00:02:31.100
+its derivative is the rate of that process.
+
+30
+00:02:33.560 --> 00:02:37.184
+Now let us state the basic rules of
+differentiation.
+
+31
+00:02:37.184 --> 00:02:40.250
+Let c be a constant, and let the functions u
+
+32
+00:02:40.250 --> 00:02:44.250
+and v have derivatives.
+
+33
+00:02:44.340 --> 00:02:47.767
+First, the derivative of a constant is zero.
+
+34
+00:02:47.767 --> 00:02:50.960
+Second, the derivative of the independent
+
+35
+00:02:50.960 --> 00:02:57.690
+variable x equals one. Third, the derivative
+of a sum
+
+36
+00:02:57.690 --> 00:03:04.550
+or difference of functions equals the sum or
+difference of their derivatives.
+
+37
+00:03:04.550 --> 00:03:12.050
+Fourth, a constant factor can be taken outside
+the derivative sign.
+
+38
+00:03:12.940 --> 00:03:16.740
+Fifth, the derivative of the product of two
+functions
+
+39
+00:03:16.740 --> 00:03:23.580
+equals the derivative of the first function
+times the second, plus the first
+
+40
+00:03:23.580 --> 00:03:28.640
+function times the derivative of the second.
+
+41
+00:03:29.320 --> 00:03:35.810
+Sixth, the derivative of a quotient of two
+functions: multiply u′ by v,
+
+42
+00:03:35.810 --> 00:03:42.770
+subtract u times v′, and divide this
+difference by v².
+
+43
+00:03:42.930 --> 00:03:46.154
+The derivative of a fraction equals the
+difference between
+
+44
+00:03:46.154 --> 00:03:49.100
+the derivative of the numerator times the
+denominator
+
+45
+00:03:49.100 --> 00:03:55.260
+and the numerator times the derivative of the
+denominator,
+
+46
+00:03:55.260 --> 00:04:00.040
+divided by the square of the denominator.
+
+47
+00:04:00.840 --> 00:04:03.017
+Based on the definition of the derivative,
+
+48
+00:04:03.017 --> 00:04:06.800
+a special table of derivatives of elementary
+functions has been compiled.
+
+49
+00:04:06.800 --> 00:04:12.720
+With it we can find the derivatives of power,
+logarithmic,
+
+50
+00:04:12.720 --> 00:04:18.420
+trigonometric and hyperbolic functions.
+
+51
+00:04:19.640 --> 00:04:22.793
+Let us look at a differentiation rule in an
+example.
+
+52
+00:04:22.793 --> 00:04:25.340
+Note that the fraction contains only power
+
+53
+00:04:25.340 --> 00:04:32.150
+functions, so we transform it. For this, let
+us recall from school
+
+54
+00:04:32.150 --> 00:04:38.760
+mathematics the rule for operations with
+powers: if
+
+55
+00:04:38.760 --> 00:04:43.279
+powers have the same base, their exponents can
+
+56
+00:04:43.279 --> 00:04:47.700
+be added, subtracted, divided and multiplied.
+
+57
+00:04:48.500 --> 00:04:51.620
+Let us transform our fraction.
+
+58
+00:04:53.000 --> 00:04:59.960
+First we write the cube root of x as the power
+one third, and the square
+
+59
+00:04:59.960 --> 00:05:03.693
+root as one half. Next we split the fraction
+into
+
+60
+00:05:03.693 --> 00:05:06.740
+two fractions with the same denominator.
+
+61
+00:05:06.740 --> 00:05:13.480
+Now we transform it and get the difference of
+two power functions.
+
+62
+00:05:13.480 --> 00:05:17.960
+Now let us find the derivative of the
+resulting expression.
+
+63
+00:05:18.980 --> 00:05:22.524
+Let us look at another example of finding a
+derivative:
+
+64
+00:05:22.524 --> 00:05:25.230
+y equals x to the seventh power times arc-
+
+65
+00:05:25.230 --> 00:05:28.625
+tangent of x. We find the derivative of the
+product
+
+66
+00:05:28.625 --> 00:05:31.820
+of two functions. By the rule for the
+derivative
+
+67
+00:05:31.820 --> 00:05:35.024
+of a product, we first find the derivative of
+
+68
+00:05:35.024 --> 00:05:37.800
+the first function, then of the second,
+
+69
+00:05:37.800 --> 00:05:45.620
+taking them from the table of derivatives. The
+final answer is written like this.
+
+70
+00:05:50.100 --> 00:05:54.280
+Let us look at one more example of finding the
+derivative of a fraction:
+
+71
+00:05:54.280 --> 00:06:00.400
+y equals the natural logarithm of x divided by
+x². We have rules for
+
+72
+00:06:00.400 --> 00:06:06.710
+differentiating fractions. Using the table of
+derivatives for power and logarithmic
+
+73
+00:06:06.710 --> 00:06:13.350
+functions, we get a fraction in which the x's
+cancel,
+
+74
+00:06:13.350 --> 00:06:20.660
+and we get the following expression. We take x
+outside the brackets.
+
+75
+00:06:21.300 --> 00:06:26.160
+We cancel x again and get the answer.
+
+76
+00:06:27.700 --> 00:06:31.049
+Let us sum up the lesson. To find a
+derivative,
+
+77
+00:06:31.049 --> 00:06:33.970
+break the expression under the prime sign
+
+78
+00:06:33.970 --> 00:06:40.830
+into elementary functions and determine by
+which operations these functions
+
+79
+00:06:40.830 --> 00:06:47.580
+are linked: product, sum or quotient. Then
+
+80
+00:06:47.580 --> 00:06:50.813
+we find the derivatives of the elementary
+functions in the table
+
+81
+00:06:50.813 --> 00:06:53.440
+of derivatives, and the formulas for the
+derivatives
+
+82
+00:06:53.440 --> 00:07:00.600
+of a product, sum and quotient in the rules of
+differentiation.

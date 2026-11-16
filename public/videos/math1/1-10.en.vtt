@@ -1,0 +1,236 @@
+WEBVTT
+
+1
+00:00:00.660 --> 00:00:06.840
+In previous lessons we looked at nonhomogeneous
+systems of linear equations. In them
+
+2
+00:00:06.840 --> 00:00:13.640
+the constant terms usually stand on the right,
+and at least one of them is nonzero.
+
+3
+00:00:13.640 --> 00:00:19.360
+In this lesson we will look at solving
+homogeneous systems of linear equations.
+
+4
+00:00:20.960 --> 00:00:27.580
+If all the constant terms are zero, the system
+of equations is called homogeneous.
+
+5
+00:00:27.580 --> 00:00:32.760
+The Kronecker–Capelli theorem implies that it
+is always consistent.
+
+6
+00:00:32.760 --> 00:00:37.090
+If the rank of the matrix equals the number of
+unknowns,
+
+7
+00:00:37.090 --> 00:00:43.390
+the system has the zero solution, also called
+the trivial solution,
+
+8
+00:00:43.390 --> 00:00:49.810
+that is, all the variables are zero. If the
+rank of the augmented matrix
+
+9
+00:00:49.810 --> 00:00:56.270
+is less than the number of unknowns n, the
+system has infinitely many solutions.
+
+10
+00:00:58.260 --> 00:01:03.520
+Let us look at an example: take a homogeneous
+system of linear equations.
+
+11
+00:01:04.060 --> 00:01:07.355
+We form the augmented matrix and use
+elementary
+
+12
+00:01:07.355 --> 00:01:10.440
+transformations to bring it to echelon form.
+
+13
+00:01:10.440 --> 00:01:16.600
+First we swap the first and second rows.
+
+14
+00:01:16.790 --> 00:01:20.463
+We multiply the entries of the first row by
+minus two
+
+15
+00:01:20.463 --> 00:01:23.650
+and add them to the entries of the second row.
+
+16
+00:01:24.030 --> 00:01:27.976
+Next step: we multiply the entries of the
+first row by minus
+
+17
+00:01:27.976 --> 00:01:31.330
+three and add them to the entries of the third
+row.
+
+18
+00:01:31.880 --> 00:01:36.490
+Now we multiply the entries of the second row
+by minus one
+
+19
+00:01:36.490 --> 00:01:41.020
+and add them to the entries of the third row.
+As a result
+
+20
+00:01:41.020 --> 00:01:44.732
+of the elementary transformations, the rank of
+the system matrix
+
+21
+00:01:44.732 --> 00:01:47.980
+turned out equal to the number of unknowns, in
+this case
+
+22
+00:01:47.980 --> 00:01:54.960
+three. So our system has the zero solution:
+x₁, x₂
+
+23
+00:01:54.960 --> 00:01:57.920
+and x₃ equal zero.
+
+24
+00:02:01.350 --> 00:02:07.620
+Let us look at one more example: take a
+homogeneous system of linear equations.
+
+25
+00:02:07.620 --> 00:02:14.210
+We form the matrix A and again apply
+elementary transformations.
+
+26
+00:02:14.210 --> 00:02:17.920
+We multiply the entries of the first row by
+minus two
+
+27
+00:02:17.920 --> 00:02:21.140
+and add them to the entries of the second row.
+
+28
+00:02:21.140 --> 00:02:24.567
+Next step: we multiply the entries of the
+first row by minus
+
+29
+00:02:24.567 --> 00:02:27.480
+three and add them to the entries of the third
+row.
+
+30
+00:02:27.480 --> 00:02:34.100
+We apply the next elementary transformation to
+the resulting matrix. Now
+
+31
+00:02:34.100 --> 00:02:36.792
+we multiply the entries of the second row by
+minus
+
+32
+00:02:36.792 --> 00:02:39.430
+one and add them to the entries of the third
+row.
+
+33
+00:02:39.430 --> 00:02:42.973
+The rank of the matrix is less than the number
+
+34
+00:02:42.973 --> 00:02:46.130
+of unknowns, so the system has infinitely
+
+35
+00:02:46.130 --> 00:02:47.930
+many solutions.
+
+36
+00:02:49.720 --> 00:02:53.064
+Let us find the form of the infinite set of
+solutions.
+
+37
+00:02:53.064 --> 00:02:56.470
+To do this, we continue the elementary
+transformations.
+
+38
+00:02:56.470 --> 00:02:59.609
+We divide the entries of the second row by
+five,
+
+39
+00:02:59.609 --> 00:03:03.010
+then multiply the entries of the second row by
+minus
+
+40
+00:03:03.010 --> 00:03:07.072
+one and add them to the corresponding entries
+of
+
+41
+00:03:07.072 --> 00:03:10.710
+the first row. We get the following matrix.
+
+42
+00:03:12.410 --> 00:03:14.290
+The last transformed matrix
+
+43
+00:03:14.290 --> 00:03:18.021
+corresponds to the following system of
+equations,
+
+44
+00:03:18.021 --> 00:03:20.990
+where C is a constant that can take any
+
+45
+00:03:20.990 --> 00:03:24.819
+value. Let us write the transformed system of
+equations:
+
+46
+00:03:24.819 --> 00:03:27.760
+to do this, we express the variables x₁ and
+
+47
+00:03:27.760 --> 00:03:36.030
+x₂ in terms of x₃. So the general solution of
+the system has the following form.
+
+48
+00:03:37.820 --> 00:03:40.701
+To sum up: in this lesson we learned what sets
+
+49
+00:03:40.701 --> 00:03:43.520
+homogeneous systems of linear equations apart
+
+50
+00:03:43.520 --> 00:03:49.440
+and how such systems can be solved.

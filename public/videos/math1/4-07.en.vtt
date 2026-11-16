@@ -1,0 +1,361 @@
+WEBVTT
+
+1
+00:00:00.820 --> 00:00:06.660
+In this lesson we will look at the notion of
+the differential of a function,
+
+2
+00:00:06.660 --> 00:00:13.360
+see how to use the differential for
+approximate calculations, and also
+
+3
+00:00:13.360 --> 00:00:15.780
+study higher-order differentials.
+
+4
+00:00:16.900 --> 00:00:23.830
+The differential of a function y = f(x) at a
+point x
+
+5
+00:00:23.830 --> 00:00:26.585
+is the principal part of its increment,
+
+6
+00:00:26.585 --> 00:00:30.400
+equal to the product of the derivative of the
+function
+
+7
+00:00:30.400 --> 00:00:35.557
+and the increment of the independent variable,
+
+8
+00:00:35.557 --> 00:00:39.930
+or argument; it is written dy or df(x).
+
+9
+00:00:40.700 --> 00:00:47.170
+The differential dy is also called the
+first-order differential. In other
+
+10
+00:00:47.170 --> 00:00:52.870
+words, the differential of a function equals
+the product of its derivative
+
+11
+00:00:52.870 --> 00:00:56.630
+and the differential of the independent
+variable.
+
+12
+00:00:57.460 --> 00:01:02.532
+The main theorems about differentials can be
+obtained from
+
+13
+00:01:02.532 --> 00:01:07.778
+the link between the differential and the
+derivative and the
+
+14
+00:01:07.778 --> 00:01:12.500
+corresponding theorems about derivatives. For
+example,
+
+15
+00:01:12.500 --> 00:01:15.211
+since the derivative of a constant function is
+zero,
+
+16
+00:01:15.211 --> 00:01:18.340
+the differential of a constant is zero too.
+The differential
+
+17
+00:01:18.340 --> 00:01:24.860
+of the sum, product and quotient of two
+differentiable functions
+
+18
+00:01:24.860 --> 00:01:31.320
+is given by the following formulas. As you can
+see, the differential dy
+
+19
+00:01:31.320 --> 00:01:35.860
+differs from the derivative only by the factor
+dx.
+
+20
+00:01:35.860 --> 00:01:41.650
+For example, d(sin x) = cos x dx
+
+21
+00:01:41.650 --> 00:01:48.850
+or d(ln x) = dx/x.
+
+22
+00:01:49.140 --> 00:01:54.300
+Let us explain with an example: for the
+function y = x² +
+
+23
+00:01:54.300 --> 00:02:00.750
+3x − 2 we find the differential. The
+differential of a function equals
+
+24
+00:02:00.750 --> 00:02:03.739
+the derivative of the function times dx.
+
+25
+00:02:03.739 --> 00:02:07.400
+We find the derivative of the given function,
+and
+
+26
+00:02:07.400 --> 00:02:11.180
+as a result we get the following differential.
+
+27
+00:02:13.100 --> 00:02:16.829
+Let us clarify the geometric meaning of the
+differential.
+
+28
+00:02:16.829 --> 00:02:19.970
+Let a function y = f(x) be given in some
+region,
+
+29
+00:02:19.970 --> 00:02:26.650
+and let a point M be given in its domain. If
+through the point M
+
+30
+00:02:26.650 --> 00:02:29.269
+we draw a tangent to the graph of the
+function,
+
+31
+00:02:29.269 --> 00:02:32.890
+let us consider the ordinate of this tangent
+at the point x + Δx.
+
+32
+00:02:32.890 --> 00:02:39.680
+In the picture, the segment AM equals Δx,
+
+33
+00:02:39.680 --> 00:02:46.220
+and AN equals Δx. From the right triangle MAB
+
+34
+00:02:46.220 --> 00:02:52.480
+we get the value of the tangent of the angle
+α: it is the ratio of the opposite
+
+35
+00:02:52.480 --> 00:02:59.840
+leg AB to the adjacent leg Δx. Then
+
+36
+00:03:00.250 --> 00:03:06.570
+AB = tan α · Δx. Since tan α is
+
+37
+00:03:06.570 --> 00:03:13.430
+the derivative of the function, AB equals the
+derivative of the function times Δx.
+
+38
+00:03:13.430 --> 00:03:20.410
+Comparing this result with the formula, we
+find that dy equals
+
+39
+00:03:20.410 --> 00:03:27.230
+AB. So the differential of a function at a
+point x
+
+40
+00:03:27.230 --> 00:03:32.041
+equals the corresponding increment of the
+ordinate of the tangent
+
+41
+00:03:32.041 --> 00:03:35.890
+drawn to the graph when x receives the
+increment Δx.
+
+42
+00:03:35.890 --> 00:03:41.310
+This is the geometric meaning of the
+differential.
+
+43
+00:03:42.110 --> 00:03:48.000
+Now let us see how to find approximate values
+of a function using the differential.
+
+44
+00:03:48.000 --> 00:03:54.560
+The basic, simplest formula for approximating
+the value of a function can be written
+
+45
+00:03:54.560 --> 00:03:59.200
+as follows: Δy is approximately equal to dy.
+
+46
+00:03:59.200 --> 00:04:04.977
+or f(x) is approximately f(x₀) + f′(x₀)·Δx.
+
+47
+00:04:04.977 --> 00:04:12.500
+This formula is used to approximate values of
+functions.
+
+48
+00:04:12.500 --> 00:04:20.202
+We need to find an approximate value of the
+square
+
+49
+00:04:20.202 --> 00:04:26.980
+root of fifty. Consider the function y = √x.
+
+50
+00:04:26.980 --> 00:04:35.460
+We need the value of this function at x = 50.
+Let us take x₀ = 49.
+
+51
+00:04:35.460 --> 00:04:38.049
+We find the value of the derivative,
+
+52
+00:04:38.049 --> 00:04:41.860
+and then the value of the derivative at the
+point x₀.
+
+53
+00:04:41.860 --> 00:04:48.740
+We substitute the quantities we found into the
+formula: the square
+
+54
+00:04:48.740 --> 00:04:54.160
+root of fifty is approximately seven point
+zero seven one.
+
+55
+00:04:55.820 --> 00:04:59.845
+Differentials can be not only of the first
+order
+
+56
+00:04:59.845 --> 00:05:03.200
+but also of the second, third and so on.
+
+57
+00:05:03.360 --> 00:05:09.350
+Let y = f(x) be a differentiable function,
+
+58
+00:05:09.350 --> 00:05:14.860
+and let the argument x be an independent
+variable. Then its first differential
+
+59
+00:05:14.860 --> 00:05:19.540
+is also a function whose differential can be
+found.
+
+60
+00:05:19.800 --> 00:05:23.628
+The differential of the differential of a
+function
+
+61
+00:05:23.628 --> 00:05:26.460
+is called its second differential, or
+
+62
+00:05:26.460 --> 00:05:33.060
+the second-order differential, and is denoted
+d²y or d²
+
+63
+00:05:33.060 --> 00:05:39.840
+f(x). When differentiating, we treat dx as
+constant,
+
+64
+00:05:39.840 --> 00:05:46.830
+that is, d²y = f″(x)·dx².
+
+65
+00:05:46.830 --> 00:05:52.960
+The third-order differential is defined and
+found in the same way. In general,
+
+66
+00:05:52.960 --> 00:06:00.340
+the nth-order differential is the differential
+of the differential of order n − 1.
+
+67
+00:06:02.350 --> 00:06:05.762
+Let us find the third-order differential of
+this
+
+68
+00:06:05.762 --> 00:06:08.960
+function. First we find the first derivative:
+
+69
+00:06:08.960 --> 00:06:15.800
+we get the expression 12x² + 20. Now we again
+
+70
+00:06:15.800 --> 00:06:19.553
+take the derivative, this time of the second
+order:
+
+71
+00:06:19.553 --> 00:06:22.570
+we get 24x. Finding the third derivative,
+
+72
+00:06:22.570 --> 00:06:24.670
+we get that its value is twenty-four.
+
+73
+00:06:24.670 --> 00:06:31.570
+Now, by the formula for the third-order
+differential, d³y
+
+74
+00:06:31.570 --> 00:06:43.070
+= 24·dx³; this is the answer.
+
+75
+00:06:44.580 --> 00:06:51.330
+In this lesson we looked at another important
+notion of mathematical analysis:
+
+76
+00:06:51.330 --> 00:06:57.300
+the differential of a function and
+higher-order differentials, as well as
+
+77
+00:06:57.300 --> 00:07:03.340
+the technique of approximate calculation using
+differentials.

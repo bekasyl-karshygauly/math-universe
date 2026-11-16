@@ -1,0 +1,215 @@
+WEBVTT
+
+1
+00:00:00.250 --> 00:00:05.050
+In this lesson we will look at another method
+for solving systems
+
+2
+00:00:05.050 --> 00:00:08.890
+of linear algebraic equations: Gaussian
+elimination.
+
+3
+00:00:10.070 --> 00:00:16.570
+Let a system of m linear algebraic equations
+in n unknowns be given. Whether
+
+4
+00:00:16.570 --> 00:00:19.877
+the number of equations equals the number of
+unknowns
+
+5
+00:00:19.877 --> 00:00:22.810
+or not, to solve the system of linear
+equations
+
+6
+00:00:22.810 --> 00:00:26.470
+we can use Gaussian elimination.
+
+7
+00:00:28.200 --> 00:00:32.240
+Let us write the augmented matrix of the
+system.
+
+8
+00:00:34.220 --> 00:00:40.900
+Gaussian elimination has two stages. The first
+stage, the forward pass: at this
+
+9
+00:00:40.900 --> 00:00:44.324
+stage we bring the augmented matrix to echelon
+form.
+
+10
+00:00:44.324 --> 00:00:47.550
+At the second stage we write the resulting
+matrix
+
+11
+00:00:47.550 --> 00:00:54.260
+as a system and solve it by eliminating
+variables: starting from the last variable,
+
+12
+00:00:54.260 --> 00:00:59.900
+we find all the other variables. This is
+called the backward pass.
+
+13
+00:01:01.660 --> 00:01:06.812
+Let us look at an example: we need to solve
+the system by Gaussian
+
+14
+00:01:06.812 --> 00:01:11.340
+elimination. Let us write the augmented
+matrix. First, a₁₁
+
+15
+00:01:11.340 --> 00:01:14.423
+must not be zero; this is a necessary
+condition.
+
+16
+00:01:14.423 --> 00:01:17.570
+But to make the calculations easier, it is
+better
+
+17
+00:01:17.570 --> 00:01:26.070
+for a₁₁ to equal one, so we swap the first and
+fourth rows.
+
+18
+00:01:27.730 --> 00:01:31.616
+We multiply the entries of the first row by
+minus
+
+19
+00:01:31.616 --> 00:01:34.630
+five, three and minus two and add them
+
+20
+00:01:34.630 --> 00:01:39.555
+to the entries of the second, third and fourth
+rows respectively.
+
+21
+00:01:39.555 --> 00:01:43.040
+Then the entries below a₁₁ in the first column
+
+22
+00:01:43.040 --> 00:01:49.780
+become zero. At the second step, for the new
+matrix,
+
+23
+00:01:49.780 --> 00:01:56.540
+first, a₂₂ must not be zero; this is a
+necessary condition. But
+
+24
+00:01:56.540 --> 00:02:03.300
+to make the calculations easier, it is better
+for a₂₂ to equal one or minus one,
+
+25
+00:02:03.300 --> 00:02:06.939
+so we swap the second and third rows.
+
+26
+00:02:06.939 --> 00:02:13.430
+Now we multiply the entries of the second row
+by four and by three
+
+27
+00:02:13.430 --> 00:02:19.720
+and add them to the entries of the third and
+fourth rows respectively.
+
+28
+00:02:19.720 --> 00:02:27.860
+Then the entries below a₂₂ in the second
+column become zero.
+
+29
+00:02:29.430 --> 00:02:33.067
+In the resulting matrix a₃₃ equals twenty-six,
+
+30
+00:02:33.067 --> 00:02:36.150
+so we multiply the entries of the third
+
+31
+00:02:36.150 --> 00:02:40.692
+row by minus twenty-four and the entries of
+the fourth row by
+
+32
+00:02:40.692 --> 00:02:45.010
+twenty-six, and add them to the entries of the
+fourth row.
+
+33
+00:02:45.010 --> 00:02:52.990
+This gives an echelon matrix. The
+corresponding system looks like this.
+
+34
+00:02:54.820 --> 00:03:01.580
+From the last equation, x₄ equals one. From
+the third equation we find x₃; it
+
+35
+00:03:01.580 --> 00:03:08.270
+equals zero. From the second equation we find
+x₂; it equals seven. From the first
+
+36
+00:03:08.270 --> 00:03:11.850
+equation we found x₁; it equals five.
+
+37
+00:03:11.850 --> 00:03:20.060
+So the unknowns equal five, seven, zero and
+one.
+
+38
+00:03:22.460 --> 00:03:26.025
+So, to sum up: Gaussian elimination is a very
+efficient method
+
+39
+00:03:26.025 --> 00:03:28.900
+for solving systems of linear algebraic
+equations.
+
+40
+00:03:28.900 --> 00:03:31.018
+Compared with other methods,
+
+41
+00:03:31.018 --> 00:03:35.860
+it has a wide range of use: there is no need
+to study the system
+
+42
+00:03:35.860 --> 00:03:37.974
+for consistency beforehand.
+
+43
+00:03:37.974 --> 00:03:42.750
+Gaussian elimination works when the main
+determinant is zero,
+
+44
+00:03:42.750 --> 00:03:46.842
+when the number of unknowns matches the number
+
+45
+00:03:46.842 --> 00:03:50.490
+of equations, and when they do not match.
