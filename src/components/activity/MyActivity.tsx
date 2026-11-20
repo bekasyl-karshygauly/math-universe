@@ -68,7 +68,9 @@ export function MyActivity({ lang, signedIn }: { lang: Language; signedIn: boole
   const [data, setData] = useState<StudyTime>();
   const [failed, setFailed] = useState(false);
   const [revision, setRevision] = useState(0);
-  const monday = useMemo(() => weekStart(offset), [offset]);
+  // Monday of the current week; it moves forward when a new week starts while the page is open.
+  const [anchor, setAnchor] = useState(() => weekStart(0));
+  const monday = useMemo(() => addDays(anchor, offset * 7), [anchor, offset]);
 
   useEffect(() => {
     const request = new AbortController();
@@ -77,14 +79,19 @@ export function MyActivity({ lang, signedIn }: { lang: Language; signedIn: boole
     setFailed(false);
     function load(first: boolean) {
       getMyStudyTime(isoDate(monday), request.signal).then(result => {
-        if (!request.signal.aborted) setData(result);
+        if (request.signal.aborted) return;
+        setData(result);
+        setFailed(false);
       }).catch(() => {
         // A failed background refresh keeps the figures already shown.
         if (!request.signal.aborted && first) setFailed(true);
       });
     }
     function onVisible() {
-      if (document.visibilityState === 'visible') load(false);
+      if (document.visibilityState !== 'visible') return;
+      const current = weekStart(0);
+      if (isoDate(current) !== isoDate(anchor)) setAnchor(current);
+      else load(false);
     }
     load(true);
     if (offset === 0) {
@@ -96,7 +103,7 @@ export function MyActivity({ lang, signedIn }: { lang: Language; signedIn: boole
       window.clearInterval(timer);
       document.removeEventListener('visibilitychange', onVisible);
     };
-  }, [monday, offset, revision]);
+  }, [anchor, monday, offset, revision]);
 
   const range = `${shortDate(lang, monday)} – ${shortDate(lang, addDays(monday, 6))}`;
 
@@ -152,7 +159,7 @@ function Report({ lang, data, monday, isCurrent }: { lang: Language; data: Study
     return (
       <div className="empty-state">
         <p>{t.act_empty}</p>
-        {data.prev_total > 0 && <p>{fmt(t.act_prev_week_value, { t: minutesText(lang, data.prev_study) })}</p>}
+        {data.prev_study > 0 && <p>{fmt(t.act_prev_week_value, { t: minutesText(lang, data.prev_study) })}</p>}
       </div>
     );
   }

@@ -82,6 +82,8 @@ const DEV_KEY = 'mathuni_activity_dev';
 const PING_MS = 30_000;
 /** Without input for this long a visible tab counts as idle, unless a video plays. */
 const IDLE_MS = 2 * 60_000;
+/** A stalled heartbeat is abandoned so it cannot block the next ones. */
+const PING_TIMEOUT_MS = 15_000;
 
 /**
  * Local previews do not send activity, so development does not change real statistics.
@@ -150,6 +152,7 @@ export function useActivityTracker(loading: boolean, userId: string | undefined,
     let lastInput = Date.now();
     let pending = false;
     let queued = false;
+    let disposed = false;
     let timer: number | undefined;
 
     function videoPlaying() {
@@ -157,12 +160,14 @@ export function useActivityTracker(loading: boolean, userId: string | undefined,
     }
 
     async function ping() {
-      if (document.visibilityState !== 'visible') return;
+      if (disposed || document.visibilityState !== 'visible') return;
       if (pending) {
         queued = true;
         return;
       }
       pending = true;
+      const request = new AbortController();
+      const timeout = window.setTimeout(() => request.abort(), PING_TIMEOUT_MS);
       try {
         const { data, error } = await supabase.rpc('activity_ping', {
           p_guest: guest,
@@ -171,13 +176,15 @@ export function useActivityTracker(loading: boolean, userId: string | undefined,
           p_lesson: studyTarget?.lesson ?? null,
           p_active: Date.now() - lastInput < IDLE_MS || videoPlaying(),
           p_visible: true,
-        });
-        if (!error && data) setOnline(data as OnlineSnapshot);
+        }).abortSignal(request.signal);
+        // After sign-out or navigation an older answer must not replace the current list.
+        if (!disposed && !error && data) setOnline(data as OnlineSnapshot);
       } catch {
         // Activity is optional; learning continues offline.
       } finally {
+        window.clearTimeout(timeout);
         pending = false;
-        if (queued) {
+        if (queued && !disposed) {
           queued = false;
           void ping();
         }
@@ -210,6 +217,7 @@ export function useActivityTracker(loading: boolean, userId: string | undefined,
     schedule(screen === 'home' ? 0 : 1500);
 
     return () => {
+      disposed = true;
       window.clearTimeout(timer);
       inputs.forEach(name => window.removeEventListener(name, onInput, { capture: true }));
       document.removeEventListener('visibilitychange', onVisibility);
@@ -293,4 +301,6 @@ export async function setOnlineVisibility(enabled: boolean) {
   const { error } = await supabase.rpc('set_online_visibility', { p_enabled: enabled });
   if (error) throw error;
   if (online) setOnline({ ...online, show_online: enabled });
+  // The server decides who is listed, so the list is fetched again.
+  await refreshOnline().catch(() => {});
 }
