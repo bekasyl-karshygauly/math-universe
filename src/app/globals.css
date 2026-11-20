@@ -3160,3 +3160,16 @@ html[data-motion="reduce"] ::after {
 html[data-motion="reduce"] {
   scroll-behavior: auto;
 }
+
+/* Live online count in the header */
+.online-badge {
+  border: 1px solid var(--border);
+}
+
+.online-badge__dot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-emerald);
+}

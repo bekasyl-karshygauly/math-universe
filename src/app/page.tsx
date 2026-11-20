@@ -11,7 +11,7 @@ import { fmt, htmlLang } from '../data/i18n-lab';
 import { COURSES } from '../data/courses';
 import { MATH1_COURSE_ID, MATH1_LECTURE_COUNT } from '../data/math1/constants';
 import { useAuth } from '../lib/auth-context';
-import { useVisitActivity } from '../lib/activity';
+import { useActivityTracker } from '../lib/activity';
 
 import { LenisProvider, scrollToTop } from '../components/LenisProvider';
 import { Header } from '../components/Header';
@@ -47,11 +47,11 @@ const AuthModal = dynamic(() => import('../components/AuthModal').then((m) => m.
 const DashboardModal = dynamic(() => import('../components/DashboardModal').then((m) => m.DashboardModal), { ssr: false });
 const AIMathChat = dynamic(() => import('../components/AIMathChat').then((m) => m.AIMathChat), { ssr: false });
 const StepSolver = dynamic(() => import('../components/StepSolver').then((m) => m.StepSolver), { ssr: false });
+const OnlineDialog = dynamic(() => import('../components/activity/OnlineDialog').then((m) => m.OnlineDialog), { ssr: false });
 const AchievementToast = dynamic(() => import('../components/AchievementToast').then((m) => m.AchievementToast), { ssr: false });
 
 export default function HomePage() {
   const { user, loading, completeLesson, mergeLessonProgress, achievementQueue, dismissAchievement } = useAuth();
-  useVisitActivity(loading, user?.id);
   const reduceMotion = useReduceMotion();
   const [state, setState] = useState<AppState>({
     lang: 'ru',
@@ -74,6 +74,8 @@ export default function HomePage() {
   const [showDashboard, setShowDashboard] = useState(false);
   const [showAIChat, setShowAIChat] = useState(false);
   const [showSolver, setShowSolver] = useState(false);
+  const [showOnline, setShowOnline] = useState(false);
+  useActivityTracker(loading, user?.id, currentPage === 'courses' && selectedCourseId ? 'lesson' : currentPage);
 
   // Load state on mount
   useEffect(() => {
@@ -244,6 +246,7 @@ export default function HomePage() {
           onOpenProfile={() => setShowDashboard(true)}
           onOpenAIChat={() => setShowAIChat(true)}
           onOpenSolver={() => setShowSolver(true)}
+          onOpenOnline={() => setShowOnline(true)}
           onHome={() => goTo('home')}
         />
 
@@ -442,6 +445,17 @@ export default function HomePage() {
           {showDashboard && <DashboardModal key="dashboard" onClose={() => setShowDashboard(false)} lang={state.lang} progress={state.progress} />}
           {showAIChat && <AIMathChat key="chat" onClose={() => setShowAIChat(false)} lang={state.lang} />}
           {showSolver && <StepSolver key="solver" onClose={() => setShowSolver(false)} lang={state.lang} />}
+          {showOnline && (
+            <OnlineDialog
+              key="online"
+              lang={state.lang}
+              onClose={() => setShowOnline(false)}
+              onSignIn={() => {
+                setShowOnline(false);
+                setShowAuth(true);
+              }}
+            />
+          )}
         </AnimatePresence>
 
         <AnimatePresence>

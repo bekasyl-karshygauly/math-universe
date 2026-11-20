@@ -2,14 +2,19 @@
 
 import { useEffect, useState } from 'react';
 import { BookOpen, Monitor, Users } from 'lucide-react';
-import { COURSES } from '../data/courses';
 import { I18N } from '../data/i18n';
 import { htmlLang } from '../data/i18n-lab';
-import { MATH1_META, MATH1_SYLLABUS, MATH1_COURSE_ID } from '../data/math1';
-import { getCommunityActivity, setTopicSharing, type ActivityLeader, type CommunityActivity } from '../lib/activity';
+import {
+  getCommunityActivity, getTimeRanking, setTopicSharing, useOnlineSnapshot,
+  type CommunityActivity, type TimeRanking,
+} from '../lib/activity';
 import { useAuth } from '../lib/auth-context';
 import type { Language } from '../lib/storage';
 import { PageHeader } from './ui/PageHeader';
+import { SegmentedTabs } from './ui/SegmentedTabs';
+import { MyActivity } from './activity/MyActivity';
+import { OnlineContent } from './activity/OnlineDialog';
+import { minutesText, topicTitle } from './activity/format';
 import styles from './activity.module.css';
 
 const metrics = [
@@ -18,25 +23,113 @@ const metrics = [
   ['learners', 'activity_learners', BookOpen],
 ] as const;
 
-function topicTitle({ course_id, lesson_index }: ActivityLeader, lang: Language) {
-  if (lesson_index === null) return null;
-  if (course_id === MATH1_COURSE_ID) {
-    const lecture = MATH1_SYLLABUS[lesson_index];
-    return lecture && [MATH1_META.title[lang], lecture.title[lang]];
-  }
-  const course = COURSES.find(entry => entry.id === course_id);
-  const lesson = course?.lessons[lesson_index];
-  return course && lesson ? [course.title[lang], lesson.title[lang]] : null;
-}
-
 export function ActivityView({ lang, onSignIn, embedded = false }: {
   lang: Language;
   onSignIn?: () => void;
   embedded?: boolean;
 }) {
   const { user, loading } = useAuth();
-  return <ActivityContent key={user?.id ?? 'guest'} lang={lang} loading={loading} signedIn={!!user}
-    embedded={embedded} onSignIn={onSignIn} />;
+  const t = I18N[lang];
+  const [tab, setTab] = useState<'me' | 'community'>('me');
+  const key = user?.id ?? 'guest';
+  if (embedded) {
+    return <ActivityContent key={key} lang={lang} loading={loading} signedIn={!!user} embedded onSignIn={onSignIn} />;
+  }
+  return (
+    <div className={styles.view}>
+      <PageHeader eyebrow={tab === 'me' ? t.act_eyebrow_me : t.activity_eyebrow} title={tab === 'me' ? t.act_my_title : t.activity_title} />
+      <SegmentedTabs
+        label={t.nav_activity}
+        idPrefix="activity"
+        value={tab}
+        onChange={setTab}
+        items={[{ id: 'me', label: t.act_tab_me }, { id: 'community', label: t.act_tab_community }]}
+      />
+      <div id="activity-panel" role="tabpanel" aria-labelledby={`activity-tab-${tab}`} className={styles.tabPanel}>
+        {loading ? <p className="empty-state" role="status">{t.loading}</p> : tab === 'me' ? (
+          <MyActivity key={key} lang={lang} signedIn={!!user} />
+        ) : (
+          <>
+            <LiveNow lang={lang} signedIn={!!user} onSignIn={onSignIn} />
+            <TimeLeaders key={`time-${key}`} lang={lang} signedIn={!!user} onSignIn={onSignIn} />
+            <ActivityContent key={key} lang={lang} loading={loading} signedIn={!!user} embedded={false} onSignIn={onSignIn} />
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function LiveNow({ lang, signedIn, onSignIn }: { lang: Language; signedIn: boolean; onSignIn?: () => void }) {
+  const t = I18N[lang];
+  const snapshot = useOnlineSnapshot();
+  return (
+    <section className={`panel ${styles.live}`} aria-label={t.online_now}>
+      <h2 className={styles.liveTitle}><span className={styles.liveDot} aria-hidden="true" />{t.online_now}</h2>
+      {snapshot ? <OnlineContent lang={lang} snapshot={snapshot} signedIn={signedIn} onSignIn={onSignIn} />
+        : <p className="field-help">{t.online_offline}</p>}
+    </section>
+  );
+}
+
+function TimeLeaders({ lang, signedIn, onSignIn }: { lang: Language; signedIn: boolean; onSignIn?: () => void }) {
+  const t = I18N[lang];
+  const format = new Intl.NumberFormat(htmlLang(lang));
+  const [data, setData] = useState<TimeRanking>();
+  const [failed, setFailed] = useState(false);
+
+  useEffect(() => {
+    const request = new AbortController();
+    getTimeRanking(request.signal).then(result => {
+      if (!request.signal.aborted) setData(result);
+    }).catch(() => {
+      if (!request.signal.aborted) setFailed(true);
+    });
+    return () => request.abort();
+  }, []);
+
+  return (
+    <section className={`panel ${styles.ranking}`} aria-label={t.act_rank_time}>
+      <div className={styles.heading}><h2>{t.act_rank_time}</h2></div>
+      {failed ? <p className="field-help">{t.activity_error}</p> : !data ? <p className="field-help" role="status">{t.loading}</p> : (
+        <>
+          <dl className={styles.metrics}>
+            <div className={styles.metric}><dt>{t.act_comm_study}</dt><dd>{minutesText(lang, data.study)}</dd></div>
+            <div className={styles.metric}><dt>{t.act_rank_total}</dt><dd>{minutesText(lang, data.total)}</dd></div>
+            <div className={styles.metric}><dt>{t.act_comm_learners}</dt><dd>{format.format(data.learners)}</dd></div>
+          </dl>
+          <p className="field-help">{t.act_comm_note}</p>
+          {!signedIn ? (
+            <div className={styles.signIn}>
+              <p className="field-help">{t.act_rank_login}</p>
+              {onSignIn && <button type="button" className="btn btn--secondary btn--sm" onClick={onSignIn}>{t.a_login}</button>}
+            </div>
+          ) : data.leaders.length === 0 ? <p className="empty-state">{t.act_rank_empty}</p> : (
+            <table className={`data-table ${styles.table}`}>
+              <thead><tr>
+                <th scope="col">#</th>
+                <th scope="col">{t.activity_student}</th>
+                <th scope="col">{t.act_rank_study}</th>
+                <th scope="col">{t.act_rank_total}</th>
+              </tr></thead>
+              <tbody>
+                {data.leaders.map(leader => (
+                  <tr key={leader.username} className={leader.is_me ? styles.me : undefined}>
+                    <td className={styles.rank}>{format.format(leader.rank)}</td>
+                    <th scope="row">
+                      <span className={styles.name}>{leader.username} {leader.is_me && <span className="chip chip--accent">{t.dash_you}</span>}</span>
+                    </th>
+                    <td className={styles.xp}>{minutesText(lang, leader.study)}</td>
+                    <td className={styles.rank}>{minutesText(lang, leader.total)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </>
+      )}
+    </section>
+  );
 }
 
 function ActivityContent({ lang, loading, signedIn, embedded, onSignIn }: {
@@ -77,7 +170,6 @@ function ActivityContent({ lang, loading, signedIn, embedded, onSignIn }: {
 
   return (
     <div className={styles.view}>
-      {!embedded && <PageHeader eyebrow={t.activity_eyebrow} title={t.activity_title} />}
       {failed ? (
         <div className="empty-state" role="status">
           <p>{t.activity_error}</p>
@@ -131,7 +223,7 @@ function ActivityContent({ lang, loading, signedIn, embedded, onSignIn }: {
                 </tr></thead>
                 <tbody>
                   {data.leaders.map(leader => {
-                    const topic = topicTitle(leader, lang);
+                    const topic = topicTitle(lang, leader.course_id, leader.lesson_index);
                     return (
                       <tr key={leader.username} className={leader.is_me ? styles.me : undefined}>
                         <td className={styles.rank}>{format.format(leader.rank)}</td>
