@@ -132,6 +132,29 @@ leaderboard uses stored XP, and its signed-in view includes the learner's own
 rank and last recorded topic. Showing a named topic to other signed-in
 learners is off by default. The profile dialog reuses the same ranking table.
 
+### Study time and who is online
+
+Every open, visible tab sends a heartbeat every 30 seconds. A minute counts
+when the tab is visible and the learner used the page in the last two minutes
+or a video is playing; several tabs share one minute. Study minutes are
+lessons, Mathematics 1 (lectures, video, trainer, variants) and quizzes; the
+rest is other site time. Hidden tabs send nothing, and presence expires
+90 seconds after the last heartbeat.
+
+The Activity screen opens on "My activity": one local Monday–Sunday week with
+week navigation, study time against total site time, a stacked daily bar
+chart (study = `--chart-1`, other = `--chart-4`, legend and table view), the
+hours of the day with the busiest three-hour window, short text insights,
+time by section, by course and the longest lessons. Guests see the time of
+their own browser.
+
+The header shows a live online count that opens "Who is on the site now":
+online, active, studying and guest counts for everyone; names, the section and
+a shared topic only for signed-in viewers. Learners can hide themselves from
+the online list and the 7-day study-time ranking; the counts still include
+them. The Community tab combines the live block, the study-time ranking and
+the existing visits and XP leaderboard.
+
 ## Motion
 
 Precise feedback, calm reveal, a clear link between cause and effect.

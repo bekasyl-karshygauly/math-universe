@@ -6,6 +6,7 @@ import { Language, Theme } from '../lib/storage';
 import { I18N } from '../data/i18n';
 import { isSoundEnabled, setSoundEnabled, playClickSound } from '../lib/sound';
 import { UserHUD } from './UserHUD';
+import { OnlineBadge } from './activity/OnlineBadge';
 import { MotionPref, getMotionPref, setMotionPref } from '../lib/motionPref';
 
 interface HeaderProps {
@@ -18,6 +19,7 @@ interface HeaderProps {
   onOpenProfile: () => void;
   onOpenAIChat: () => void;
   onOpenSolver: () => void;
+  onOpenOnline: () => void;
   onHome: () => void;
 }
 
@@ -59,7 +61,7 @@ function LangSwitch({ lang, onSetLang, label }: { lang: Language; onSetLang: (l:
   );
 }
 
-export function Header({ lang, theme, onSetLang, onToggleTheme, onReset, onOpenAuth, onOpenProfile, onOpenAIChat, onOpenSolver, onHome }: HeaderProps) {
+export function Header({ lang, theme, onSetLang, onToggleTheme, onReset, onOpenAuth, onOpenProfile, onOpenAIChat, onOpenSolver, onOpenOnline, onHome }: HeaderProps) {
   const t = (k: string) => I18N[lang][k] || k;
   const sound = useSound();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -113,6 +115,7 @@ export function Header({ lang, theme, onSetLang, onToggleTheme, onReset, onOpenA
         </button>
 
         <div className="app-header__actions">
+          <OnlineBadge lang={lang} onOpen={onOpenOnline} />
           <button type="button" className="header-action" onClick={onOpenSolver} title={t('a_solver_long')}>
             <Sigma size={18} aria-hidden="true" />
             <span className="header-action__label">{t('a_solver')}</span>
