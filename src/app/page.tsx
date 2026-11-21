@@ -12,6 +12,8 @@ import { COURSES } from '../data/courses';
 import { MATH1_COURSE_ID, MATH1_LECTURE_COUNT } from '../data/math1/constants';
 import { useAuth } from '../lib/auth-context';
 import { useActivityTracker } from '../lib/activity';
+import { CODE_PATTERN, normalizeCode } from '../lib/groups';
+import type { ActivityTab } from '../components/ActivityView';
 
 import { LenisProvider, scrollToTop } from '../components/LenisProvider';
 import { Header } from '../components/Header';
@@ -75,6 +77,8 @@ export default function HomePage() {
   const [showAIChat, setShowAIChat] = useState(false);
   const [showSolver, setShowSolver] = useState(false);
   const [showOnline, setShowOnline] = useState(false);
+  // Which Activity tab opens next; an invite link (?join=CODE) also carries its code.
+  const [activityStart, setActivityStart] = useState<{ tab: ActivityTab; code?: string }>({ tab: 'me' });
   useActivityTracker(loading, user?.id, currentPage === 'courses' && selectedCourseId ? 'lesson' : currentPage);
 
   // Load state on mount
@@ -85,6 +89,19 @@ export default function HomePage() {
     document.documentElement.lang = htmlLang(loaded.lang);
     applyMotionPref();
     setIsLoaded(true);
+
+    const params = new URLSearchParams(window.location.search);
+    const join = params.get('join');
+    if (join !== null) {
+      params.delete('join');
+      const query = params.toString();
+      window.history.replaceState(null, '', window.location.pathname + (query ? `?${query}` : '') + window.location.hash);
+      const code = normalizeCode(join);
+      if (CODE_PATTERN.test(code)) {
+        setActivityStart({ tab: 'groups', code });
+        setCurrentPage('activity');
+      }
+    }
   }, []);
 
   useEffect(() => () => {
@@ -191,7 +208,16 @@ export default function HomePage() {
 
   // Section navigation always lands on the section root ("Курсы" from inside a course opens the catalog)
   const goTo = (page: NavPage) => {
+    if (page === 'activity') setActivityStart({ tab: 'me' });
     setCurrentPage(page);
+    setSelectedCourseId(null);
+    setSelectedLessonId(undefined);
+    scrollToTop(!reduceMotion);
+  };
+
+  const openGroups = () => {
+    setActivityStart({ tab: 'groups' });
+    setCurrentPage('activity');
     setSelectedCourseId(null);
     setSelectedLessonId(undefined);
     scrollToTop(!reduceMotion);
@@ -396,7 +422,13 @@ export default function HomePage() {
 
             {currentPage === 'activity' && (
               <motion.div key="activity-view" {...viewMotion}>
-                <ActivityView lang={state.lang} onSignIn={() => setShowAuth(true)} />
+                <ActivityView
+                  key={`${activityStart.tab}-${activityStart.code ?? ''}`}
+                  lang={state.lang}
+                  initialTab={activityStart.tab}
+                  joinCode={activityStart.code}
+                  onSignIn={() => setShowAuth(true)}
+                />
               </motion.div>
             )}
 
@@ -442,7 +474,18 @@ export default function HomePage() {
         {/* AnimatePresence lets dialogs play their exit transition before unmounting */}
         <AnimatePresence>
           {showAuth && <AuthModal key="auth" onClose={() => setShowAuth(false)} lang={state.lang} />}
-          {showDashboard && <DashboardModal key="dashboard" onClose={() => setShowDashboard(false)} lang={state.lang} progress={state.progress} />}
+          {showDashboard && (
+            <DashboardModal
+              key="dashboard"
+              onClose={() => setShowDashboard(false)}
+              onOpenGroups={() => {
+                setShowDashboard(false);
+                openGroups();
+              }}
+              lang={state.lang}
+              progress={state.progress}
+            />
+          )}
           {showAIChat && <AIMathChat key="chat" onClose={() => setShowAIChat(false)} lang={state.lang} />}
           {showSolver && <StepSolver key="solver" onClose={() => setShowSolver(false)} lang={state.lang} />}
           {showOnline && (

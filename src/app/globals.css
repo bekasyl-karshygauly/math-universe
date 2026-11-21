@@ -2646,6 +2646,16 @@ textarea.field-input {
   line-height: 1;
 }
 
+.dash-groups {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
 .dash-bars {
   list-style: none;
   display: grid;

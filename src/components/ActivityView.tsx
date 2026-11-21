@@ -13,6 +13,7 @@ import type { Language } from '../lib/storage';
 import { PageHeader } from './ui/PageHeader';
 import { SegmentedTabs } from './ui/SegmentedTabs';
 import { MyActivity } from './activity/MyActivity';
+import { GroupsView } from './groups/GroupsView';
 import { OnlineContent } from './activity/OnlineDialog';
 import { minutesText, topicTitle } from './activity/format';
 import styles from './activity.module.css';
@@ -23,31 +24,44 @@ const metrics = [
   ['learners', 'activity_learners', BookOpen],
 ] as const;
 
-export function ActivityView({ lang, onSignIn, embedded = false }: {
+export type ActivityTab = 'me' | 'community' | 'groups';
+
+export function ActivityView({ lang, onSignIn, embedded = false, initialTab = 'me', joinCode }: {
   lang: Language;
   onSignIn?: () => void;
   embedded?: boolean;
+  initialTab?: ActivityTab;
+  /** Code from an invite link; opens the join screen filled in. */
+  joinCode?: string;
 }) {
   const { user, loading } = useAuth();
   const t = I18N[lang];
-  const [tab, setTab] = useState<'me' | 'community'>('me');
+  const [tab, setTab] = useState<ActivityTab>(initialTab);
+  const eyebrow = tab === 'me' ? t.act_eyebrow_me : tab === 'groups' ? t.grp_eyebrow : t.activity_eyebrow;
+  const title = tab === 'me' ? t.act_my_title : tab === 'groups' ? t.grp_title : t.activity_title;
   const key = user?.id ?? 'guest';
   if (embedded) {
     return <ActivityContent key={key} lang={lang} loading={loading} signedIn={!!user} embedded onSignIn={onSignIn} />;
   }
   return (
     <div className={styles.view}>
-      <PageHeader eyebrow={tab === 'me' ? t.act_eyebrow_me : t.activity_eyebrow} title={tab === 'me' ? t.act_my_title : t.activity_title} />
+      <PageHeader eyebrow={eyebrow} title={title} />
       <SegmentedTabs
         label={t.nav_activity}
         idPrefix="activity"
         value={tab}
         onChange={setTab}
-        items={[{ id: 'me', label: t.act_tab_me }, { id: 'community', label: t.act_tab_community }]}
+        items={[
+          { id: 'me', label: t.act_tab_me },
+          { id: 'community', label: t.act_tab_community },
+          { id: 'groups', label: t.grp_tab },
+        ]}
       />
       <div id="activity-panel" role="tabpanel" aria-labelledby={`activity-tab-${tab}`} className={styles.tabPanel}>
         {loading ? <p className="empty-state" role="status">{t.loading}</p> : tab === 'me' ? (
           <MyActivity key={key} lang={lang} signedIn={!!user} />
+        ) : tab === 'groups' ? (
+          <GroupsView key={key} lang={lang} signedIn={!!user} onSignIn={onSignIn} joinCode={joinCode} />
         ) : (
           <>
             <LiveNow lang={lang} signedIn={!!user} onSignIn={onSignIn} />

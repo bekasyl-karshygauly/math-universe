@@ -155,6 +155,28 @@ the online list and the 7-day study-time ranking; the counts still include
 them. The Community tab combines the live block, the study-time ranking and
 the existing visits and XP leaderboard.
 
+### Study groups and the teacher dashboard
+
+The Activity screen has a third tab, Groups. Every signed-in learner sees
+"My groups": a code field (8 Latin letters and digits shown as `ABCD-EFGH`;
+case, spaces, dashes and Cyrillic look-alike letters are normalised), then a
+result card with the group, course and teacher and a plain list of what the
+teacher will see. The student confirms with a name for the teacher. Joined
+groups are listed with a Leave button (confirmation). An invite link
+`/?join=CODE` opens this tab with the code checked; the profile dialog links
+here too.
+
+Teachers (marked by the site owner in SQL, never from the site) also get the
+"Teacher dashboard" above it: a create form (name, course), group tabs with
+the member count, an invite code card (copy code, copy link, new code), a
+7 / 30 day switch, six summary figures, per-lesson completion bars
+(`--chart-1`), and a sortable student table (`aria-sort`) with a lesson strip,
+quiz average and best score, study time with time in the course, site time and
+last active day (more than 7 days ago in `--accent-amber`, always with text).
+Rows can be removed; groups renamed or deleted. CSV export is UTF-8 with a BOM,
+`;`-separated in ru/kz and `,` in en, with formula-like cells neutralised.
+The table scrolls sideways on phones with the student column sticky.
+
 ## Motion
 
 Precise feedback, calm reveal, a clear link between cause and effect.
