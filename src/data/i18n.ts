@@ -3,6 +3,7 @@ import { LAB_I18N } from './i18n-lab';
 import { M1_I18N } from './math1/i18n';
 import { ACTIVITY_I18N } from './i18n-activity';
 import { TIME_I18N } from './i18n-time';
+import { GROUPS_I18N } from './i18n-groups';
 
 export const I18N: Record<Language, Record<string, string>> = {
   ru: {
@@ -363,4 +364,8 @@ for (const lang of Object.keys(ACTIVITY_I18N) as Language[]) {
 
 for (const lang of Object.keys(TIME_I18N) as Language[]) {
   Object.assign(I18N[lang], TIME_I18N[lang]);
+}
+
+for (const lang of Object.keys(GROUPS_I18N) as Language[]) {
+  Object.assign(I18N[lang], GROUPS_I18N[lang]);
 }

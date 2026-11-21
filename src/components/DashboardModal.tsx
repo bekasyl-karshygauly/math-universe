@@ -1,6 +1,6 @@
 ﻿'use client';
 import React, { useEffect, useState, useCallback } from 'react';
-import { Award, Check, LogOut } from 'lucide-react';
+import { Award, Check, LogOut, Users } from 'lucide-react';
 import { useAuth } from '../lib/auth-context';
 import { getQuizAttempts, xpToLevel, levelProgress, signOut, QuizAttempt } from '../lib/supabase';
 import { ACHIEVEMENTS } from '../data/achievements';
@@ -15,6 +15,8 @@ import { ActivityView } from './ActivityView';
 
 interface DashboardModalProps {
   onClose: () => void;
+  /** Opens Activity → Groups (join a teacher's group with a code). */
+  onOpenGroups?: () => void;
   lang: Language;
   progress: Record<string, boolean[]>;
 }
@@ -24,7 +26,7 @@ type Tab = 'profile' | 'achievements' | 'leaderboard' | 'analytics';
 // Accuracy is shown as text and a bar; the tone is a secondary cue
 const accuracyTone = (pct: number) => (pct < 60 ? 'var(--accent-rose)' : pct < 80 ? 'var(--accent-amber)' : 'var(--accent-emerald)');
 
-export function DashboardModal({ onClose, lang, progress }: DashboardModalProps) {
+export function DashboardModal({ onClose, onOpenGroups, lang, progress }: DashboardModalProps) {
   const { user, profile, unlockedKeys } = useAuth();
   const [tab, setTab] = useState<Tab>('profile');
   const [quizHistory, setQuizHistory] = useState<QuizAttempt[]>([]);
@@ -164,6 +166,19 @@ export function DashboardModal({ onClose, lang, progress }: DashboardModalProps)
                 })}
               </ul>
             </section>
+
+            {onOpenGroups && (
+              <section className="dash-groups">
+                <div style={{ minWidth: 0 }}>
+                  <h3 className="field-label">{t('grp_profile_title')}</h3>
+                  <p className="field-help">{t('grp_profile_text')}</p>
+                </div>
+                <button type="button" className="btn btn--secondary btn--sm" onClick={onOpenGroups}>
+                  <Users size={14} aria-hidden="true" />
+                  {t('grp_profile_open')}
+                </button>
+              </section>
+            )}
           </>
         )}
 
