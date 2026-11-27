@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import { Check, Search } from 'lucide-react';
 import { Language } from '../../lib/storage';
@@ -21,8 +21,9 @@ import { BoardButton } from '../whiteboard/BoardButton';
 import { useAuth } from '../../lib/auth-context';
 import { useStudyActivity } from '../../lib/activity';
 import { MATH1_COURSE_ID } from '../../data/math1/constants';
+import type { LecturePart, Math1Section, Route } from '../../lib/route';
 
-type HubTab = 'lectures' | 'variant' | 'trainer' | 'glossary';
+type HubTab = Math1Section;
 
 function focusLecture(panel: HTMLElement | null, smooth: boolean) {
   const lecture = panel?.querySelector<HTMLElement>('.m1-lecture');
@@ -37,6 +38,10 @@ interface Math1ViewProps {
   progress: boolean[];
   onToggleProgress: (lectureIndex: number) => void;
   onOpenCourse: (courseId: string, lessonId: string) => void;
+  /** Section, lecture (1-based) and lecture part from the address */
+  route: Route;
+  /** Puts the open section / lecture / part into the address; replace keeps it out of Back history */
+  onRoute: (route: Route, replace?: boolean) => void;
 }
 
 function Glossary({ lang, onOpenLecture }: { lang: Language; onOpenLecture: (n: number) => void }) {
@@ -93,14 +98,18 @@ function Glossary({ lang, onOpenLecture }: { lang: Language; onOpenLecture: (n: 
   );
 }
 
-export function Math1View({ lang, progress, onToggleProgress, onOpenCourse }: Math1ViewProps) {
+export function Math1View({ lang, progress, onToggleProgress, onOpenCourse, route, onRoute }: Math1ViewProps) {
   const t = useT(lang);
   const reduceMotion = useReduceMotion();
-  const [tab, setTab] = useState<HubTab>('lectures');
-  const [open, setOpen] = useState(() => {
+  const section = route.section ?? 'lectures';
+  // The lecture from the address, otherwise the first unread one
+  const pickLecture = (n?: number) => {
+    if (n && n >= 1 && n <= MATH1_LECTURES.length) return n - 1;
     const firstUnread = MATH1_LECTURES.findIndex((_, i) => !progress[i]);
     return firstUnread === -1 ? 0 : firstUnread;
-  });
+  };
+  const [tab, setTab] = useState<HubTab>(section);
+  const [open, setOpen] = useState(() => pickLecture(route.lecture));
   const contentRef = useRef<HTMLDivElement>(null);
   const jumpToLecture = useRef(false);
   const [studyJump, setStudyJump] = useState<StudyTarget>();
@@ -110,6 +119,18 @@ export function Math1View({ lang, progress, onToggleProgress, onOpenCourse }: Ma
   const lecture = MATH1_LECTURES[open];
   const { user } = useAuth();
   useStudyActivity(user?.id, MATH1_COURSE_ID, tab === 'lectures' ? open : null);
+
+  // Back / Forward or an edited address: show that section and lecture; the address always names the open lecture
+  useEffect(() => {
+    setTab(section);
+    if (section !== 'lectures') return;
+    const idx = pickLecture(route.lecture);
+    if (idx !== open) {
+      setStudyJump(undefined);
+      setOpen(idx);
+    }
+    if (route.lecture !== idx + 1) onRoute({ page: 'math1', section, lecture: idx + 1 }, true);
+  }, [section, route.lecture]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useLayoutEffect(() => {
     if (tab !== 'lectures' || !jumpToLecture.current) return;
@@ -127,6 +148,12 @@ export function Math1View({ lang, progress, onToggleProgress, onOpenCourse }: Ma
     jumpToLecture.current = true;
     setTab('lectures');
     setOpen(idx);
+    onRoute({ page: 'math1', section: 'lectures', lecture: idx + 1 });
+  };
+
+  const selectSection = (id: HubTab) => {
+    setTab(id);
+    onRoute(id === 'lectures' ? { page: 'math1', section: id, lecture: open + 1 } : { page: 'math1', section: id });
   };
 
   const tabs = useMemo(
@@ -159,10 +186,11 @@ export function Math1View({ lang, progress, onToggleProgress, onOpenCourse }: Ma
         setTab('lectures');
         setOpen(lectureIndex);
         setStudyJump({ id: target.id, tab: target.tab });
+        onRoute({ page: 'math1', section: 'lectures', lecture: lectureIndex + 1, part: target.tab });
       }} />
 
       <div className="m1-hub-tabs">
-        <SegmentedTabs label={t('m1_sections')} items={tabs} value={tab} onChange={(id) => setTab(id)} idPrefix="m1-hub" scroll />
+        <SegmentedTabs label={t('m1_sections')} items={tabs} value={tab} onChange={selectSection} idPrefix="m1-hub" scroll />
         <div className="m1-visual__controls"><BoardButton lang={lang} /></div>
       </div>
 
@@ -212,6 +240,11 @@ export function Math1View({ lang, progress, onToggleProgress, onOpenCourse }: Ma
                 key={lecture.id}
                 lecture={lecture}
                 jump={studyJump}
+                part={route.lecture === open + 1 ? route.part : undefined}
+                onPartChange={(part: LecturePart) => {
+                  // During Back to another lecture the old one is still mounted for a render: it must not rewrite the address
+                  if (route.lecture === open + 1) onRoute({ page: 'math1', section: 'lectures', lecture: open + 1, part }, true);
+                }}
                 lang={lang}
                 isDone={!!progress[open]}
                 onToggleDone={() => onToggleProgress(open)}

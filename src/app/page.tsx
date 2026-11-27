@@ -12,6 +12,7 @@ import { COURSES } from '../data/courses';
 import { MATH1_COURSE_ID, MATH1_LECTURE_COUNT } from '../data/math1/constants';
 import { useAuth } from '../lib/auth-context';
 import { useActivityTracker } from '../lib/activity';
+import { useHashRoute, type Route } from '../lib/route';
 
 import { LenisProvider, scrollToTop } from '../components/LenisProvider';
 import { Header } from '../components/Header';
@@ -63,9 +64,10 @@ export default function HomePage() {
   });
 
   const [isLoaded, setIsLoaded] = useState(false);
-  const [currentPage, setCurrentPage] = useState<NavPage>('home');
-  const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null);
-  const [selectedLessonId, setSelectedLessonId] = useState<string | undefined>();
+  // The screen lives in the address (#/math1/9/video): Back works and links can be shared
+  const [route, navigate] = useHashRoute();
+  const currentPage: NavPage = route.page;
+  const selectedCourseId = currentPage === 'courses' ? route.course ?? null : null;
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -191,16 +193,12 @@ export default function HomePage() {
 
   // Section navigation always lands on the section root ("Курсы" from inside a course opens the catalog)
   const goTo = (page: NavPage) => {
-    setCurrentPage(page);
-    setSelectedCourseId(null);
-    setSelectedLessonId(undefined);
+    navigate({ page });
     scrollToTop(!reduceMotion);
   };
 
   const handleOpenCourse = (id: string, lessonId?: string) => {
-    setSelectedCourseId(id);
-    setSelectedLessonId(lessonId);
-    setCurrentPage('courses');
+    navigate({ page: 'courses', course: id, lesson: lessonId });
     scrollToTop(!reduceMotion);
   };
 
@@ -217,6 +215,11 @@ export default function HomePage() {
 
   const selectedCourse = COURSES.find((c) => c.id === selectedCourseId);
 
+  // An unknown course in the address shows the catalog, so the address says so too
+  useEffect(() => {
+    if (selectedCourseId && !selectedCourse) navigate({ page: 'courses' }, { replace: true });
+  }, [selectedCourseId, selectedCourse, navigate]);
+
   if (!isLoaded) {
     return <div className="app-loading">Math Universe</div>;
   }
@@ -232,7 +235,15 @@ export default function HomePage() {
     // Every Motion animation follows the in-app "Animations" setting (system / on / off)
     <MotionConfig reducedMotion={reduceMotion ? 'always' : 'never'}>
     <LenisProvider>
-      <a href="#main" className="skip-link">
+      {/* Focuses <main> without touching the address: "#main" would replace the route hash */}
+      <a
+        href="#main"
+        className="skip-link"
+        onClick={(e) => {
+          e.preventDefault();
+          document.getElementById('main')?.focus();
+        }}
+      >
         {t('skip_to_content')}
       </a>
       <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
@@ -269,7 +280,9 @@ export default function HomePage() {
               <motion.div key={selectedCourse ? `course-${selectedCourse.id}` : 'courses-view'} {...viewMotion}>
                 {selectedCourse ? (
                   <LessonDetailView
-                    initialLessonId={selectedLessonId}
+                    key={selectedCourse.id}
+                    lessonId={route.lesson}
+                    onSelectLesson={(lesson, replace) => navigate({ page: 'courses', course: selectedCourse.id, lesson }, { replace })}
                     course={selectedCourse}
                     lang={state.lang}
                     progress={state.progress[selectedCourse.id] || []}
@@ -277,7 +290,7 @@ export default function HomePage() {
                     onToggleProgress={(idx) => handleToggleProgress(selectedCourse.id, idx)}
                     onSetLessonLevel={handleSetLessonLevel}
                     onOpenWhyItWorks={(id) => setWhyItWorksId(id)}
-                    onBack={() => setSelectedCourseId(null)}
+                    onBack={() => navigate({ page: 'courses' })}
                   />
                 ) : (
                   <div>
@@ -317,7 +330,7 @@ export default function HomePage() {
 
                           return (
                             <li key={c.id}>
-                              <button type="button" className="course-row" onClick={() => setSelectedCourseId(c.id)}>
+                              <button type="button" className="course-row" onClick={() => handleOpenCourse(c.id)}>
                                 <span className="course-row__num mono">{String(number).padStart(2, '0')}</span>
                                 <span className="course-row__main">
                                   <span className="course-row__title">{c.title[state.lang]}</span>
@@ -362,6 +375,8 @@ export default function HomePage() {
                   progress={state.progress[MATH1_COURSE_ID] || []}
                   onToggleProgress={(idx) => handleToggleProgress(MATH1_COURSE_ID, idx)}
                   onOpenCourse={handleOpenCourse}
+                  route={route}
+                  onRoute={(r: Route, replace?: boolean) => navigate({ ...r, page: 'math1' }, { replace })}
                 />
               </motion.div>
             )}
