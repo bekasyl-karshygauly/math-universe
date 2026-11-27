@@ -159,6 +159,10 @@ function SelfCheck({ lecture, lang }: { lecture: Lecture; lang: Language }) {
 interface LectureViewProps {
   lecture: Lecture;
   jump?: StudyTarget;
+  /** Part from the address (#/math1/<n>/<part>); undefined is the theory */
+  part?: Tab;
+  /** Reports the open part so the address follows it */
+  onPartChange?: (part: Tab) => void;
   lang: Language;
   isDone: boolean;
   onToggleDone: () => void;
@@ -166,7 +170,7 @@ interface LectureViewProps {
   onNext?: () => void;
 }
 
-export function LectureView({ lecture, jump, lang, isDone, onToggleDone, onOpenRelated, onNext }: LectureViewProps) {
+export function LectureView({ lecture, jump, part, onPartChange, lang, isDone, onToggleDone, onOpenRelated, onNext }: LectureViewProps) {
   const t = useT(lang);
   const [tab, setTab] = useState<Tab>('theory');
   const [videoOpened, setVideoOpened] = useState(false);
@@ -193,7 +197,15 @@ export function LectureView({ lecture, jump, lang, isDone, onToggleDone, onOpenR
     if (next === 'practice') setPracticeOpened(true);
     if (next === 'check') setQuizUnlocked(true);
     setTab(next);
+    if (next !== tab) onPartChange?.(next);
   }
+
+  // Back / Forward or an edited address opens that part; a lecture without videos has no video part
+  useEffect(() => {
+    const next = part === 'video' && !videos ? 'theory' : part ?? 'theory';
+    if (next !== tab) selectTab(next);
+    if (part === 'video' && !videos) onPartChange?.('theory');
+  }, [part]); // eslint-disable-line react-hooks/exhaustive-deps
 
   function goTo(next: 'video' | 'practice' | 'check') {
     focusStart.current = true;
@@ -211,6 +223,7 @@ export function LectureView({ lecture, jump, lang, isDone, onToggleDone, onOpenR
   useEffect(() => {
     if (!jump) return;
     setTab(jump.tab);
+    onPartChange?.(jump.tab);
     if (jump.tab === 'video') {
       setVideoOpened(true);
       setPendingTarget(undefined);

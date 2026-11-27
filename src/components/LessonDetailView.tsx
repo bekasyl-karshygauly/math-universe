@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useReduceMotion } from '../lib/motionPref';
 import { ArrowLeft, Check, Lightbulb, ArrowDown } from 'lucide-react';
@@ -20,7 +20,10 @@ import { useAuth } from '../lib/auth-context';
 import { useStudyActivity } from '../lib/activity';
 
 interface LessonDetailViewProps {
-  initialLessonId?: string;
+  /** Lesson from the address (#/courses/<course>/<lesson>); unknown or missing opens the first unread one */
+  lessonId?: string;
+  /** Reports the open lesson so the address follows it; replace keeps it out of Back history */
+  onSelectLesson: (lessonId: string, replace?: boolean) => void;
   course: Course;
   lang: Language;
   progress: boolean[];
@@ -39,7 +42,8 @@ const DEMOS: Record<string, { type: JSXGraphDemoType; titleKey: string }> = {
 };
 
 export function LessonDetailView({
-  initialLessonId,
+  lessonId,
+  onSelectLesson,
   course,
   lang,
   progress,
@@ -51,13 +55,22 @@ export function LessonDetailView({
 }: LessonDetailViewProps) {
   const t = (k: string) => I18N[lang][k] || k;
   const reduceMotion = useReduceMotion();
-  // Start at the first unread lesson
-  const [openIndex, setOpenIndex] = useState<number>(() => {
-    const requested = course.lessons.findIndex((lesson) => lesson.id === initialLessonId);
+  // The requested lesson, otherwise the first unread one
+  const pickIndex = (id?: string) => {
+    const requested = course.lessons.findIndex((lesson) => lesson.id === id);
     if (requested !== -1) return requested;
     const firstUnread = course.lessons.findIndex((_, i) => !progress[i]);
     return firstUnread === -1 ? 0 : firstUnread;
-  });
+  };
+  const [openIndex, setOpenIndex] = useState<number>(() => pickIndex(lessonId));
+
+  // Back / Forward or an edited address opens that lesson; the address always names the open one
+  useEffect(() => {
+    const idx = pickIndex(lessonId);
+    setOpenIndex(idx);
+    const id = course.lessons[idx].id;
+    if (id !== lessonId) onSelectLesson(id, true);
+  }, [lessonId]); // eslint-disable-line react-hooks/exhaustive-deps
   const contentRef = useRef<HTMLDivElement>(null);
   const { user } = useAuth();
   useStudyActivity(user?.id, course.id, openIndex);
@@ -75,6 +88,7 @@ export function LessonDetailView({
   const selectLesson = (idx: number) => {
     playSmoothSound();
     setOpenIndex(idx);
+    if (idx !== openIndex) onSelectLesson(course.lessons[idx].id);
     // On narrow screens the outline sits above the text: bring the lesson into view
     if (window.matchMedia('(max-width: 860px)').matches) {
       if (contentRef.current) scrollToElement(contentRef.current, !reduceMotion);
